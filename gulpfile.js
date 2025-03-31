@@ -25,8 +25,7 @@ const notify = require("gulp-notify");
         .pipe(gulp.dest('app/js'));
     });
 
-    // gulp.task('scripts', gulp.parallel('common-js'), function() {
-    gulp.task('scripts', function() {
+    gulp.task('scripts', gulp.series('common-js', function() {
         return gulp.src([
             'app/libs/jquery/dist/jquery.min.js',
             'app/libs/mmenu/jquery.mmenu.all.js',
@@ -37,11 +36,11 @@ const notify = require("gulp-notify");
             // 'app/libs/PageScroll2id.min.js',
             'app/js/common.min.js', // Всегда в конце
         ])
-        .pipe(concat('scripts.min.js'))
-        // .pipe(uglify()) // Минимизировать весь js (на выбор)
-        .pipe(gulp.dest('app/js'))
-        .pipe(browserSync.reload({stream: true}));
-    });
+            .pipe(concat('scripts.min.js'))
+            // .pipe(uglify()) // Минимизировать весь js (на выбор)
+            .pipe(gulp.dest('app/js'))
+            .pipe(browserSync.reload({ stream: true }));
+    }));
 
     gulp.task('browser-sync', function() {
         browserSync({
