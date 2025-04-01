@@ -1,14 +1,20 @@
-const { series, parallel, src, dest, watch } = require('gulp');
-const sass = require('gulp-sass')(require('sass'));
-const browserSync = require('browser-sync').create();
-const concat = require('gulp-concat');
-const uglify = require('gulp-uglify');
-const cleanCSS = require('gulp-clean-css');
-const rename = require('gulp-rename');
-const del = require('del');
-const imagemin = require('gulp-imagemin');
-const cache = require('gulp-cache');
-const autoprefixer = require('gulp-autoprefixer');
+import gulp from 'gulp';
+import gulpSass from 'gulp-sass';
+import * as sass from 'sass';
+import browserSync from 'browser-sync';
+import concat from 'gulp-concat';
+import uglify from 'gulp-uglify';
+import cleanCSS from 'gulp-clean-css';
+import rename from 'gulp-rename';
+import del from 'del';
+import imagemin from 'gulp-imagemin';
+import cache from 'gulp-cache';
+import autoprefixer from 'gulp-autoprefixer';
+import plumber from 'gulp-plumber';
+
+const { series, parallel, src, dest, watch } = gulp;
+
+const sassWithCompiler = gulpSass(sass);
 
 const paths = {
     scripts: {
@@ -48,7 +54,11 @@ const clean = (cb) => {
 
 const styles = () =>
     src(paths.styles.src)
-        .pipe(sass.sync().on("error", sass.logError))
+        // .pipe(sassWithCompiler().on('error', sassWithCompiler.logError))
+        .pipe(plumber()) // Добавляем plumber для предотвращения краха задачи
+        .pipe(sassWithCompiler.sync().on('error', sassWithCompiler.logError))
+
+
         .pipe(rename({ suffix: '.min' }))
         .pipe(autoprefixer({ overrideBrowserslist: ['last 15 versions'], cascade: false }))
         .pipe(cleanCSS())
@@ -94,9 +104,5 @@ const buildFonts = () => src(paths.build.fonts).pipe(dest(`${paths.build.dest}/f
 const build = series(clean, images, styles, commonJs, scripts, buildFiles, buildCSS, buildJS, buildFonts);
 const dev = parallel(watchFiles, serve);
 
-exports.clean = clean;
-exports.styles = styles;
-exports.scripts = scripts;
-exports.images = images;
-exports.build = build;
-exports.default = series(clean, build, dev);
+export { clean, styles, scripts, images, build };
+export default series(clean, build, dev);
