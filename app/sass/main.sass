@@ -73,7 +73,7 @@ body
   position: absolute
   right: 85px
   top: 44px
-  font-family: firasans
+  font-family: firasans, sans-serif
   font-size: 22px
   white-space: nowrap
 
@@ -186,7 +186,6 @@ section
 
     &:active
       &::after
-        background-color: rgba(vars.$accent, .2)
         background-color: color.adjust(#4d4d4d, $lightness: -2%)
 
 .hamburger
@@ -294,15 +293,13 @@ html.mm-opened
 
 .welcome
   p
-    display: inline-block
     position: relative
     text-transform: uppercase
     display: flex
     flex-shrink: 0
     align-items: center
     white-space: nowrap
-    margin: 0
-    margin-bottom: 0px
+    margin: 0 0 0
 
     span, strong
       display: inline-block
@@ -449,16 +446,14 @@ $colors: vars.$green, vars.$red, vars.$accent
       margin-bottom: 20px
 
       span
-        font-weight: normal
         font-size: 18px
         font-weight: 300
         display: block
 
   &-list
-    margin: 0
     padding: 0
     list-style-type: none
-    margin-bottom: 25px
+    margin: 0 0 25px
 
     li
       padding: 9px
@@ -593,7 +588,7 @@ $colors: vars.$green, vars.$red, vars.$accent
     &-wrap
       position: absolute
       bottom: 15px
-      padding: 0px 30px
+      padding: 0 30px
       width: 100%
 
   &__thumb
@@ -651,7 +646,6 @@ $colors: vars.$green, vars.$red, vars.$accent
       border-color: transparent
 
     padding: 20px
-    padding-right: 20px
     text-align: center
 
   .delivery-list-big-price > :nth-child(3)
@@ -660,10 +654,9 @@ $colors: vars.$green, vars.$red, vars.$accent
 .delivery-list
   //display: inline-block
   font-size: 18px
-  margin: 0
   padding: 0
   list-style-type: none
-  margin-bottom: 25px
+  margin: 0 0 25px
 
 
   li
@@ -714,8 +707,7 @@ $colors: vars.$green, vars.$red, vars.$accent
   position: relative
 
   .formhead
-    margin: 0
-    margin-top: 10px
+    margin: 10px 0 0
     font-size: 30px
 
   p
@@ -975,12 +967,12 @@ select
     color: #666
     padding: 0
     margin:
-      bottom: 0px
+      bottom: 0
       top: 10px
     font-size: 14px
 
 .social-footer
-  margin-top: 0px
+  margin-top: 0
   opacity: .8
   text-align: center
 
@@ -999,12 +991,11 @@ select
           color: rgba(255, 255, 255, .8)
 
 .footer-menu
-  padding-top: 0%
+  padding-top: 0
 
   ul
-    padding: 0
     margin: 0
-    padding-left: 10px
+    padding: 0 0 0 10px
     list-style-type: none
 
     li.active
@@ -1018,9 +1009,8 @@ select
       color: #979797
       transition: color .5s ease
       display: inline-block
-      padding: 3.5px 0
       text-decoration: underline
-      padding-left: 20px
+      padding: 3.5px 0 3.5px 20px
       position: relative
 
       &:hover, &:focus

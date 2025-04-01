@@ -2,13 +2,10 @@
   "name": "lp-stroyrem",
   "version": "2.0.1",
   "private": true,
-  "description": "Init prosject",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "drMonro",
-  "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.26.7",
     "del": "^5.0.0",
@@ -19,18 +16,19 @@
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^9.1.0",
     "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^6.0.1",
     "gulp-terser": "^2.1.0",
     "gulp-util": "^3.0.8",
     "jshint": "^2.10.2",
     "sass": "^1.86.0",
-    "vinyl-ftp": "^0.6.1"
+    "stylelint": "^10.1.0"
   },
   "dependencies": {
-    "-": "^0.0.1",
-    "gulp-plumber": "^1.2.1",
-    "postcss": "^7.0.17",
-    "stylelint": "^10.1.0"
-  }
+  },
+  "browserslist": [
+    "last 2 version",
+    "not dead"
+  ]
 }
