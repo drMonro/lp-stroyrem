@@ -1,7 +1,6 @@
-const gulp = require('gulp');
-const gutil = require('gulp-util');
-const sass = require('gulp-sass')(require('sass')); // <-- Исправленный импорт
-const browserSync = require('browser-sync');
+const { series, parallel, src, dest, watch } = require('gulp');
+const sass = require('gulp-sass')(require('sass'));
+const browserSync = require('browser-sync').create();
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const cleanCSS = require('gulp-clean-css');
@@ -10,107 +9,94 @@ const del = require('del');
 const imagemin = require('gulp-imagemin');
 const cache = require('gulp-cache');
 const autoprefixer = require('gulp-autoprefixer');
-const ftp = require('vinyl-ftp');
-const notify = require("gulp-notify");
 
-
-// Скрипты проекта
-
-    gulp.task('common-js', function() {
-        return gulp.src([
-            'app/js/common.js',
-            ])
-        .pipe(concat('common.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('app/js'));
-    });
-
-    gulp.task('scripts', gulp.series('common-js', function() {
-        return gulp.src([
+const paths = {
+    scripts: {
+        common: 'app/js/common.js',
+        libs: [
             'app/libs/jquery/dist/jquery.min.js',
             'app/libs/mmenu/jquery.mmenu.all.js',
             'app/libs/owl.carousel/owl.carousel.min.js',
             'app/libs/fotorama/fotorama.js',
             'app/libs/selectize/js/standalone/selectize.min.js',
             'app/libs/equalHeights/equalheights.js',
-            // 'app/libs/PageScroll2id.min.js',
-            'app/js/common.min.js', // Всегда в конце
-        ])
-            .pipe(concat('scripts.min.js'))
-            // .pipe(uglify()) // Минимизировать весь js (на выбор)
-            .pipe(gulp.dest('app/js'))
-            .pipe(browserSync.reload({ stream: true }));
-    }));
+            'app/js/common.min.js',
+        ],
+        dest: 'app/js'
+    },
+    styles: {
+        src: 'app/sass/**/*.sass',
+        dest: 'app/css'
+    },
+    images: {
+        src: 'app/img/**/*',
+        dest: 'dist/img'
+    },
+    build: {
+        base: ['app/*.html', 'app/.htaccess'],
+        css: ['app/css/main.min.css'],
+        js: ['app/js/scripts.min.js'],
+        fonts: ['app/fonts/**/*'],
+        dest: 'dist'
+    }
+};
 
-    gulp.task('browser-sync', function() {
-        browserSync({
-            server: {
-                baseDir: 'app'
-            },
-            notify: false,
-            // tunnel: true,
-            // tunnel: "projectmane", //Demonstration page: http://projectmane.localtunnel.me
-        });
-    });
+const clean = (cb) => {
+    del.sync(paths.build.dest);
+    cb();
+};
 
-    gulp.task('sass', function() {
-        return gulp.src('app/sass/**/*.sass')
-        .pipe(sass().on("error", notify.onError()))
-        .pipe(rename({suffix: '.min', prefix : ''}))
-        .pipe(autoprefixer(['last 15 versions']))
+const styles = () =>
+    src(paths.styles.src)
+        .pipe(sass.sync().on("error", sass.logError))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(autoprefixer({ overrideBrowserslist: ['last 15 versions'], cascade: false }))
         .pipe(cleanCSS())
-        .pipe(gulp.dest('app/css'))
-        .pipe(browserSync.reload({stream: true}));
+        .pipe(dest(paths.styles.dest))
+        .pipe(browserSync.stream());
+
+const commonJs = () =>
+    src(paths.scripts.common)
+        .pipe(concat('common.min.js'))
+        .pipe(uglify())
+        .pipe(dest(paths.scripts.dest));
+
+const scripts = () =>
+    src(paths.scripts.libs)
+        .pipe(concat('scripts.min.js'))
+        .pipe(dest(paths.scripts.dest))
+        .pipe(browserSync.stream());
+
+const images = () =>
+    src(paths.images.src)
+        .pipe(cache(imagemin()))
+        .pipe(dest(paths.images.dest));
+
+const serve = (cb) => {
+    browserSync.init({
+        server: { baseDir: 'app' },
+        notify: false
     });
+    cb();
+};
 
-gulp.task('watch', function() {
-    gulp.watch('app/sass/**/*.sass', gulp.parallel('sass'));
-    gulp.watch(['libs/**/*.js', 'app/js/common.js'], gulp.parallel('scripts'));
-    gulp.watch('app/*.html', browserSync.reload);
-});
+const watchFiles = () => {
+    watch(paths.styles.src, styles);
+    watch(['libs/**/*.js', paths.scripts.common], scripts);
+    watch('app/*.html').on('change', browserSync.reload);
+};
 
-gulp.task('imagemin', function() {
-    return gulp.src('app/img/**/*')
-    .pipe(cache(imagemin()))
-    .pipe(gulp.dest('dist/img'));
-});
+const buildFiles = () => src(paths.build.base).pipe(dest(paths.build.dest));
+const buildCSS = () => src(paths.build.css).pipe(dest(`${paths.build.dest}/css`));
+const buildJS = () => src(paths.build.js).pipe(dest(`${paths.build.dest}/js`));
+const buildFonts = () => src(paths.build.fonts).pipe(dest(`${paths.build.dest}/fonts`));
 
+const build = series(clean, images, styles, commonJs, scripts, buildFiles, buildCSS, buildJS, buildFonts);
+const dev = parallel(watchFiles, serve);
 
-gulp.task('removedist', async function() {
-    await del.sync('dist');
-});
-
-gulp.task('clearcache', function () { return cache.clearAll(); });
-
-
-gulp.task('buildFiles', function() {
-    return gulp.src([
-        'app/*.html',
-        'app/.htaccess',
-        ]).pipe(gulp.dest('dist'));
-});
-
-gulp.task('buildCSS', function() {
-    return gulp.src([
-        'app/css/main.min.css',
-        ]).pipe(gulp.dest('dist/css'));
-});
-
-gulp.task('buildJS', function() {
-    return gulp.src([
-        'app/js/scripts.min.js',
-        ]).pipe(gulp.dest('dist/js'));
-});
-
-gulp.task('buildFonts', function() {
-    return gulp.src([
-        'app/js/scripts.min.js',
-        ]).pipe(gulp.dest('dist/js'));
-});
-
-
-gulp.task('build', gulp.series('removedist', 'imagemin', 'sass', 'scripts', 'buildFiles', 'buildCSS', 'buildJS', 'buildFonts'));
-
-
-
-gulp.task('default', gulp.parallel('watch', 'sass', 'scripts', 'browser-sync'));
+exports.clean = clean;
+exports.styles = styles;
+exports.scripts = scripts;
+exports.images = images;
+exports.build = build;
+exports.default = series(clean, build, dev);
