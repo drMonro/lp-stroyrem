@@ -7,7 +7,7 @@ import terser from 'gulp-terser';
 import cleanCSS from 'gulp-clean-css';
 import rename from 'gulp-rename';
 import del from 'del';
-import imagemin from 'gulp-imagemin';
+import imagemin, { gifsicle, mozjpeg, optipng, svgo } from 'gulp-imagemin';
 import cache from 'gulp-cache';
 import autoprefixer from 'gulp-autoprefixer';
 import plumber from 'gulp-plumber';
@@ -53,11 +53,10 @@ const handleError = (err) => {
     this.emit('end');
 };
 
-// Task Definitions
-const clean = async () => {
-    await del(paths.build.dest);
-};
+// Clean Task
+const clean = () => del(paths.build.dest);
 
+// Styles Task
 const styles = () =>
     src(paths.styles.src)
         .pipe(plumber({ errorHandler: handleError }))
@@ -68,6 +67,7 @@ const styles = () =>
         .pipe(dest(paths.styles.dest))
         .pipe(browserSync.stream());
 
+// JavaScript Tasks
 const commonJs = () =>
     src(paths.scripts.common)
         .pipe(concat('common.min.js'))
@@ -80,11 +80,26 @@ const scripts = () =>
         .pipe(dest(paths.scripts.dest))
         .pipe(browserSync.stream());
 
+// Image Optimization Task
 const images = () =>
     src(paths.images.src)
-        .pipe(cache(imagemin()))
+        .pipe(
+            imagemin([
+                gifsicle({ interlaced: true }),
+                mozjpeg({ quality: 75, progressive: true }),
+                optipng({ optimizationLevel: 5 }),
+                svgo({
+                    plugins: [
+                        { name: 'removeViewBox', active: true },
+                        { name: 'cleanupIDs', active: false },
+                    ],
+                }),
+            ])
+        )
+        .pipe(cache(imagemin())) // Check cache functionality
         .pipe(dest(paths.images.dest));
 
+// Serve Task with BrowserSync
 const serve = (cb) => {
     browserSync.init({
         server: { baseDir: 'app' },
@@ -93,18 +108,23 @@ const serve = (cb) => {
     cb();
 };
 
+// Watch Task
 const watchFiles = () => {
     watch(paths.styles.src, styles);
     watch(['libs/**/*.js', paths.scripts.common], scripts);
     watch('app/*.html').on('change', browserSync.reload);
 };
 
+// Build Tasks
 const buildFiles = () => src(paths.build.base).pipe(dest(paths.build.dest));
 const buildCSS = () => src(paths.build.css).pipe(dest(`${paths.build.dest}/css`));
 const buildJS = () => src(paths.build.js).pipe(dest(`${paths.build.dest}/js`));
 const buildFonts = () => src(paths.build.fonts).pipe(dest(`${paths.build.dest}/fonts`));
 
+// Final Build Task
 const build = series(clean, images, styles, commonJs, scripts, buildFiles, buildCSS, buildJS, buildFonts);
+
+// Development Task
 const dev = parallel(watchFiles, serve);
 
 export { clean, styles, scripts, images, build };
