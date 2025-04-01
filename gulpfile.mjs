@@ -3,7 +3,7 @@ import gulpSass from 'gulp-sass';
 import * as sass from 'sass';
 import browserSync from 'browser-sync';
 import concat from 'gulp-concat';
-import uglify from 'gulp-uglify';
+import terser from 'gulp-terser';
 import cleanCSS from 'gulp-clean-css';
 import rename from 'gulp-rename';
 import del from 'del';
@@ -28,37 +28,40 @@ const paths = {
             'app/libs/equalHeights/equalheights.js',
             'app/js/common.min.js',
         ],
-        dest: 'app/js'
+        dest: 'app/js',
     },
     styles: {
         src: 'app/sass/**/*.sass',
-        dest: 'app/css'
+        dest: 'app/css',
     },
     images: {
         src: 'app/img/**/*',
-        dest: 'dist/img'
+        dest: 'dist/img',
     },
     build: {
         base: ['app/*.html', 'app/.htaccess'],
         css: ['app/css/main.min.css'],
         js: ['app/js/scripts.min.js'],
         fonts: ['app/fonts/**/*'],
-        dest: 'dist'
-    }
+        dest: 'dist',
+    },
 };
 
-const clean = (cb) => {
-    del.sync(paths.build.dest);
-    cb();
+// Helper Functions
+const handleError = (err) => {
+    console.error(err);
+    this.emit('end');
+};
+
+// Task Definitions
+const clean = async () => {
+    await del(paths.build.dest);
 };
 
 const styles = () =>
     src(paths.styles.src)
-        // .pipe(sassWithCompiler().on('error', sassWithCompiler.logError))
-        .pipe(plumber()) // Добавляем plumber для предотвращения краха задачи
+        .pipe(plumber({ errorHandler: handleError }))
         .pipe(sassWithCompiler.sync().on('error', sassWithCompiler.logError))
-
-
         .pipe(rename({ suffix: '.min' }))
         .pipe(autoprefixer({ overrideBrowserslist: ['last 15 versions'], cascade: false }))
         .pipe(cleanCSS())
@@ -68,7 +71,7 @@ const styles = () =>
 const commonJs = () =>
     src(paths.scripts.common)
         .pipe(concat('common.min.js'))
-        .pipe(uglify())
+        .pipe(terser())
         .pipe(dest(paths.scripts.dest));
 
 const scripts = () =>
@@ -85,7 +88,7 @@ const images = () =>
 const serve = (cb) => {
     browserSync.init({
         server: { baseDir: 'app' },
-        notify: false
+        notify: false,
     });
     cb();
 };
