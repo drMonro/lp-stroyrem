@@ -6,21 +6,14 @@
 @use "libs"
 @forward "media"
 
-*::-webkit-input-placeholder
-  color: #666
-  opacity: 1
+*,
+*::before,
+*::after
+  box-sizing: border-box
 
-*:-moz-placeholder
-  color: #666
-  opacity: 1
-
-*::-moz-placeholder
-  color: #666
-  opacity: 1
-
-*:-ms-input-placeholder
-  color: #666
-  opacity: 1
+body, h1, h2, h3, p, ul, ol
+  margin: 0
+  padding: 0
 
 html, body
   height: 100%
@@ -34,24 +27,23 @@ body
   overflow-x: hidden
   opacity: 1
 
-  &.ishome
-    .site-header
-      min-height: 600px
-      height: 100vh
-      background-color: vars.$dark
-      color: #fff
+  .site-header
+    min-height: 600px
+    height: 100vh
+    background-color: vars.$dark
+    color: #fff
 
-      .top-line
-        padding-top: 40px
-        position: absolute
-        width: 100%
-        z-index: 1
+    .top-line
+      padding-top: 40px
+      position: absolute
+      width: 100%
+      z-index: 1
 
-.h1, .h2, .h3, .h5, .h6
+.h2, .h5
   line-height: 1.4
   text-transform: uppercase
 
-.collapser-content
+.collapse-content
   display: none
   padding: 3px 5px
 
@@ -105,10 +97,10 @@ section
     font-size: 30px
     font-weight: 900
 
-.img-responsive
-  display: block
-  max-width: 100%
-  height: auto
+  .img-responsive
+    display: block
+    max-width: 100%
+    height: auto
 
 .button
   display: inline-block
@@ -173,9 +165,9 @@ section
       &::after
         background-color: rgba(#000, .4)
 
-  &.button-dark
-    background-color: #4d4d4d
-    color: #fff
+  //&.button-dark
+  //  background-color: #4d4d4d
+  //  color: #fff
 
     &::after
       background-color: vars.$accent
@@ -203,68 +195,68 @@ section
   height: 2px
   background-color: #fff
 
-.mm-navbar
-  padding: 0
-  border: none
-  height: auto
-  position: relative
+//.mm-navbar
+//  padding: 0
+//  border: none
+//  height: auto
+//  position: relative
+//
+//  .mm-title
+//    padding: 0
+//
+//    img
+//      max-width: 90%
+//      width: 328px
+//      height: auto
+//      margin: 10px 0 35px
 
-  .mm-title
-    padding: 0
+//html.mm-opened
+//  overflow-y: scroll
 
-    img
-      max-width: 90%
-      width: 328px
-      height: auto
-      margin: 10px 0 35px
-
-html.mm-opened
-  overflow-y: scroll
-
-.mm-panel > .mm-panel.mm-hasnavbar
-  right: -18px
+//.mm-panel > .mm-panel.mm-hasnavbar
+//  right: -18px
 
 .mm-listview > li:not(.mm-divider):after
   border: none
 
-.mm-panels > .mm-panel:after, .mm-panels > .mm-panel:before
-  height: 0
+//.mm-panels > .mm-panel:after, .mm-panels > .mm-panel:before
+//  height: 0
 
-.mm-panels > .mm-panel > .mm-listview:first-child, .mm-panels > .mm-panel > .mm-navbar + .mm-listview
-  margin-top: 0
+//.mm-panels > .mm-panel > .mm-listview:first-child, .mm-panels > .mm-panel > .mm-navbar + .mm-listview
+//  margin-top: 0
 
 .mm-menu.mm-theme-black .mm-listview > li.mm-selected > a:not(.mm-next), .mm-menu.mm-theme-black .mm-listview > li.mm-selected > span
   background-color: transparent
   color: vars.$accent
 
-.mm-listview
-  > li
-    > a
-      font-size: 18px
-      transition: colr .25s ease
-      padding:
-        left: 14%
-        right: 14%
-        top: 8px
-
-      &:hover
-        color: vars.$accent
-
-        &::before
-          color: vars.$accent
-
-      &::before
-        content: '\f0a4'
-        font-family: fontawesome
-        margin-right: 8px
-        text-decoration: none
-        font-size: 18px
-        color: #fff
-        transition: color .25s ease
-
-    &.active
-      & > a
-        color: vars.$accent
+//.mm-listview
+//  > li
+//    > a
+//      font-size: 18px
+//      transition: colr .25s ease
+//      padding:
+//        left: 14%
+//        right: 14%
+//        top: 8px
+//
+//      &:hover
+//        color: vars.$accent
+//
+//        &::before
+//          color: vars.$accent
+//
+//      &::before
+//        content: '\f0a4'
+//        font-family: fontawesome
+//        margin-right: 8px
+//        text-decoration: none
+//        font-size: 18px
+//        color: #fff
+//        transition: color .25s ease
+//
+//    &.active
+//      & > a
+//        color: vars.$accent
 
 .header-flex
   display: flex
@@ -393,13 +385,14 @@ html.mm-opened
 
 $colors: vars.$green, vars.$red, vars.$accent
 @for $i from 1 through list.length($colors)
-  .carousel-services .owl-item:nth-child(#{list.length($colors)}n+#{$i})
-    background-color: list.nth($colors, $i)
+  .main-swiper__container
+    .carousel-services-item:nth-child(#{list.length($colors)}n+#{$i})
+      background-color: list.nth($colors, $i)
 
-.carousel-services
+
+.main-swiper__container
   background-color: vars.$dark
-
-  &-item
+  .carousel-services-item
     color: #fff
     font-size: 18px
     font-weight: 200
@@ -407,92 +400,61 @@ $colors: vars.$green, vars.$red, vars.$accent
     display: flex
     flex-direction: column-reverse
 
-    &:hover
-      .carousel-services-image
-        opacity: 1
-
     .carousel-logo
       text-align: center
-
       img
         width: 240px
         height: auto
         display: inline-block
 
-  .owl-item
-    &:nth-child(2n+2)
-      .carousel-services-item
-        flex-direction: column
+    .carousel-services-content
+      position: relative
+      padding: 60px 10%
+      .carousel-services-composition
+        margin: auto
+        text-align: center
+        width: 100%
+        .h3
+          font-weight: bold
+          font-size: 30px
+          margin-top: 10px
+          margin-bottom: 20px
+          span
+            font-size: 18px
+            font-weight: 300
+            display: block
 
-  &-image
-    background-size: cover
-    background-position: center
-    opacity: .7
-    transition: opacity .5s ease
+        .carousel-services-list
+          padding: 0
+          list-style-type: none
+          margin: 0 0 25px
 
-  &-content
-    position: relative
-    padding: 60px 10%
+          li
+            padding: 9px
+            border-bottom: 1px solid rgba(#000, .13)
 
-  &-composition
-    margin: auto
-    text-align: center
-    width: 100%
+            &:last-child
+              border-bottom: none
 
-    .h3
-      font-weight: bold
-      font-size: 30px
-      margin-top: 10px
-      margin-bottom: 20px
+            strong
+              font-family: firasans, sans-serif
+              color: #000
 
-      span
-        font-size: 18px
-        font-weight: 300
-        display: block
+            .fa
+              font-size: 14px
 
-  &-list
-    padding: 0
-    list-style-type: none
-    margin: 0 0 25px
+    .carousel-services-image
+      background-size: cover
+      background-position: center
+      opacity: .7
+      transition: opacity .5s ease
 
-    li
-      padding: 9px
-      border-bottom: 1px solid rgba(#000, .13)
+  .carousel-services-item:hover .carousel-services-image
+    opacity: 1
 
-      &:last-child
-        border-bottom: none
+  .carousel-services-item:nth-child(2n+2)
+    flex-direction: column
 
-      strong
-        font-family: firasans, sans-serif
-        color: #000
-
-      .fa
-        font-size: 14px
-
-  .owl-nav
-    position: absolute
-    top: 0
-    width: 100%
-
-    > div
-      width: 64px
-      height: 64px
-      background-color: #fff
-      color: vars.$dark
-      position: absolute
-      text-align: center
-      line-height: 64px
-      font-size: 26px
-
-      &.owl-prev
-        left: 0
-
-      &.owl-next
-        right: 0
-
-.owl-carousel
-  .owl-item
-    backface-visibility: inherit
 
 .s
   &-about, &-review, &-partners
@@ -598,9 +560,9 @@ $colors: vars.$green, vars.$red, vars.$accent
     &-border
       border-color: #3d3c3c
 
-  &__active
-    .fotorama__thumb
-      background-color: #3d3c3c
+  //&__active
+    //.fotorama__thumb
+    //  background-color: #3d3c3c
 
   &__nav:after, &_stage:after,
   &__nav:before, &_stage:before
@@ -651,32 +613,32 @@ $colors: vars.$green, vars.$red, vars.$accent
   .delivery-list-big-price > :nth-child(3)
     white-space: nowrap
 
-.delivery-list
-  //display: inline-block
-  font-size: 18px
-  padding: 0
-  list-style-type: none
-  margin: 0 0 25px
-
-
-  li
-    padding: 9px
-    border-bottom: 1px solid rgba(#000, .13)
-
-    &:last-child
-      border-bottom: none
-
-    span
-      //display: inline-block
-      vertical-align: middle
-
-    strong
-      float: right
-      font-family: firasans, sans-serif
-      color: #fff
-
-    .fa
-      font-size: 14px
+//.delivery-list
+//  //display: inline-block
+//  font-size: 18px
+//  padding: 0
+//  list-style-type: none
+//  margin: 0 0 25px
+//
+//
+//  li
+//    padding: 9px
+//    border-bottom: 1px solid rgba(#000, .13)
+//
+//    &:last-child
+//      border-bottom: none
+//
+//    span
+//      //display: inline-block
+//      vertical-align: middle
+//
+//    strong
+//      float: right
+//      font-family: firasans, sans-serif
+//      color: #fff
+//
+//    .fa
+//      font-size: 14px
 
 .callback
   .success
@@ -715,9 +677,9 @@ $colors: vars.$green, vars.$red, vars.$accent
     font-weight: 300
     font-size: 17px
 
-  input, textarea, select,
-  .selectize-control .selectize-input,
-  .selectize-control.single .selectize-input.input-active
+  //input, textarea, select,
+  //.selectize-control .selectize-input,
+  //.selectize-control.single .selectize-input.input-active
     color: #fff
     width: 100%
     margin-top: 17px
@@ -739,12 +701,12 @@ $colors: vars.$green, vars.$red, vars.$accent
     option
       color: #333
 
-  .button
-    margin-top: 40px
-
-input, textarea, select,
-.selectize-control .selectize-input,
-.selectize-control.single .selectize-input.input-active
+//  .button
+//    margin-top: 40px
+//
+//input, textarea, select,
+//.selectize-control .selectize-input,
+//.selectize-control.single .selectize-input.input-active
   background-color: transparent
   border: rgba(#000, .1) 1px solid
   border-bottom: rgba(#000, .1) 2px solid
@@ -755,33 +717,33 @@ input, textarea, select,
   font-size: 16px
   color: #333
 
-select
-  padding: 10px 22px
+//select
+//  padding: 10px 22px
 
-.selectize-control .selectize-input
-  box-shadow: none
-  overflow: inherit
-  line-height: inherit
-  text-align: left
+//.selectize-control .selectize-input
+//  box-shadow: none
+//  overflow: inherit
+//  line-height: inherit
+//  text-align: left
+//
+//  input
+//    font-size: inherit
+//
+//  &.dropdown-active::before
+//    background-color: rgba(#fff, .5)
 
-  input
-    font-size: inherit
-
-  &.dropdown-active::before
-    background-color: rgba(#fff, .5)
-
-.selectize-control.single
-  .selectize-input, &.dropdown-active
-    &::after
-      border: none
-      content: '\f107'
-      font-family: fontawesome
-      position: absolute
-      right: 30px
-      top: 12px
-
-    &.dropdown-active::after
-      content: '\f106'
+//.selectize-control.single
+//  .selectize-input, &.dropdown-active
+//    &::after
+//      border: none
+//      content: '\f107'
+//      font-family: fontawesome
+//      position: absolute
+//      right: 30px
+//      top: 12px
+//
+//    &.dropdown-active::after
+//      content: '\f106'
 
   .selectize-dropdown
     font-size: 15px
@@ -842,8 +804,8 @@ select
   font-size: 19px
   padding-bottom: 20px
 
-.row.title
-  padding: 0 20px
+//.row.title
+//  padding: 0 20px
 
 .container
   position: relative
@@ -856,36 +818,36 @@ select
 .light-white
   color: rgba(255, 255, 255, 0.5)
 
-.regular
-  font-weight: 400
+//.regular
+//  font-weight: 400
+//
+//.modal
+//  padding: 0 25px !important
 
-.modal
-  padding: 0 25px !important
-
-.btn
-  margin-top: 30px
-  font-size: 18px
-  display: inline-block
-  padding: 15px 30px
-  color: white
-  border: 2px solid transparent
-  border-radius: 2px
-  background: transparent
-  -webkit-transition: all 0.3s ease
-  transition: all 0.3s ease
-
-.btn:hover,
-.btn:focus
-  color: white
-
-.btn.btn-blue-fill
-  color: vars.$accent
-  border-color: vars.$accent
-  background: transparent
-
-.btn.btn-blue-fill:hover
-  color: white
-  background: vars.$accent
+//.btn
+//  margin-top: 30px
+//  font-size: 18px
+//  display: inline-block
+//  padding: 15px 30px
+//  color: white
+//  border: 2px solid transparent
+//  border-radius: 2px
+//  background: transparent
+//  -webkit-transition: all 0.3s ease
+//  transition: all 0.3s ease
+//
+//.btn:hover,
+//.btn:focus
+//  color: white
+//
+//.btn.btn-blue-fill
+//  color: vars.$accent
+//  border-color: vars.$accent
+//  background: transparent
+//
+//.btn.btn-blue-fill:hover
+//  color: white
+//  background: vars.$accent
 
 .team-button
   text-align: center
@@ -909,40 +871,40 @@ select
       display: flex
       margin: auto
 
-    .owl-stage
-      display: flex
+    //.owl-stage
+    //  display: flex
+    //
+    //.owl-item
+    //  margin-top: 30px
+    //
+    //  img
+    //    max-width: 100%
+    //    width: auto
+    //    //display: inline-block
+    //    margin: auto
 
-    .owl-item
-      margin-top: 30px
-
-      img
-        max-width: 100%
-        width: auto
-        //display: inline-block
-        margin: auto
-
-  .owl-nav
-    position: absolute
-    top: 0
-    width: 100%
-    z-index: 2
-
-    > div
-      position: absolute
-      top: 50px
-      color: #999
-      font-size: 30px
-      transition: opacity .5s ease
-      padding: 0 5px
-
-      &:hover
-        opacity: .6
-
-      &.owl-prev
-        left: -60px
-
-      &.owl-next
-        right: -60px
+  //.owl-nav
+  //  position: absolute
+  //  top: 0
+  //  width: 100%
+  //  z-index: 2
+  //
+  //  > div
+  //    position: absolute
+  //    top: 50px
+  //    color: #999
+  //    font-size: 30px
+  //    transition: opacity .5s ease
+  //    padding: 0 5px
+  //
+  //    &:hover
+  //      opacity: .6
+  //
+  //    &.owl-prev
+  //      left: -60px
+  //
+  //    &.owl-next
+  //      right: -60px
 
 .main-footer
   background-color: #242424
@@ -958,9 +920,9 @@ select
       text-align: center
 
 .logo-footer
-  .tac
-    width: 278px
-    height: auto
+  //.tac
+  //  width: 278px
+  //  height: auto
 
   + p
     text-align: center
