@@ -4,14 +4,13 @@ import * as sass from 'sass';
 import browserSync from 'browser-sync';
 import concat from 'gulp-concat';
 import terser from 'gulp-terser';
-import cleanCSS from 'gulp-clean-css';
-import rename from 'gulp-rename';
-import del from 'del';
+import * as lightningcss from "lightningcss";
 import imagemin, { gifsicle, mozjpeg, optipng, svgo } from 'gulp-imagemin';
-import cache from 'gulp-cache';
 import autoprefixer from 'gulp-autoprefixer';
 import plumber from 'gulp-plumber';
 import babel from 'gulp-babel';
+import del from 'del';
+import fs from "node:fs";
 
 const { series, parallel, src, dest, watch } = gulp;
 
@@ -61,15 +60,25 @@ const handleError = (err) => {
 const clean = () => del(paths.build.dest);
 
 // Styles Task
-const styles = () =>
-    src(paths.styles.src)
+const styles = (done) => {
+    gulp.src('app/sass/main.sass')
         .pipe(plumber({ errorHandler: handleError }))
         .pipe(sassWithCompiler.sync().on('error', sassWithCompiler.logError))
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(autoprefixer({ overrideBrowserslist: ['> 0.2%', 'not dead', 'not op_mini all'] }))
-        .pipe(cleanCSS())
-        .pipe(dest(paths.styles.dest))
-        .pipe(browserSync.stream());
+        .pipe(autoprefixer({
+            cascade: false
+        }))
+        .pipe(gulp.dest('dist/css'))
+        .on('end', () => {
+            const inputCss = fs.readFileSync('dist/css/main.css', 'utf-8');
+            const outputCss = lightningcss.transform({
+                filename: 'main.css',
+                code: Buffer.from(inputCss),
+                minify: true,
+            }).code;
+            fs.writeFileSync('dist/css/main.min.css', outputCss);
+            done();
+        });
+};
 
 // JavaScript Tasks
 const libsJS = () =>
@@ -108,12 +117,12 @@ const images = () =>
         .pipe(dest(paths.images.dest));
 
 // Serve Task with BrowserSync
-const serve = (cb) => {
+const serve = () => {
     browserSync.init({
-        server: { baseDir: 'app' },
+        server: "app",
         notify: false,
+        open: false
     });
-    cb();
 };
 
 // Watch Task
@@ -133,7 +142,7 @@ const buildFonts = () => src(paths.build.fonts).pipe(dest(`${paths.build.dest}/f
 const build = series(clean, images, styles, libsJS, indexJS, buildFiles, buildCSS, buildJS, buildFonts);
 
 // Development Task
-const dev = parallel(watchFiles, serve);
+const dev = parallel(serve, watchFiles);
 
-export { clean, styles, libsJS, images, build };
+export { clean, styles, libsJS, images, build};
 export default series(clean, build, dev);
