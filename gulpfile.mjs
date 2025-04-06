@@ -16,22 +16,22 @@ import babel from 'gulp-babel';
 const { series, parallel, src, dest, watch } = gulp;
 
 const sassWithCompiler = gulpSass(sass);
-
+const jsPath = 'app/js'
+const jsIndexFile = 'index.min.js'
 const paths = {
-    scripts: {
-        common: 'app/js/common.js',
-        libs: [
-            // 'app/libs/jquery/dist/jquery.min.js',
-            // 'app/libs/mmenu/jquery.mmenu.all.js',
-            // 'app/libs/owl.carousel/owl.carousel.min.js',
-            // 'app/libs/fotorama/fotorama.js',
-            // 'app/libs/selectize/js/standalone/selectize.min.js',
-            // 'app/libs/equalHeights/equalheights.js',
-            'node_modules/mmenu-light/dist/mmenu-light.js',
-            'node_modules/swiper/swiper.min.js',
-            'app/js/common.min.js',
-        ],
-        dest: 'app/js',
+    js: {
+        common: `${jsPath}/common.js`,
+        libs: {
+            file: 'libs.js',
+            path: `${jsPath}/libs.js`,
+            sources: [
+                // 'app/libs/fotorama/fotorama.js',
+                // 'app/libs/selectize/js/standalone/selectize.min.js',
+                'node_modules/mmenu-light/dist/mmenu-light.js',
+                'node_modules/swiper/swiper.min.js',
+            ],
+        },
+        dest: jsPath,
     },
     styles: {
         src: 'app/sass/**/*.sass',
@@ -45,7 +45,7 @@ const paths = {
         base: ['app/*.html'],
         // base: ['app/*.html', 'app/.htaccess'],
         css: ['app/css/main.min.css'],
-        js: ['app/js/scripts.min.js'],
+        js: [`${jsPath}/${jsIndexFile}`],
         fonts: ['app/fonts/**/*'],
         dest: 'dist',
     },
@@ -72,23 +72,22 @@ const styles = () =>
         .pipe(browserSync.stream());
 
 // JavaScript Tasks
-const commonJS = () =>
-    src(paths.scripts.common)
-        // .pipe(babel({
-        //     presets: [['@babel/preset-env', { modules: false }]]
-        // }))
-        .pipe(concat('common.min.js'))
-        .pipe(terser())
-        .pipe(dest(paths.scripts.dest));
-
 const libsJS = () =>
-    src(paths.scripts.libs)
+    src(paths.js.libs.sources)
+        .pipe(concat(paths.js.libs.file))
+        .pipe(dest(paths.js.dest))
+        .pipe(browserSync.stream());
+
+const indexJS = () =>
+    src([paths.js.libs.path, paths.js.common])
         // .pipe(babel({
         //     presets: [['@babel/preset-env', { modules: false }]]
         // }))
-        .pipe(concat('scripts.min.js'))
-        .pipe(dest(paths.scripts.dest))
-        .pipe(browserSync.stream());
+        .pipe(concat(jsIndexFile))
+        .pipe(terser())
+        .pipe(dest(paths.js.dest))
+        .on('end', () => browserSync.reload());
+
 
 // Image Optimization Task
 const images = () =>
@@ -106,7 +105,6 @@ const images = () =>
                 }),
             ])
         )
-        // .pipe(cache(imagemin())) // Check cache functionality
         .pipe(dest(paths.images.dest));
 
 // Serve Task with BrowserSync
@@ -121,7 +119,7 @@ const serve = (cb) => {
 // Watch Task
 const watchFiles = () => {
     watch(paths.styles.src, styles);
-    watch(['libs/**/*.js', paths.scripts.common], series(libsJS, commonJS));
+    watch(paths.js.common, series(libsJS, indexJS));
     watch('app/*.html').on('change', browserSync.reload);
 };
 
@@ -132,7 +130,7 @@ const buildJS = () => src(paths.build.js).pipe(dest(`${paths.build.dest}/js`));
 const buildFonts = () => src(paths.build.fonts).pipe(dest(`${paths.build.dest}/fonts`));
 
 // Final Build Task
-const build = series(clean, images, styles, libsJS, commonJS, buildFiles, buildCSS, buildJS, buildFonts);
+const build = series(clean, images, styles, libsJS, indexJS, buildFiles, buildCSS, buildJS, buildFonts);
 
 // Development Task
 const dev = parallel(watchFiles, serve);
