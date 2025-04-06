@@ -8,8 +8,8 @@ import * as lightningcss from "lightningcss";
 import imagemin, { gifsicle, mozjpeg, optipng, svgo } from 'gulp-imagemin';
 import autoprefixer from 'gulp-autoprefixer';
 import plumber from 'gulp-plumber';
-import babel from 'gulp-babel';
-import del from 'del';
+import {deleteAsync as del} from 'del';
+
 import fs from "node:fs";
 
 const { series, parallel, src, dest, watch } = gulp;
