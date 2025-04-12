@@ -16,11 +16,18 @@
     "gulp-lightningcss": "^1.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-sass": "^6.0.1",
+    "gulp-svg-sprite": "^2.0.3",
     "gulp-terser": "^2.1.0",
     "lightningcss": "^1.29.3",
     "mmenu-light": "^3.2.2",
+    "postcss-sass": "^0.5.0",
+    "prettier": "^3.5.3",
     "sass": "^1.86.3",
     "stylelint": "^16.18.0",
+    "stylelint-config-recommended-scss": "^14.1.0",
+    "stylelint-config-standard-scss": "^14.0.0",
+    "stylelint-order": "^6.0.4",
+    "stylelint-scss": "^6.11.1",
     "swiper": "^11.2.6"
   },
   "browserslist": [

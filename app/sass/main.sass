@@ -1,43 +1,89 @@
 @use "sass:color"
 @use "sass:list"
-@use 'sass:math'
 @use "vars"
 @use "fonts"
 @use "libs"
-@forward "media"
+@use "media"
+@use "blocks/box-sizing"
+@use "blocks/visually-hidden"
+@use "blocks/page"
+@use "blocks/preloader"
+@use "blocks/header"
 
-*,
-*::before,
-*::after
-  box-sizing: border-box
 
-body, h1, h2, h3, p, ul, ol
-  margin: 0
-  padding: 0
+.h2
+  font-size: 30px
+  font-weight: 900
 
-html, body
-  height: 100%
-
-body
-  font-size: 16px
-  min-width: 320px
+.section-teaser
   position: relative
-  line-height: 1.75
-  font-family: vars.$default-font
-  overflow-x: hidden
-  opacity: 1
+  min-height: 600px
+  height: 100vh
+  background-color: vars.$dark
+  background-image: url('/media/images/bg-1-1.jpg')
+  background-size: cover
+  background-position: center
+  color: #fff
 
-  .site-header
-    min-height: 600px
-    height: 100vh
-    background-color: vars.$dark
+.section-teaser-overlay
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: vars.$over
+    opacity: .45
+
+.white-popup-block
+  position: relative
+  background: #003E88
+  padding: 20px
+  width: auto
+  max-width: 500px
+  margin: 20px auto
+
+  .formhead, p
     color: #fff
 
-    .top-line
-      padding-top: 40px
-      position: absolute
-      width: 100%
-      z-index: 1
+.callback
+  padding: 70px 40px
+  position: relative
+
+  .formhead
+    margin: 10px 0 0
+    font-size: 30px
+
+  p
+    margin-top: 0
+    font-weight: 300
+    font-size: 17px
+
+.callback
+  .success
+    display: none
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    text-transform: uppercase
+    font-weight: bold
+    z-index: 10
+
+    span
+      color: #fff
+      margin: auto
+
+    & ~ *
+      transition: all .5s ease
+
+    &.active
+      & ~ *
+        opacity: .5
+        filter: blur(10px)
+
 
 .h2, .h5
   line-height: 1.4
@@ -53,54 +99,6 @@ body
 @mixin opacity($opacity)
   opacity: $opacity / 100
   filter: alpha(opacity=$opacity)
-
-
-.logo
-  img
-    width: 328px
-    height: auto
-    margin-left: 45px
-
-.phone
-  position: absolute
-  right: 85px
-  top: 44px
-  font-family: firasans, sans-serif
-  font-size: 22px
-  white-space: nowrap
-
-  .fa
-    color: #fff
-    font-size: 26px
-    margin-right: 7px
-
-  a
-    text-decoration: none
-    color: #fff
-
-section, header
-  position: relative
-  background-size: cover
-  background-position: center
-
-section
-  background-color: #fff
-
-  &.inverse
-    color: #fff
-    background-color: vars.$dark
-
-    &.s-call
-      background-color: #fff
-
-  .h2
-    font-size: 30px
-    font-weight: 900
-
-  .img-responsive
-    display: block
-    max-width: 100%
-    height: auto
 
 .button
   display: inline-block
@@ -179,21 +177,6 @@ section
     &:active
       &::after
         background-color: color.adjust(#4d4d4d, $lightness: -2%)
-
-.hamburger
-  right: 0
-  position: absolute
-  top: 34px
-
-  .hamburger-box
-    width: 34px
-
-
-.hamburger-inner, .hamburger-inner::after, .hamburger-inner::before
-  border-radius: 0
-  width: 34px
-  height: 2px
-  background-color: #fff
 
 //.mm-navbar
 //  padding: 0
@@ -383,6 +366,14 @@ section
     text-decoration: none
     color: #fff
 
+
+.inverse
+  color: #fff
+  background-color: vars.$dark
+
+.s-call
+  background-color: #fff
+
 $colors: vars.$green, vars.$red, vars.$accent
 @for $i from 1 through list.length($colors)
   .main-swiper__container
@@ -521,17 +512,6 @@ $colors: vars.$green, vars.$red, vars.$accent
     background-color: vars.$over
     opacity: .45
 
-.section-header-overlay
-  &::before
-    content: ''
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    background-color: vars.$over
-    opacity: .45
-
 .section-overlay
   &::before
     content: ''
@@ -640,42 +620,8 @@ $colors: vars.$green, vars.$red, vars.$accent
 //    .fa
 //      font-size: 14px
 
-.callback
-  .success
-    display: none
-    position: absolute
-    top: 0
-    left: 0
-    right: 0
-    bottom: 0
-    text-transform: uppercase
-    font-weight: bold
-    z-index: 10
 
-    span
-      color: #fff
-      margin: auto
 
-    & ~ *
-      transition: all .5s ease
-
-    &.active
-      & ~ *
-        opacity: .5
-        filter: blur(10px)
-
-.callback
-  padding: 70px 40px
-  position: relative
-
-  .formhead
-    margin: 10px 0 0
-    font-size: 30px
-
-  p
-    margin-top: 0
-    font-weight: 300
-    font-size: 17px
 
   //input, textarea, select,
   //.selectize-control .selectize-input,
@@ -1054,66 +1000,3 @@ $colors: vars.$green, vars.$red, vars.$accent
   &.active
     right: 25px
 
-.white-popup-block
-  position: relative
-  background: #003E88
-  padding: 20px
-  width: auto
-  max-width: 500px
-  margin: 20px auto
-
-  .formhead, p
-    color: #fff
-
-
-//Preloader
-.preloader
-  position: fixed
-  top: 0
-  left: 0
-  bottom: 0
-  right: 0
-  background-color: #151515
-  z-index: 100
-
-@mixin opacity($opacity)
-  opacity: math.div($opacity, 100)
-  filter: alpha(opacity=$opacity)
-
-.pulse
-  position: relative
-  left: 50%
-  top: 50vh
-  margin:
-    left: -40px
-    top: -40px
-
-  &:before, &:after
-    content: ''
-    border: 5px solid #323232
-    width: 80px
-    height: 80px
-    border-radius: 500px
-    position: absolute
-
-  &:before
-    animation: pulse-outer .8s ease-in infinite
-
-  &:after
-    animation: pulse-inner .8s linear infinite
-
-@keyframes pulse-outer
-  0%
-    @include opacity(100)
-  50%
-    @include opacity(50)
-  100%
-    @include opacity(0)
-
-@keyframes pulse-inner
-  0%
-    transform: scale(0)
-    @include opacity(0)
-  100%
-    transform: scale(1)
-    @include opacity(100)

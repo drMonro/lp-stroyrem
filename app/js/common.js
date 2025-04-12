@@ -13,16 +13,6 @@
 // 	// $("a[href*='#']").mPageScroll2id({ scrollSpeed: 1500 });
 //
 //
-// 	$("#my-menu").mmenu({
-// 		pageScroll: true,
-// 		extensions: [ 'theme-black', 'fx-menu-slide', 'pagedim-black' ],
-// 		navbar: {
-// 			title: '<img src="img/logo.svg" alt="Магазин Строительных Материалов СтройРемонт24">'
-// 		},
-// 		offCanvas: {
-// 			position: 'right'
-// 		},
-// 	});
 //
 //
 // 	const api = $("#my-menu").data("mmenu");
@@ -179,7 +169,18 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
-	// Инициализация mmenu
+	// Preloader
+	window.addEventListener('load', () => {
+		const preloader = document.querySelector('.preloader');
+		if (preloader) {
+			setTimeout(() => {
+				preloader.style.opacity = '0';
+				setTimeout(() => preloader.style.display = 'none', 600);
+			}, 1000);
+		}
+	});
+
+	// mmenu init
 	const menuElement = document.querySelector('#my-menu');
 
 	if (menuElement) {
@@ -187,17 +188,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		const navigator = menu.navigation({
 			theme: 'dark',
-			title: '<img src="img/logo.svg" alt="Магазин Строительных Материалов СтройРемонт24">'
+			title: ''
 		});
+
+		const titleElement = menuElement.querySelector('#my-menu');
+		if (menuElement) {
+			const img = document.createElement('img');
+			img.style.display = 'block';
+			img.style.height = '40px';
+			img.style.margin = '5px auto';
+			img.src = '/img/logo.svg';
+			img.alt = 'Магазин Строительных Материалов СтройРемонт24';
+			menuElement.appendChild(img);
+		}
 
 		const drawer = menu.offcanvas({
 			position: 'right'
 		});
-
-		// setTimeout(() => {
-		// 	document.querySelector(".mm-navbar__title").innerHTML =
-		// 		'<img src="img/logo.svg" alt="Магазин Строительных Материалов СтройРемонт24" style="max-height: 40px;">';
-		// }, 0);
 
 		//	Open the menu.
 		document
@@ -211,26 +218,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		// 	document.querySelector( "#ul" )
 		// );
 
-		document.querySelector( '.hamburger-box' )
-			.addEventListener( 'click', ( evnt ) => {
-				evnt.preventDefault();
-				drawer.open();
-			});
-
 	} else {
 		console.warn('Меню не найдено в DOM.');
 	}
 
-	// Preloader
-	window.addEventListener('load', () => {
-		const preloader = document.querySelector('.preloader');
-		if (preloader) {
-			setTimeout(() => {
-				preloader.style.opacity = '0';
-				setTimeout(() => preloader.style.display = 'none', 600);
-			}, 1000);
-		}
-	});
+
 
 	// Плавный скролл до id (раскомментировать при необходимости)
 	// document.querySelectorAll("a[href*='#']").forEach(anchor => {
