@@ -1,0 +1,16 @@
+{
+    "lang": "ru",
+    "name": "СтройРемонт24 - магазин строительных отделочных материалов в г.Красноярске",
+    "description": "Опт и розница. Дешёвая доставка!",
+    "short_name": "СтройРемонт24",
+    "icons": [{
+        "src": "img/favicon/icon-16х16.png",
+        "sizes": "16x16"
+    },{
+        "src": "img/favicon/icon-32х32.png",
+        "sizes": "32x32"
+    }, {
+        "src": "img/favicon/android_icon.png",
+        "sizes": "192x192"
+    }]
+}
