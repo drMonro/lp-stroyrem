@@ -4786,16 +4786,16 @@ body.mm-ocd-opened {
 }
 
 .page {
-  color: #000000;
+  color: #000;
   font-family: "akrobat", sans-serif;
   background-color: #1F1E1F;
   scroll-behavior: smooth;
 }
 
 .page__body {
-  max-width: 1920px;
   margin: 0 auto;
   font-size: 16px;
+  max-width: 1920px;
 }
 
 .preloader {

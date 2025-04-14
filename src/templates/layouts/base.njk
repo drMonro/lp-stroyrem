@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>Главная страница</title>
+    <title>{% block title %}Заголовок по умолчанию{% endblock %}</title>
 
-    
+    {#
+    <meta name="description" content="{{ description }}" />
+    #}
 
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/css/main.min.css" />
@@ -43,32 +45,9 @@
   </head>
 
   <body class="page__body">
-    <header>
-  <div class='header__wrapper'>
-    <div class='logo'>
-      <svg>
-        <use xlink:href='media/sprite/sprite.svg#logo-white'></use>
-      </svg>
-    </div>
-    <div class='header__right-part'>
-      <p>HEADER</p>
-      <div class='phone'>
-        <i class='fa fa-mobile'></i>
-        <a href='tel:+73912054317'>
-          +7 (391) 205-43-17
-        </a>
-      </div>
-    </div>
-  </div>
-</header>
+    {% include "partials/header.njk" %}
 
-
-    <main>
-<section>
-  <h2>Добро пожаловать!</h2>
-  <p>Это главная страница сайта.</p>
-</section>
-</main>
+    <main>{% block content %}{% endblock %}</main>
 
     <script src="/js/scripts.min.js"></script>
   </body>

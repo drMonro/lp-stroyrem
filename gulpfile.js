@@ -12,8 +12,7 @@ import autoprefixer from 'gulp-autoprefixer';
 import plumber from 'gulp-plumber';
 import { deleteAsync as del } from 'del';
 import fs from 'node:fs';
-import * as path from 'node:path';
-
+import nunjucksRender from 'gulp-nunjucks-render';
 const sassWithCompiler = gulpSass(sass);
 
 const srcDir = 'src';
@@ -21,14 +20,12 @@ const buildDir = 'build';
 
 const imagesDir = 'media/images';
 const mainStylesFilesName = 'main';
-
+const spriteFileName = 'sprite.svg';
 const jsDir = 'js';
 const jsLibsFile = 'libs.js';
-const spriteFileName = 'sprite.svg';
-
-// const jsPath = 'app/js';
 const jsIndexFile = 'scripts.js';
-// const jsIndexFile = 'index.min.js';
+const templatesDir = 'templates';
+
 const paths = {
   images: {
     src: `${srcDir}/${imagesDir}/**/*.{jpg,jpeg,png}`,
@@ -57,8 +54,13 @@ const paths = {
     },
     commonFile: `${srcDir}/${jsDir}/common.js`,
   },
+  templates: {
+    src: `${srcDir}/${templatesDir}/**/*.njk`,
+    pagesSrc: `${srcDir}/${templatesDir}/pages/**/*.njk`,
+    layoutsSrc: `${srcDir}/${templatesDir}`,
+  },
   build: {
-    base: [`${srcDir}/*.html`, `${srcDir}/manifest.json`],
+    base: [`${srcDir}/manifest.json`],
     fonts: `${srcDir}/fonts/**/*`,
   },
 };
@@ -183,6 +185,19 @@ const indexJS = () =>
     .pipe(gulp.dest(paths.js.buildSrc))
     .on('end', () => browserSync.reload());
 
+// Templates Task (Nunjucks Rendering)
+const nunjucks = () =>
+  gulp
+    .src(paths.templates.pagesSrc)
+    .pipe(plumber({ errorHandler: handleError }))
+    .pipe(
+      nunjucksRender({
+        path: paths.templates.layoutsSrc,
+      }),
+    )
+    .pipe(gulp.dest(buildDir))
+    .on('end', () => browserSync.reload());
+
 // Serve Task with BrowserSync
 const serve = () => {
   browserSync.init({
@@ -192,25 +207,20 @@ const serve = () => {
   });
 };
 
-const reload = (done) => {
-  browserSync.reload();
-  done();
-};
-
-const buildBase = () => gulp.src(paths.build.base).pipe(gulp.dest(buildDir));
-const buildBaseAfterReload = gulp.series(buildBase, reload);
 // Watch Task
 const watchFiles = () => {
   gulp.watch(paths.images.src, images);
   gulp.watch(paths.svg.src, svg);
   gulp.watch(paths.styles.SASSDir, styles);
   gulp.watch(paths.js.commonFile, indexJS);
-  gulp.watch(`${srcDir}/*.html`, buildBaseAfterReload);
+  gulp.watch(paths.templates.src, nunjucks);
 };
 
 // Build Tasks
 const buildFonts = () =>
   gulp.src(paths.build.fonts).pipe(gulp.dest(`${buildDir}/fonts`));
+
+const buildBase = () => gulp.src(paths.build.base).pipe(gulp.dest(buildDir));
 
 // Final Build Task
 const build = gulp.series(
@@ -220,6 +230,7 @@ const build = gulp.series(
   styles,
   libsJS,
   indexJS,
+  nunjucks,
   buildBase,
   buildFonts,
 );
@@ -227,6 +238,6 @@ const build = gulp.series(
 // Development Task
 const dev = gulp.parallel(serve, watchFiles);
 
-export { clean, styles, libsJS, indexJS, images, svg, build };
+export { clean, styles, libsJS, indexJS, images, svg, nunjucks, build };
 
 export default gulp.series(clean, build, dev);
