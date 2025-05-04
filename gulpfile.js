@@ -1,19 +1,21 @@
 import gulp from 'gulp';
-import gulpSass from 'gulp-sass';
 import svgSprite from 'gulp-svg-sprite';
-import * as sass from 'sass';
+import postcss from 'gulp-postcss';
+import postcssImport from 'postcss-import';
+import postcssPresetEnv from 'postcss-preset-env';
+import browserslist from 'browserslist';
+import postcssNested from 'postcss-nested';
+import postcssSimpleVars from 'postcss-simple-vars';
 import browserSync from 'browser-sync';
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 import terser from 'gulp-terser';
 import * as lightningcss from 'lightningcss';
 import imagemin, { mozjpeg, optipng, svgo } from 'gulp-imagemin';
-import autoprefixer from 'gulp-autoprefixer';
 import plumber from 'gulp-plumber';
 import { deleteAsync as del } from 'del';
 import fs from 'node:fs';
 import nunjucksRender from 'gulp-nunjucks-render';
-const sassWithCompiler = gulpSass(sass);
 
 const srcDir = 'src';
 const buildDir = 'build';
@@ -36,10 +38,11 @@ const paths = {
     spriteDir: 'media/sprite',
   },
   styles: {
-    SASSDir: `${srcDir}/sass/**/*.sass`,
-    SASSMainFile: `${srcDir}/sass/${mainStylesFilesName}.sass`,
+    postCSSMainFile: `${srcDir}/css/postCSS/${mainStylesFilesName}.css`,
+    postCSSFiles: `${srcDir}/css/postCSS/**/*.css`,
     CSSDirSrc: `${srcDir}/css`,
     CSSDirBuild: `${buildDir}/css`,
+    CSSMainFile: `${buildDir}/css/${mainStylesFilesName}.css`,
   },
   js: {
     dirSrc: `${srcDir}/${jsDir}`,
@@ -119,41 +122,31 @@ const svg = () =>
         },
       }),
     )
-    .pipe(gulp.dest(srcDir))
-    .on('end', () => {
-      gulp
-        .src(`${srcDir}/${paths.svg.spriteDir}/${spriteFileName}`)
-        .pipe(gulp.dest(`${buildDir}/${paths.svg.spriteDir}`))
-        .on('end', () => browserSync.stream());
-    });
+    .pipe(gulp.dest(buildDir))
+    .on('end', () => browserSync.reload());
 
 // Styles Task
-const styles = (done) => {
-  gulp
-    .src(paths.styles.SASSMainFile)
+const styles = () => {
+  return gulp
+    .src(paths.styles.postCSSMainFile)
     .pipe(plumber({ errorHandler: handleError }))
-    .pipe(sassWithCompiler.sync().on('error', sassWithCompiler.logError))
-    .pipe(autoprefixer())
-    .pipe(gulp.dest(paths.styles.CSSDirSrc))
+    .pipe(
+      postcss([
+        postcssImport(),
+        postcssNested(),
+        postcssPresetEnv({ stage: 1 }),
+        postcssSimpleVars(),
+      ]),
+    )
+    .pipe(gulp.dest(paths.styles.CSSDirBuild))
     .on('end', () => {
-      const inputCss = fs.readFileSync(
-        `${paths.styles.CSSDirSrc}/${mainStylesFilesName}.css`,
-        'utf-8',
-      );
+      const inputCss = fs.readFileSync(paths.styles.CSSMainFile, 'utf-8');
       const minifiedCSS = lightningcss.transform({
         filename: `${mainStylesFilesName}.css`,
         code: Buffer.from(inputCss),
         minify: true,
-        targets: lightningcss.browserslistToTargets([
-          '> 1%',
-          'last 2 versions',
-        ]),
+        targets: lightningcss.browserslistToTargets(browserslist()),
       }).code;
-
-      fs.writeFileSync(
-        `${paths.styles.CSSDirSrc}/${mainStylesFilesName}.min.css`,
-        minifiedCSS,
-      );
 
       if (!fs.existsSync(paths.styles.CSSDirBuild)) {
         fs.mkdirSync(paths.styles.CSSDirBuild, { recursive: true });
@@ -163,8 +156,8 @@ const styles = (done) => {
         `${paths.styles.CSSDirBuild}/${mainStylesFilesName}.min.css`,
         minifiedCSS,
       );
-      browserSync.stream();
-      done();
+
+      browserSync.reload();
     });
 };
 
@@ -179,8 +172,8 @@ const indexJS = () =>
   gulp
     .src([paths.js.libs.file, paths.js.commonFile])
     .pipe(concat(`${jsIndexFile}`))
+    .pipe(gulp.dest(paths.js.buildSrc))
     .pipe(rename({ suffix: '.min' }))
-    .pipe(gulp.dest(paths.js.dirSrc))
     .pipe(terser())
     .pipe(gulp.dest(paths.js.buildSrc))
     .on('end', () => browserSync.reload());
@@ -204,6 +197,16 @@ const serve = () => {
     server: buildDir,
     notify: false,
     open: false,
+    middleware: (req, res, next) => {
+      res.setHeader(
+        'Cache-Control',
+        'no-store, no-cache, must-revalidate, proxy-revalidate',
+      );
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+      res.setHeader('Surrogate-Control', 'no-store');
+      next();
+    },
   });
 };
 
@@ -211,14 +214,16 @@ const serve = () => {
 const watchFiles = () => {
   gulp.watch(paths.images.src, images);
   gulp.watch(paths.svg.src, svg);
-  gulp.watch(paths.styles.SASSDir, styles);
+  gulp.watch(paths.styles.postCSSFiles, styles);
   gulp.watch(paths.js.commonFile, indexJS);
   gulp.watch(paths.templates.src, nunjucks);
 };
 
 // Build Tasks
 const buildFonts = () =>
-  gulp.src(paths.build.fonts).pipe(gulp.dest(`${buildDir}/fonts`));
+  gulp
+    .src(paths.build.fonts, { encoding: false })
+    .pipe(gulp.dest(`${buildDir}/fonts`));
 
 const buildBase = () => gulp.src(paths.build.base).pipe(gulp.dest(buildDir));
 
@@ -240,4 +245,4 @@ const dev = gulp.parallel(serve, watchFiles);
 
 export { clean, styles, libsJS, indexJS, images, svg, nunjucks, build };
 
-export default gulp.series(clean, build, dev);
+export default gulp.series(build, dev);

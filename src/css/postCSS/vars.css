@@ -1,0 +1,17 @@
+:root {
+  --accent-l: 39%;
+  --accent-c: 0.1392;
+  --accent-h: 257.37;
+
+  --accent: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
+  --accent-light: oklch(calc(var(--accent-l) + 5%) var(--accent-c) var(--accent-h));
+  --accent-dark: oklch(calc(var(--accent-l) - 10%) var(--accent-c) var(--accent-h));
+  --default-font: akrobat, sans-serif;
+  --digits-font: fira sans, sans-serif;
+  --accentHEX: #00408c;
+  --green: #73a37e;
+  --red: #ff6f59;
+  --color-dark: #1f1e1f;
+  --over: #3d3c3c;
+  --color-text-primary: #000000;
+}

@@ -1,0 +1,237 @@
+/* !*==========  Desktop First  ==========*! */
+
+/* !* Large Devices, Wide Screens *! */
+
+/* @media only screen and (max-width: 1200px) { */
+
+/*    .welcome p span { */
+
+/*        font-size: 20px; */
+
+/*    } */
+
+/*    .s-about, .s-review, .s-partners { */
+
+/*        padding: 8% 0; */
+
+/*    } */
+
+/* } */
+
+/* !* Medium Devices, Desktops *! */
+
+/* @media only screen and (max-width: 992px) { */
+
+/*    .welcome p span { */
+
+/*        font-size: 17px; */
+
+/*    } */
+
+/*    !* Uncomment to use *! */
+
+/*    ! **/
+
+/*    .partners .owl-nav > div.owl-prev { */
+
+/*      left: 0; */
+
+/*    } */
+
+/*    .partners .owl-nav > div.owl-next { */
+
+/*      right: 0; */
+
+/*    } */
+
+/*    *! */
+
+/*    !* Uncomment to use *! */
+
+/*    ! **/
+
+/*    .s-partners .h2 { */
+
+/*      margin: 0; */
+
+/*    } */
+
+/*    *! */
+
+/*    !* Uncomment to use *! */
+
+/*    ! **/
+
+/*    .logo-footer { */
+
+/*      width: 200px; */
+
+/*      height: auto; */
+
+/*    } */
+
+/*    .footer-addr { */
+
+/*      margin-bottom: 15px; */
+
+/*    } */
+
+/*    .footer-phone { */
+
+/*      font-size: 24px; */
+
+/*      padding-top: 0; */
+
+/*    } */
+
+/*    .fa { */
+
+/*      top: 9px; */
+
+/*    } */
+
+/*    *! */
+
+/* } */
+
+/* !* Small Devices, Tablets *! */
+
+/* @media only screen and (max-width: 768px) { */
+
+/*    .logo img { */
+
+/*        max-width: 40%; */
+
+/*    } */
+
+/*    .phone { */
+
+/*        font-size: 15px; */
+
+/*    } */
+
+/*    .phone .fa { */
+
+/*        font-size: 15px; */
+
+/*    } */
+
+/*    !* Uncomment to use *! */
+
+/*    ! **/
+
+/*    .welcome .h1 { */
+
+/*      font-size: 25px; */
+
+/*    } */
+
+/*    .header-composition .text-welcome { */
+
+/*      font-size: 14px; */
+
+/*    } */
+
+/*    .button { */
+
+/*      padding: 15px 17px; */
+
+/*      font-size: 14px; */
+
+/*    } */
+
+/*    .footer-menu { */
+
+/*      padding-left: 20px; */
+
+/*    } */
+
+/*    *! */
+
+/* } */
+
+/* !* Extra Small Devices, Phones *! */
+
+/* @media only screen and (max-width: 480px) { */
+
+/*    .phone { */
+
+/*        display: none; */
+
+/*    } */
+
+/*    .logo img { */
+
+/*        max-width: 60%; */
+
+/*    } */
+
+/*    .delivery table { */
+
+/*        font-size: 14px; */
+
+/*    } */
+
+/*    !* Uncomment to use *! */
+
+/*    ! **/
+
+/*    .carousel-services-content { */
+
+/*      padding-bottom: 0; */
+
+/*    } */
+
+/*    .s-team { */
+
+/*      padding-bottom: 40px; */
+
+/*    } */
+
+/*    .social-footer { */
+
+/*      text-align: left; */
+
+/*    } */
+
+/*    *! */
+
+/*    .carousel-services .owl-nav > div { */
+
+/*        width: 40px; */
+
+/*        height: 54px; */
+
+/*    } */
+
+/* } */
+
+/* !* Custom, iPhone Retina *! */
+
+/* @media only screen and (max-width: 320px) { */
+
+/*    .delivery table { */
+
+/*        font-size: 13px; */
+
+/*    } */
+
+/*    .logo img { */
+
+/*        width: 65%; */
+
+/*    } */
+
+/*    .mm-listview > li > a { */
+
+/*        font-size: 12px; */
+
+/*    } */
+
+/*    section .h2 { */
+
+/*        font-size: 25px; */
+
+/*    } */
+
+/* } */

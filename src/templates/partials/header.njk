@@ -1,18 +1,41 @@
 <header>
   <div class='header__wrapper'>
-    <div class='logo'>
-      <svg>
-        <use xlink:href='media/sprite/sprite.svg#logo-white'></use>
-      </svg>
+    <div class="header__top-line">
+      {% include "partials/phone.njk" %}
     </div>
-    <div class='header__right-part'>
-      <p>HEADER</p>
-      <div class='phone'>
-        <i class='fa fa-mobile'></i>
-        <a href='tel:+73912054317'>
-          +7 (391) 205-43-17
-        </a>
+
+    <div class="header__bottom-line">
+      <div class='header__logo-wrapper'>
+        <div class='header__logo'>
+          <svg>
+            <use xlink:href='media/sprite/sprite.svg#logo-white'></use>
+          </svg>
+        </div>
+      </div>
+
+      <div class="header__bottom-wrapper">
+
+        {% include "partials/phone.njk" %}
+
+        <button class="header__hamburger-button">
+            <span class="hamburger hamburger--emphatic">
+              <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+              </span>
+            </span>
+        </button>
       </div>
     </div>
+
   </div>
+  <nav id="mm-menu">
+    <ul>
+      <li><a href="#section_prices">Цены!</a></li>
+      <li><a href="#section_about">О нас</a></li>
+      <li><a href="#section_delivery">Доставка</a></li>
+      <li><a href="#section_team">Наша команда</a></li>
+      <li><a href="#section_partners">Производители</a></li>
+      <li><a href="#section_footer">Мы на карте</a></li>
+    </ul>
+  </nav>
 </header>

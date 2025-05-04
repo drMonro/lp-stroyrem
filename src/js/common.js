@@ -22,15 +22,13 @@
 // 		$(".hamburger").removeClass( "is-active" );
 // 	});
 
-
-
 //
 // 	$('.popup-with-form').magnificPopup({
 // 		type: 'inline',
 // 		preloader: false,
 // 		focus: '#name',
 //
-// 		// When elemened is focused, some mobile browsers in some cases zoom in
+// 		// When element is focused, some mobile browsers in some cases zoom in
 // 		// It looks not nice, so we disable it:
 // 		callbacks: {
 // 			beforeOpen: function() {
@@ -167,135 +165,122 @@
 // })
 // import MmenuLight from 'mmenu-light/dist/mmenu-light.js';
 
-
 document.addEventListener('DOMContentLoaded', () => {
-	// Preloader
-	window.addEventListener('load', () => {
-		const preloader = document.querySelector('.preloader');
-		if (preloader) {
-			setTimeout(() => {
-				preloader.style.opacity = '0';
-				setTimeout(() => preloader.style.display = 'none', 600);
-			}, 1000);
-		}
-	});
+  // Preloader
+  window.addEventListener('load', () => {
+    const preloader = document.querySelector('.preloader');
+    if (preloader) {
+      setTimeout(() => {
+        preloader.style.opacity = '0';
+        setTimeout(() => (preloader.style.display = 'none'), 600);
+      }, 1000);
+    }
+  });
 
-	// mmenu init
-	const menuElement = document.querySelector('#my-menu');
+  // mmenu init
+  const menuElement = document.querySelector('#mm-menu');
 
-	if (menuElement) {
-		const menu = new MmenuLight(menuElement, "all");
+  if (menuElement) {
+    const menu = new MmenuLight(menuElement, 'all');
+    menu.navigation({
+      theme: 'dark',
+      title: 'МЕНЮ:',
+    });
+    // const img = document.createElement('img');
+    // img.style.display = 'block';
+    // img.style.height = '40px';
+    // img.style.margin = '5px auto';
+    // img.src = '/img/logo.svg';
+    // img.alt = 'Магазин Строительных Материалов СтройРемонт24';
+    // menuElement.appendChild(img);
 
-		const navigator = menu.navigation({
-			theme: 'dark',
-			title: ''
-		});
+    const drawer = menu.offcanvas({
+      position: 'right',
+    });
 
-		const titleElement = menuElement.querySelector('#my-menu');
-		if (menuElement) {
-			const img = document.createElement('img');
-			img.style.display = 'block';
-			img.style.height = '40px';
-			img.style.margin = '5px auto';
-			img.src = '/img/logo.svg';
-			img.alt = 'Магазин Строительных Материалов СтройРемонт24';
-			menuElement.appendChild(img);
-		}
+    //	Open the menu.
+    document.querySelector('.hamburger').addEventListener('click', (event) => {
+      event.preventDefault();
+      drawer.open();
+    });
 
-		const drawer = menu.offcanvas({
-			position: 'right'
-		});
+    // navigator.openPanel(
+    // 	document.querySelector( "#ul" )
+    // );
+  } else {
+    console.warn('Меню не найдено в DOM.');
+  }
 
-		//	Open the menu.
-		document
-			.querySelector('.hamburger')
-			.addEventListener("click", (event) => {
-				event.preventDefault();
-				drawer.open();
-			});
+  // Плавный скролл до id (раскомментировать при необходимости)
+  // document.querySelectorAll("a[href*='#']").forEach(anchor => {
+  //     anchor.addEventListener('click', (event) => {
+  //         event.preventDefault();
+  //         const targetId = anchor.getAttribute('href').substring(1);
+  //         const targetElement = document.getElementById(targetId);
+  //         if (targetElement) {
+  //             window.scrollTo({ top: targetElement.offsetTop, behavior: 'smooth' });
+  //         }
+  //     });
+  // });
 
-		// navigator.openPanel(
-		// 	document.querySelector( "#ul" )
-		// );
+  new Swiper('.swiper-container', {
+    direction: 'horizontal',
+    loop: true,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    slidesPerView: 3,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+  });
 
-	} else {
-		console.warn('Меню не найдено в DOM.');
-	}
+  const carouselService = () => {
+    document.querySelectorAll('.carousel-services-item').forEach((item) => {
+      const content = item.querySelector('.carousel-services-content');
+      const image = item.querySelector('.carousel-services-image');
 
+      if (content && image) {
+        const contentHeight = content.offsetHeight;
+        image.style.minHeight = `${contentHeight}px`;
+      }
+    });
+  };
 
+  carouselService();
 
-	// Плавный скролл до id (раскомментировать при необходимости)
-	// document.querySelectorAll("a[href*='#']").forEach(anchor => {
-	//     anchor.addEventListener('click', (event) => {
-	//         event.preventDefault();
-	//         const targetId = anchor.getAttribute('href').substring(1);
-	//         const targetElement = document.getElementById(targetId);
-	//         if (targetElement) {
-	//             window.scrollTo({ top: targetElement.offsetTop, behavior: 'smooth' });
-	//         }
-	//     });
-	// });
+  const equalHeights = (selector) => {
+    const elements = document.querySelectorAll(selector);
+    let maxHeight = 0;
 
-	const swiper = new Swiper('.swiper-container', {
-		direction: 'horizontal',
-		loop: true,
-		autoplay: {
-			delay: 2500,
-			disableOnInteraction: false,
-		},
-		slidesPerView: 3,
-		pagination: {
-			el: '.swiper-pagination',
-			clickable: true,
-		},
-		navigation: {
-			nextEl: '.swiper-button-next',
-			prevEl: '.swiper-button-prev',
-		},
-	});
+    // Сбросим текущие высоты
+    elements.forEach((el) => {
+      el.style.height = 'auto';
+    });
 
-	const carouselService = () => {
-		document.querySelectorAll('.carousel-services-item').forEach(item => {
-			const content = item.querySelector('.carousel-services-content');
-			const image = item.querySelector('.carousel-services-image');
+    // Найдём максимальную высоту
+    elements.forEach((el) => {
+      if (el.offsetHeight > maxHeight) {
+        maxHeight = el.offsetHeight;
+      }
+    });
 
-			if (content && image) {
-				const contentHeight = content.offsetHeight;
-				image.style.minHeight = `${contentHeight}px`;
-			}
-		});
-	};
+    // Применим максимальную высоту ко всем
+    elements.forEach((el) => {
+      el.style.height = `${maxHeight}px`;
+    });
+  };
 
-	carouselService();
+  const onResize = () => {
+    equalHeights('.carousel-services-content');
+  };
 
-	const equalHeights = (selector) => {
-		const elements = document.querySelectorAll(selector);
-		let maxHeight = 0;
-
-		// Сбросим текущие высоты
-		elements.forEach(el => {
-			el.style.height = 'auto';
-		});
-
-		// Найдём максимальную высоту
-		elements.forEach(el => {
-			if (el.offsetHeight > maxHeight) {
-				maxHeight = el.offsetHeight;
-			}
-		});
-
-		// Применим максимальную высоту ко всем
-		elements.forEach(el => {
-			el.style.height = `${maxHeight}px`;
-		});
-	};
-
-	const onResize = () => {
-		equalHeights('.carousel-services-content');
-	};
-
-	onResize();
-	window.addEventListener('resize', onResize);
-
-
+  onResize();
+  window.addEventListener('resize', onResize);
 });

@@ -6,13 +6,5 @@
   "tabWidth": 2,
   "useTabs": false,
   "endOfLine": "auto",
-  "htmlWhitespaceSensitivity": "ignore",
-  "overrides": [
-    {
-      "files": "*.njk",
-      "options": {
-        "parser": "html"
-      }
-    }
-  ]
+  "htmlWhitespaceSensitivity": "ignore"
 }
