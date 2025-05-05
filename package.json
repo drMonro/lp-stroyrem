@@ -21,7 +21,6 @@
     "mmenu-light": "^3.2.2",
     "postcss": "^8.5.3",
     "postcss-import": "^16.1.0",
-    "postcss-nested": "^7.0.2",
     "postcss-preset-env": "^10.1.5",
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.5.3",

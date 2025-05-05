@@ -4,7 +4,6 @@ import postcss from 'gulp-postcss';
 import postcssImport from 'postcss-import';
 import postcssPresetEnv from 'postcss-preset-env';
 import browserslist from 'browserslist';
-import postcssNested from 'postcss-nested';
 import postcssSimpleVars from 'postcss-simple-vars';
 import browserSync from 'browser-sync';
 import concat from 'gulp-concat';
@@ -133,9 +132,13 @@ const styles = () => {
     .pipe(
       postcss([
         postcssImport(),
-        postcssNested(),
-        postcssPresetEnv({ stage: 1 }),
         postcssSimpleVars(),
+        postcssPresetEnv({
+          stage: 1,
+          features: {
+            'nesting-rules': true,
+          },
+        }),
       ]),
     )
     .pipe(gulp.dest(paths.styles.CSSDirBuild))
