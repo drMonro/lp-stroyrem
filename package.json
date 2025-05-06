@@ -1,8 +1,6 @@
 {
   "name": "lp-stroyrem",
   "version": "2.0.1",
-  "private": true,
-  "type": "module",
   "devDependencies": {
     "@stylistic/stylelint-plugin": "^3.1.2",
     "browser-sync": "^3.0.4",
