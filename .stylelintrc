@@ -137,6 +137,7 @@
     "@stylistic/max-empty-lines": 2,
     "@stylistic/no-eol-whitespace": true,
     "@stylistic/no-missing-end-of-source-newline": true,
+
     "order/order": [
       "custom-properties",
       "declarations"
