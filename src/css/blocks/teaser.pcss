@@ -1,17 +1,12 @@
-$tablet: 768px;
-
 .section-teaser {
   position: relative;
-  /*display: flex;*/
-  /*justify-content: space-between;*/
-  /*align-items: center;*/
   height: 100vh;
   min-height: 640px;
   padding-right: 10px;
   padding-left: 3.5%;
   color: white;
   background-color: var(--color-dark);
-  background-image: url('/media/images/bg-1-1.jpg');
+  background-image: url('/media/images/teaser-bg.jpg');
   background-position: center;
   background-size: cover;
 
@@ -45,7 +40,7 @@ $tablet: 768px;
 
   @media (min-width: $tablet) {
     max-width: 400px;
-    margin-left: 50px;
+    margin-left: 15%;
   }
 
   .utp-composition {
@@ -137,7 +132,7 @@ $tablet: 768px;
   background-color: oklch(0.196 0 89.876 / 0.15);
   border-top: 1px solid oklch(1 0 0 / 15%);
 
-  @media (min-width: 768px) {
+  @media (min-width: $tablet) {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -177,7 +172,7 @@ $tablet: 768px;
       margin-right: 15px;
     }
 
-    @media (min-width: 1024px) {
+    @media (min-width: $desktop) {
       display: flex;
       align-items: center;
     }

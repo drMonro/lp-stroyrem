@@ -37,8 +37,8 @@ const paths = {
     spriteDir: 'media/sprite',
   },
   styles: {
-    postCSSMainFile: `${srcDir}/css/postCSS/${mainStylesFilesName}.css`,
-    postCSSFiles: `${srcDir}/css/postCSS/**/*.css`,
+    postCSSMainFile: `${srcDir}/css/${mainStylesFilesName}.pcss`,
+    postCSSFiles: `${srcDir}/css/**/*.pcss`,
     CSSDirSrc: `${srcDir}/css`,
     CSSDirBuild: `${buildDir}/css`,
     CSSMainFile: `${buildDir}/css/${mainStylesFilesName}.css`,
@@ -141,6 +141,7 @@ const styles = () => {
         }),
       ]),
     )
+    .pipe(rename({ extname: '.css' }))
     .pipe(gulp.dest(paths.styles.CSSDirBuild))
     .on('end', () => {
       const inputCss = fs.readFileSync(paths.styles.CSSMainFile, 'utf-8');
