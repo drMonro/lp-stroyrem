@@ -3,7 +3,7 @@
   "version": "2.0.1",
   "type": "module",
   "scripts": {
-    "dev": "node --no-experimental-require-module --trace-deprecation node_modules/gulp/bin/gulp.js --gulpfile gulpfile.js default"
+    "dev": "node --no-experimental-require-module node_modules/gulp/bin/gulp.js --gulpfile gulpfile.js default"
   },
   "devDependencies": {
     "@stylistic/stylelint-plugin": "^3.1.2",

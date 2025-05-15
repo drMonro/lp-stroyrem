@@ -6,12 +6,16 @@
   --accent: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
   --accent-light: oklch(calc(var(--accent-l) + 5%) var(--accent-c) var(--accent-h));
   --accent-dark: oklch(calc(var(--accent-l) - 10%) var(--accent-c) var(--accent-h));
+  --accentHEX: #00408c;
+
+  --green: oklch(67% 0.075 151.094);
+  --red: oklch(71% 0.18 30.794);
+  --color-dark: oklch(24% 0.002 325.653);
+  --over: oklch(36% 0.001 17.222);
+  --color-text-primary: oklch(0 0 0);
+
   --default-font: akrobat, sans-serif;
   --digits-font: fira sans, sans-serif;
-  --accentHEX: #00408c;
-  --green: #73a37e;
-  --red: #ff6f59;
-  --color-dark: #1f1e1f;
-  --over: #3d3c3c;
-  --color-text-primary: #000000;
+
+  --tablet: 768px;
 }
