@@ -1,52 +1,50 @@
 <?php
 
+// Определение метода запроса и выбор источника данных
 $method = $_SERVER['REQUEST_METHOD'];
+$data = $method === 'POST' ? $_POST : $_GET;
 
-//Script Foreach
-$c = true;
-if ( $method === 'POST' ) {
+// Проверка обязательных полей
+$project_name = trim($data["project_name"] ?? '');
+$admin_email  = trim($data["admin_email"] ?? '');
+$form_subject = trim($data["form_subject"] ?? '');
 
-	$project_name = trim($_POST["project_name"]);
-	$admin_email  = trim($_POST["admin_email"]);
-	$form_subject = trim($_POST["form_subject"]);
+if (!$project_name || !$admin_email || !$form_subject) {
+    http_response_code(400);
+    exit("Missing required fields.");
+}
 
-	foreach ( $_POST as $key => $value ) {
-		if ( $value != "" && $key != "project_name" && $key != "admin_email" && $key != "form_subject" ) {
-			$message .= "
-			" . ( ($c = !$c) ? '<tr>':'<tr style="background-color: #f8f8f8;">' ) . "
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'><b>$key</b></td>
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'>$value</td>
-			</tr>
-			";
-		}
-	}
-} else if ( $method === 'GET' ) {
+// Формирование HTML-сообщения
+$message = '';
+$alternate = true;
 
-	$project_name = trim($_GET["project_name"]);
-	$admin_email  = trim($_GET["admin_email"]);
-	$form_subject = trim($_GET["form_subject"]);
+foreach ($data as $key => $value) {
+    if (in_array($key, ['project_name', 'admin_email', 'form_subject']) || $value === '') {
+        continue;
+    }
 
-	foreach ( $_GET as $key => $value ) {
-		if ( $value != "" && $key != "project_name" && $key != "admin_email" && $key != "form_subject" ) {
-			$message .= "
-			" . ( ($c = !$c) ? '<tr>':'<tr style="background-color: #f8f8f8;">' ) . "
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'><b>$key</b></td>
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'>$value</td>
-			</tr>
-			";
-		}
-	}
+    $style = $alternate ? '' : ' style="background-color: #f8f8f8;"';
+    $message .= "
+    <tr$style>
+        <td style='padding: 10px; border: #e9e9e9 1px solid;'><b>" . htmlspecialchars($key) . "</b></td>
+        <td style='padding: 10px; border: #e9e9e9 1px solid;'>" . htmlspecialchars($value) . "</td>
+    </tr>";
+
+    $alternate = !$alternate;
 }
 
 $message = "<table style='width: 100%;'>$message</table>";
 
-function adopt($text) {
-	return '=?UTF-8?B?'.Base64_encode($text).'?=';
+// Кодировка заголовков письма
+function adopt(string $text): string {
+    return '=?UTF-8?B?' . base64_encode($text) . '?=';
 }
 
+// Заголовки письма
 $headers = "MIME-Version: 1.0" . PHP_EOL .
-"Content-Type: text/html; charset=utf-8" . PHP_EOL .
-'From: '.adopt($project_name).' <'.$admin_email.'>' . PHP_EOL .
-'Reply-To: '.$admin_email.'' . PHP_EOL;
+    "Content-Type: text/html; charset=utf-8" . PHP_EOL .
+    'From: ' . adopt($project_name) . ' <' . $admin_email . '>' . PHP_EOL .
+    'Reply-To: ' . $admin_email . PHP_EOL;
 
-mail($admin_email, adopt($form_subject), $message, $headers );
+// Отправка письма
+mail($admin_email, adopt($form_subject), $message, $headers);

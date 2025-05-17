@@ -122,6 +122,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  //E-mail Ajax Send
+  const forms = document.querySelectorAll('form.submit');
+
+  forms.forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      /** @type {FormData} */
+      const formData = new FormData(form);
+      try {
+        const response = await fetch('./mail.php', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          const successMsg = form.querySelector('.success');
+          if (successMsg) {
+            successMsg.classList.add('active');
+            successMsg.style.display = 'flex';
+            successMsg.style.opacity = 0;
+            setTimeout(() => {
+              successMsg.style.opacity = 1;
+            }, 50);
+
+            setTimeout(() => {
+              successMsg.classList.remove('active');
+              successMsg.style.display = 'none';
+              form.reset();
+            }, 2000);
+          }
+        } else {
+          console.error('Ошибка отправки формы');
+        }
+      } catch (error) {
+        console.error('Ошибка:', error);
+      }
+    });
+  });
+
   // Плавный скролл до id (раскомментировать при необходимости)
   // document.querySelectorAll("a[href*='#']").forEach(anchor => {
   //     anchor.addEventListener('click', (event) => {
