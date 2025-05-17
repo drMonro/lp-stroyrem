@@ -1,6 +1,6 @@
 <section class="section-teaser section-teaser-overlay">
   <div class="section-teaser__content">
-    <div class="teaser-composition">
+    <div class="utp">
       <div class="utp-composition">
         <p class="utp-composition__header">
           <span class="utp-composition__header-text">Магазин</span>
@@ -28,118 +28,22 @@
         материалы. Поможем Вам в любом строительном вопросе.
       </p>
 
-      <button type="button" class="button popup-with-form">
+      <button type="button" class="button popup-with-form" id="openModalBtn">
         <span>Обратиться к нам</span>
       </button>
-
-{#      <button type="button" class="button popup-with-form">#}
-{#        <span style="font-weight: 400">Обратиться к нам</span>#}
-{#      </button>#}
-
-{#      <p style="font-weight: 500">Обратиться к нам</p>#}
-{#      <button style="font: inherit">#}
-{#        <span style="font-weight: 500">Обратиться к нам</span>#}
-{#      </button>#}
-{#      <p style="font-weight: 100">Обратиться к нам</p>#}
-{#      <button>#}
-{#        <span style="font-weight: 100">Обратиться к нам</span>#}
-{#      </button>#}
-
-{#      <p style="font-weight: 300">Обратиться к нам</p>#}
-{#      <button>#}
-{#        <span style="font-weight: 300">Обратиться к нам</span>#}
-{#      </button>#}
-
-
-      <form
-        id="form_call"
-        class="visually-hidden callback white-popup-block"
-      >
-        <div class="success"><span>Спасибо за заявку!</span></div>
-        <!-- Hidden Required Fields -->
-        <input
-          type="hidden"
-          name="project_name"
-          value="СтройРемонт24"
-        />
-        <input
-          type="hidden"
-          name="admin_email"
-          value="ckseverny@mail.ru"
-        />
-        <input
-          type="hidden"
-          name="form_subject"
-          value="Заявка с одностраничника"
-        />
-        <!-- END Hidden Required Fields -->
-        <input type="hidden" name="Страница" value="" />
-
-        <div class="formhead h2">
-          Оставить
-          <span>заявку</span>
-        </div>
-        <p>Оставьте заявку и наши менеджеры свяжутся с Вами</p>
-
-        <label for="name"></label>
-        <input
-          type="text"
-          id="name"
-          name="Имя"
-          placeholder="Ваше имя..."
-          required
-        />
-        <label>
-          <input
-            type="tel"
-            name="Телефон"
-            placeholder="Ваше телефон..."
-            required
-          />
-        </label>
-        <label>
-          <input
-            type="email"
-            name="e-mail"
-            placeholder="Ваше e-mail..."
-          />
-        </label>
-        <label>
-          <select name="Услуга">
-            <option value disabled selected>Выберите услугу...</option>
-            <option>Заказать обратный звонок</option>
-            <option>Запросить прайс</option>
-            <option>Узнать стоимость доставки</option>
-            <option>У вас другой вопрос?</option>
-          </select>
-        </label>
-        <label>
-          <textarea
-            rows="4"
-            cols="45"
-            name="Комментарий"
-            placeholder="Ваш комментарий..."
-          ></textarea>
-        </label>
-        <button class="button button-white button-center">
-          Отправить
-        </button>
-      </form>
     </div>
 
-    <div class="header-social">
-{#      <nav class="soc">#}
-          <ul>
-              <li>
-                <a href="#">
-                  <svg class="icon--au">
-                    <use xlink:href='media/sprite/sprite.svg#au-logo'></use>
-                  </svg>
-                </a>
-              </li>
-          </ul>
-{#      </nav>#}
-  </div>
+    <div class="teaser-social">
+      <ul>
+        <li>
+          <a href="#">
+            <svg>
+              <use xlink:href='media/sprite/sprite.svg#au-logo'></use>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div class="teaser-footer">
@@ -157,5 +61,40 @@
         </svg>
         Будни с 9:00 до 18:00 + суббота с 10:00 до 15:00
       </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="closeModalBtn" aria-label="Закрыть">&times;</button>
+
+      <form id="form_call" class="callback">
+        <div class="success" hidden><span>Спасибо за заявку!</span></div>
+        <input type="hidden" name="project_name" value="СтройРемонт24" />
+        <input type="hidden" name="admin_email" value="ckseverny@mail.ru" />
+        <input type="hidden" name="form_subject" value="Заявка с одностраничника" />
+        <input type="hidden" name="Страница" value="" />
+
+        <div class="formhead h2" id="modalTitle">
+          Оставить <span>заявку</span>
+        </div>
+        <p>Оставьте заявку и наши менеджеры свяжутся с Вами</p>
+
+        <input type="text" id="name" name="Имя" placeholder="Ваше имя..." required />
+        <input type="tel" name="Телефон" placeholder="Ваш телефон..." required />
+        <input type="email" name="e-mail" placeholder="Ваш e-mail..." />
+
+        <select name="Услуга" required>
+          <option value disabled selected>Выберите услугу...</option>
+          <option>Заказать обратный звонок</option>
+          <option>Запросить прайс</option>
+          <option>Узнать стоимость доставки</option>
+          <option>У вас другой вопрос?</option>
+        </select>
+
+        <textarea rows="4" name="Комментарий" placeholder="Ваш комментарий..."></textarea>
+
+        <button type="submit" class="button button-white button-center">Отправить</button>
+      </form>
+    </div>
   </div>
 </section>

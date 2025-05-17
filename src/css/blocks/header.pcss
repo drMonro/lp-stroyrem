@@ -4,7 +4,7 @@ header {
   width: 100%;
   padding: 10px;
 
-  @media (min-width: 520px) {
+  @media (min-width: $mobile) {
     padding: 15px;
   }
 
@@ -22,7 +22,7 @@ header {
       justify-content: flex-end;
       padding-bottom: 15px;
 
-      @media (min-width: 520px) {
+      @media (min-width: $mobile) {
         display: none;
       }
     }
@@ -53,7 +53,7 @@ header {
           }
         }
 
-        @media (min-width: 520px) {
+        @media (min-width: $mobile) {
           width: auto;
         }
       }
@@ -64,7 +64,7 @@ header {
         .phone {
           display: none;
 
-          @media (min-width: 520px) {
+          @media (min-width: $mobile) {
             display: flex;
           }
         }

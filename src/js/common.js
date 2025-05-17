@@ -1,20 +1,3 @@
-// $(document).ready(function() {
-//
-// });
-//
-//
-
-// $(function() {
-// 	//Preloader
-// 	$(window).on('load', function() {
-// 		$('.preloader').delay(1000).fadeOut('slow');
-// 	});
-// 	/*Плавный скрол до id*/
-// 	// $("a[href*='#']").mPageScroll2id({ scrollSpeed: 1500 });
-//
-//
-//
-//
 // 	const api = $("#my-menu").data("mmenu");
 // 	api.bind("open:finish", function() {
 // 		$(".hamburger").addClass( "is-active" );
@@ -23,92 +6,8 @@
 // 	});
 
 //
-// 	$('.popup-with-form').magnificPopup({
-// 		type: 'inline',
-// 		preloader: false,
-// 		focus: '#name',
-//
-// 		// When element is focused, some mobile browsers in some cases zoom in
-// 		// It looks not nice, so we disable it:
-// 		callbacks: {
-// 			beforeOpen: function() {
-// 				if($(window).width() < 700) {
-// 					this.st.focus = false;
-// 				} else {
-// 					this.st.focus = '#name';
-// 				}
-// 			}
-// 		}
-// 	});
-//
-// 	$('.carousel-services').on('initialized.owl.carousel', function() {
-// 		setTimeout(function() {
-// 			carouselService();
-// 		}, 50);
-// 	});
-//
-// 	$('.carousel-services').owlCarousel({
-// 		loop:true,
-// 		nav:true,
-// 		smartSpeed: 700,
-// 		navText: ['<i class="fa fa-angle-double-left"></i>', '<i class="fa fa-angle-double-right"></i>'],
-// 		responsiveClass: true,
-// 		dots: false,
-// 		responsive: {
-// 			0: {
-// 				items: 1
-// 			},
-// 			800: {
-// 				items: 2
-// 			},
-// 			1100: {
-// 				items: 3
-// 			}
-// 		}
-// 	}).on('changed.owl.carousel', function() {
-// 		carouselService();
-// 	});
-//
-// 	function carouselService() {
-// 		$('.carousel-services-item').each(function() {
-// 			const ths = $(this);
-// 			const thing = ths.find('.carousel-services-content').outerHeight();
-// 			ths.find('.carousel-services-image').css('min-height', thing);
-// 		});
-// 	}
-// 	carouselService();
-//
-// /*	$('.carousel-services-composition h3').each(function() {
-// 		var ths = $(this);
-// 		ths.html(ths.html().replace(/(\S+)\s*$/, '<span>$1</span>'));
-// 	});	*/
-//
 // 	$('select').selectize();
 //
-// 	/*Слайдер в секции партнеры*/
-// 	$('.partners').owlCarousel({
-// 		loop:true,
-// 		smartSpeed: 700,
-// 		dots:false,
-// 		nav:true,
-// 		navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
-// 		responsiveClass: true,
-// 		responsive: {
-// 			0: {
-// 				items: 1
-// 			},
-// 			768: {
-// 				items: 2
-// 			},
-// 			992: {
-// 				items: 3
-// 			},
-// 			1200: {
-// 				items: 4
-// 			}
-// 		}
-//
-// 	});
 //
 // 	//Кнопка наверх
 // 	$(window).scroll(function() {
@@ -160,10 +59,6 @@
 // 		return false;
 // 	});
 //
-//
-//
-// })
-// import MmenuLight from 'mmenu-light/dist/mmenu-light.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Preloader
@@ -186,13 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
       theme: 'dark',
       title: 'МЕНЮ:',
     });
-    // const img = document.createElement('img');
-    // img.style.display = 'block';
-    // img.style.height = '40px';
-    // img.style.margin = '5px auto';
-    // img.src = '/img/logo.svg';
-    // img.alt = 'Магазин Строительных Материалов СтройРемонт24';
-    // menuElement.appendChild(img);
 
     const drawer = menu.offcanvas({
       position: 'right',
@@ -203,13 +91,36 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
       drawer.open();
     });
-
-    // navigator.openPanel(
-    // 	document.querySelector( "#ul" )
-    // );
   } else {
     console.warn('Меню не найдено в DOM.');
   }
+
+  const modal = document.getElementById('modal');
+  const openBtn = document.getElementById('openModalBtn');
+  const closeBtn = document.getElementById('closeModalBtn');
+  const nameInput = document.getElementById('name');
+
+  openBtn.addEventListener('click', () => {
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden'; // блокировка прокрутки
+    setTimeout(() => nameInput.focus(), 100); // фокус на поле
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  function closeModal() {
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('show')) {
+      closeModal();
+    }
+  });
 
   // Плавный скролл до id (раскомментировать при необходимости)
   // document.querySelectorAll("a[href*='#']").forEach(anchor => {

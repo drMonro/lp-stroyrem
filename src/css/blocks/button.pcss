@@ -53,29 +53,15 @@
     background-color: var(--accent-light);
   }
 
-  /* .button.button-white { */
+  @media (min-width: $tablet) {
+    padding: 16px 45px;
 
-  /*  color: #444444; */
+    span {
+      font-size: 18px;
+    }
+  }
 
-  /*  background-color: #ffffff; */
-
-  /* } */
-
-  /* .button.button-white::after { */
-
-  /*  background-color: rgba(0, 0, 0, 0.9); */
-
-  /* } */
-
-  /* .button.button-white:hover::after { */
-
-  /*  background-color: rgba(0, 0, 0, 0.2); */
-
-  /* } */
-
-  /* .button.button-white:active::after { */
-
-  /*  background-color: rgba(0, 0, 0, 0.4); */
-
-  /* } */
+  @media (min-width: $desktop) {
+    padding: 19px 50px;
+  }
 }

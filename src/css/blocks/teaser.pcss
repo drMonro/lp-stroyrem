@@ -23,24 +23,29 @@
 
   .section-teaser__content {
     position: relative;
-    z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-top: 150px;
+
+    @media (min-width: $desktop) {
+      padding-top: 12%;
+    }
   }
 }
 
-.teaser-composition {
-  position: relative;
-  z-index: 1;
+.utp {
   width: 100%;
   margin-right: 10%;
   text-align: center;
 
   @media (min-width: $tablet) {
-    max-width: 400px;
-    margin-left: 15%;
+    max-width: 600px;
+    margin-left: 7%;
+  }
+
+  @media (min-width: $desktop) {
+    margin-left: 14%;
   }
 
   .utp-composition {
@@ -63,16 +68,27 @@
       .utp-composition__header-text {
         margin: 0 5px;
         font-weight: 700;
+
+        @media (min-width: $desktop) {
+          font-size: 20px;
+        }
       }
     }
 
     .utp-composition__header-title {
-      margin-bottom: 10px;
-      padding-bottom: 6px;
+      margin-bottom: 16px;
       font-size: 18px;
       line-height: 1.3;
       text-transform: uppercase;
       border-bottom: 1px solid white;
+
+      @media (min-width: $mobile) {
+        font-size: 25px;
+      }
+
+      @media (min-width: $desktop) {
+        font-size: 34px;
+      }
     }
 
     .utp-composition__header-sub-title {
@@ -80,8 +96,12 @@
       justify-content: center;
       align-items: center;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 13px;
       text-transform: uppercase;
+
+      @media (min-width: $tablet) {
+        font-size: 20px;
+      }
 
       span {
         margin: 0 7px;
@@ -95,17 +115,22 @@
   }
 
   .utp-composition__description {
+    margin-top: 25px;
     margin-bottom: 45px;
     font-size: 17px;
 
     span {
       font-weight: 700;
     }
+
+    @media (min-width: $desktop) {
+      line-height: 1.7;
+    }
   }
 }
 
-.header-social li {
-  .icon--au {
+.teaser-social li {
+  svg {
     width: 38px;
     height: 38px;
     overflow: hidden;
@@ -115,7 +140,7 @@
   }
 
   &:hover {
-    .icon--au {
+    svg {
       filter: brightness(1);
     }
   }
@@ -179,169 +204,120 @@
   }
 }
 
-/* .white-popup-block { */
-
-/*  position: relative; */
-
-/*  width: auto; */
-
-/*  max-width: 500px; */
-
-/*  margin: 20px auto; */
-
-/*  padding: 20px; */
-
-/*  background: #003e88; */
-
-/* } */
-
-/* .white-popup-block .formhead, */
-
-/* .white-popup-block p { */
-
-/*  color: #ffffff; */
-
-/* } */
-
-/* .callback { */
-
-/*  position: relative; */
-
-/*  padding: 70px 40px; */
-
-/* } */
-
-/* .callback .formhead { */
-
-/*  margin: 10px 0 0; */
-
-/*  font-size: 30px; */
-
-/* } */
-
-/* .callback p { */
-
-/*  margin-top: 0; */
-
-/*  font-weight: 300; */
-
-/*  font-size: 17px; */
-
-/* } */
-
-/* .callback .success { */
-
-/*  position: absolute; */
-
-/*  inset: 0; */
-
-/*  z-index: 10; */
-
-/*  display: none; */
-
-/*  font-weight: bold; */
-
-/*  text-transform: uppercase; */
-
-/* } */
-
-/* .callback .success span { */
-
-/*  margin: auto; */
-
-/*  color: #ffffff; */
-
-/* } */
-
-/* .callback .success ~ * { */
-
-/*  transition: all 0.5s ease; */
-
-/* } */
-
-/* .callback .success.active ~ * { */
-
-/*  opacity: 0.5; */
-
-/*  filter: blur(10px); */
-
-/* } */
-
-/* .h2, */
-
-/* .h5 { */
-
-/*  line-height: 1.4; */
-
-/*  text-transform: uppercase; */
-
-/* } */
-
-/* .header-social { */
-
-/*  position: absolute; */
-
-/*  top: 0; */
-
-/*  right: 0; */
-
-/*  display: flex; */
-
-/*  height: 100%; */
-
-/*  padding: 0 12.5px; */
-
-/*  border-left: 1px solid rgba(255, 255, 255, 0.06); */
-
-/* } */
-
-/* .soc { */
-
-/*  margin: auto; */
-
-/* } */
-
-/* .soc ul, */
-
-/* .soc li { */
-
-/*  margin: 0; */
-
-/*  padding: 0; */
-
-/*  list-style-type: none; */
-
-/* } */
-
-/* .soc a { */
-
-/*  display: block; */
-
-/*  width: 38px; */
-
-/*  height: 38px; */
-
-/*  margin: 18px 0; */
-
-/*  color: #353535; */
-
-/*  font-size: 16px; */
-
-/*  !* line-height: 38px; *! */
-
-/*  text-align: center; */
-
-/*  background-color: rgba(255, 255, 255, 0.25); */
-
-/*  border-radius: 10em; */
-
-/*  transition: background-color 0.25s ease; */
-
-/* } */
-
-/* .soc a:hover { */
-
-/*  background-color: rgba(255, 255, 255, 0.4); */
-
-/* } */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: none; /* По умолчанию скрыто */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal.show {
+  display: flex;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 8px;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+form input, form select, form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+}
+
+
+/*.white-popup-block {*/
+/*  position: relative;*/
+/*  width: auto;*/
+/*  max-width: 500px;*/
+/*  margin: 20px auto;*/
+/*  padding: 20px;*/
+/*  background: #003e88;*/
+/*}*/
+
+/*.white-popup-block .formhead,*/
+/*.white-popup-block p {*/
+/*  color: #ffffff;*/
+/*}*/
+
+/*.callback {*/
+/*  position: absolute;*/
+/*  top: 50%;*/
+/*  left: 50%;*/
+/*  padding: 70px 40px;*/
+/*  transform: translate(-50%, -50%);*/
+/*}*/
+
+/*.callback .formhead {*/
+/*  margin: 10px 0 0;*/
+/*  font-size: 30px;*/
+/*}*/
+
+/*.callback p {*/
+/*  margin-top: 0;*/
+/*  font-weight: 300;*/
+/*  font-size: 17px;*/
+/*}*/
+
+/*.callback .success {*/
+/*  position: absolute;*/
+/*  inset: 0;*/
+/*  z-index: 10;*/
+/*  display: none;*/
+/*  font-weight: bold;*/
+/*  text-transform: uppercase;*/
+/*}*/
+
+/*.callback .success span {*/
+/*  margin: auto;*/
+/*  color: #ffffff;*/
+/*}*/
+
+/*.callback .success ~ * {*/
+/*  transition: all 0.5s ease;*/
+/*}*/
+
+/*.callback .success.active ~ * {*/
+/*  opacity: 0.5;*/
+/*  filter: blur(10px);*/
+/*}*/
 
