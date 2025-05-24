@@ -204,12 +204,17 @@
   }
 }
 
+.modal.show {
+  display: flex;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 9999;
-  display: none; /* По умолчанию скрыто */
+  display: none;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -217,32 +222,42 @@
   padding: 1rem;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.6);
-}
 
-.modal.show {
-  display: flex;
-  animation: fadeIn 0.3s ease-in-out;
-}
+  .modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    background: var(--accent);
+    border-radius: 8px;
+    animation: slideIn 0.3s ease-in-out;
 
-.modal-content {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  padding: 2rem;
-  background: var(--accent);
-  border-radius: 8px;
-  animation: slideIn 0.3s ease-in-out;
-}
+    .modal__title {
+      font-size: 27px;
+      text-transform: uppercase;
 
-.modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2rem;
-  line-height: 1;
-  background: none;
-  border: none;
-  cursor: pointer;
+      span {
+        color: var(--red);
+      }
+    }
+
+    .modal__sub-title {
+      margin-top: 5px;
+      margin-bottom: 30px;
+    }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: white;
+    font-size: 2rem;
+    line-height: 1;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
 }
 
 @keyframes fadeIn {
@@ -254,22 +269,112 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
-form input, form select, form textarea {
-  box-sizing: border-box;
+input,
+textarea {
   width: 100%;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  font-size: 1rem;
+  margin-bottom: 16px;
+  padding: 12px;
+  color: white;
   font-family: inherit;
   background-color: transparent;
   border: rgba(0, 0, 0, 0.1) 1px solid;
   border-radius: 2px;
-}
-
-input:focus {
   outline: none;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: white;
+}
+
+input:focus,
+textarea:focus {
+  border: white 1px solid;
+}
+
+input:hover,
+textarea:hover,
+.choices__inner:hover {
+  border: white 1px solid;
+}
+
+input:-webkit-autofill {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+  background-color: white !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--accent) inset !important;
+}
+
+input.invalid {
+  border-color: var(--red);
+}
+
+.error-message {
+  margin-bottom: 3px;
+  color: var(--red);
+  font-size: 14px;
+}
+
+.choices__inner {
+  background-color: transparent;
+  border: rgba(0, 0, 0, 0.1) 1px solid;
+}
+
+/*!* Отдельная опция *!*/
+
+.choices__list--dropdown .choices__item {
+  color: black;
+}
+
+.choices__placeholder {
+  color: white;
+  opacity: unset;
+}
+
+/*!* Стрелка *!*/
+
+.choices[data-type*='select-one']::after,
+.choices[data-type*='select-one'].is-open::after {
+  border-color: white transparent transparent transparent;
+}
+
+.choices[data-type*='select-one'].is-open::after {
+  transform: rotate(180deg);
+}
+
+.submit .success {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: none;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: var(--accent);
+
+  span {
+    display: block;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+  }
+}
+
+.submit .success.active {
+  display: flex;
+}
+
+.submit .success ~ * {
+  transition: all 0.5s ease;
+}
+
+.submit .success.active ~ * {
+  opacity: 0.5;
+  filter: blur(10px);
+}
 
 /*.white-popup-block {*/
 /*  position: relative;*/
@@ -303,27 +408,3 @@ input:focus {
 /*  font-weight: 300;*/
 /*  font-size: 17px;*/
 /*}*/
-
-/*.callback .success {*/
-/*  position: absolute;*/
-/*  inset: 0;*/
-/*  z-index: 10;*/
-/*  display: none;*/
-/*  font-weight: bold;*/
-/*  text-transform: uppercase;*/
-/*}*/
-
-/*.callback .success span {*/
-/*  margin: auto;*/
-/*  color: #ffffff;*/
-/*}*/
-
-/*.callback .success ~ * {*/
-/*  transition: all 0.5s ease;*/
-/*}*/
-
-/*.callback .success.active ~ * {*/
-/*  opacity: 0.5;*/
-/*  filter: blur(10px);*/
-/*}*/
-

@@ -15,6 +15,11 @@ import plumber from 'gulp-plumber';
 import { deleteAsync as del } from 'del';
 import fs from 'node:fs';
 import nunjucksRender from 'gulp-nunjucks-render';
+import dotenv from 'dotenv';
+import { spawn } from 'child_process';
+
+dotenv.config();
+let phpServer;
 
 const srcDir = 'src';
 const buildDir = 'build';
@@ -51,6 +56,8 @@ const paths = {
         // 'app/libs/fotorama/fotorama.js',
         'node_modules/mmenu-light/dist/mmenu-light.js',
         'node_modules/swiper/swiper.min.js',
+        'node_modules/choices.js/public/assets/scripts/choices.min.js',
+        'node_modules/imask/dist/imask.min.js',
       ],
       file: `${srcDir}/${jsDir}/${jsLibsFile}`,
     },
@@ -62,7 +69,8 @@ const paths = {
     layoutsSrc: `${srcDir}/${templatesDir}`,
   },
   build: {
-    base: [`${srcDir}/manifest.json`, `${srcDir}/mail.php`],
+    base: [`${srcDir}/manifest.json`, `${srcDir}/mail.php`, '.env'],
+    vendor: `vendor/**/*`,
     fonts: `${srcDir}/fonts/**/*`,
   },
 };
@@ -190,6 +198,9 @@ const nunjucks = () =>
     .pipe(
       nunjucksRender({
         path: paths.templates.layoutsSrc,
+        data: {
+          hcaptchaSiteKey: process.env.HCAPTCHA_SITEKEY || '',
+        },
       }),
     )
     .pipe(gulp.dest(buildDir))
@@ -198,20 +209,26 @@ const nunjucks = () =>
 // Serve Task with BrowserSync
 const serve = () => {
   browserSync.init({
-    server: buildDir,
+    proxy: 'http://localhost:3000', // ← проксируем PHP-сервер
     notify: false,
     open: false,
-    middleware: (req, res, next) => {
-      res.setHeader(
-        'Cache-Control',
-        'no-store, no-cache, must-revalidate, proxy-revalidate',
-      );
-      res.setHeader('Pragma', 'no-cache');
-      res.setHeader('Expires', '0');
-      res.setHeader('Surrogate-Control', 'no-store');
-      next();
-    },
+    port: 3001, // browserSync будет доступен на другом порту
   });
+};
+
+const startPHPServer = (cb) => {
+  if (phpServer) phpServer.kill(); // Если уже запущен — перезапускаем
+
+  phpServer = spawn('php', ['-S', 'localhost:3000', '-t', buildDir], {
+    stdio: 'inherit',
+    shell: true,
+  });
+
+  process.on('exit', () => phpServer && phpServer.kill());
+  process.on('SIGTERM', () => phpServer && phpServer.kill());
+  process.on('SIGINT', () => phpServer && phpServer.kill());
+
+  cb();
 };
 
 // Watch Task
@@ -231,6 +248,9 @@ const buildFonts = () =>
 
 const buildBase = () => gulp.src(paths.build.base).pipe(gulp.dest(buildDir));
 
+const copyVendor = () =>
+  gulp.src(paths.build.vendor).pipe(gulp.dest(`${buildDir}/vendor`));
+
 // Final Build Task
 const build = gulp.series(
   clean,
@@ -242,10 +262,11 @@ const build = gulp.series(
   nunjucks,
   buildBase,
   buildFonts,
+  copyVendor,
 );
 
 // Development Task
-const dev = gulp.parallel(serve, watchFiles);
+const dev = gulp.parallel(startPHPServer, serve, watchFiles);
 
 export { clean, styles, libsJS, indexJS, images, svg, nunjucks, build };
 

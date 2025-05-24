@@ -11,13 +11,9 @@
           материалов
         </div>
         <span class="utp-composition__header-sub-title">
-          <svg>
-              <use xlink:href='media/sprite/sprite.svg#truck'></use>
-          </svg>
+          <svg><use xlink:href='media/sprite/sprite.svg#truck'></use></svg>
           <span>Доставка по всему городу</span>
-          <svg>
-              <use xlink:href='media/sprite/sprite.svg#truck'></use>
-          </svg>
+          <svg><use xlink:href='media/sprite/sprite.svg#truck'></use></svg>
         </span>
       </div>
 
@@ -56,34 +52,32 @@
       {% include "partials/phone.njk" %}
 
       <div class="teaser-footer__schedule">
-        <svg>
-          <use xlink:href='media/sprite/sprite.svg#clock'></use>
-        </svg>
+        <svg><use xlink:href='media/sprite/sprite.svg#clock'></use></svg>
         Будни с 9:00 до 18:00 + суббота с 10:00 до 15:00
       </div>
   </div>
 
-  <div class="modal" id="modal">
+  <div class="modal show" id="modal">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button class="modal-close" id="closeModalBtn" aria-label="Закрыть">&times;</button>
 
       <form id="form_call" class="submit">
-        <div class="success" hidden><span>Спасибо за заявку!</span></div>
+        <div class="success"><span>Спасибо за заявку!</span></div>
         <input type="hidden" name="project_name" value="СтройРемонт24" />
-        <input type="hidden" name="admin_email" value="ckseverny@mail.ru" />
         <input type="hidden" name="form_subject" value="Заявка с одностраничника" />
         <input type="hidden" name="Страница" value="" />
 
-        <div class="formhead h2" id="modalTitle">
-          Оставить <span>заявку</span>
-        </div>
-        <p>Оставьте заявку и наши менеджеры свяжутся с Вами</p>
+        <div class="modal__title" id="modalTitle">Оставить <span>заявку</span></div>
+        <p class="modal__sub-title">Оставьте заявку и наши менеджеры свяжутся с Вами</p>
 
-        <input type="text" id="name" name="Имя" placeholder="Ваше имя..." required />
-        <input type="tel" name="Телефон" placeholder="Ваш телефон..." required />
-        <input type="email" name="e-mail" placeholder="Ваш e-mail..." />
+        <input type="text" id="name" name="Имя" placeholder="Ваше имя..." aria-label="Имя" />
 
-        <select name="Услуга" required>
+        <div class="error-message" id="phone-error"></div>
+        <input type="tel" id="phone" name="Телефон" placeholder="Ваш телефон:*" required aria-label="Телефон" />
+
+        <input type="email" name="e-mail" placeholder="Ваш e-mail..." aria-label="e-mail"/>
+
+        <select class="submit__select" name="Услуга" aria-label="Услуга">
           <option value disabled selected>Выберите услугу...</option>
           <option>Заказать обратный звонок</option>
           <option>Запросить прайс</option>
@@ -91,9 +85,9 @@
           <option>У вас другой вопрос?</option>
         </select>
 
-        <textarea rows="4" name="Комментарий" placeholder="Ваш комментарий..."></textarea>
-
-        <button type="submit" class="button button-white button-center">Отправить</button>
+        <textarea rows="4" name="Комментарий" placeholder="Ваш комментарий..." aria-label="Комментарий"></textarea>
+        <div class="h-captcha" data-sitekey={{ hcaptchaSiteKey }} data-size="compact"></div>
+        <button type="submit" class="button button--white"><span>Отправить</span></button>
       </form>
     </div>
   </div>

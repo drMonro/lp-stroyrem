@@ -1,12 +1,37 @@
-<?php
+<?php /** @noinspection PhpIncludeInspection */
+// Подключение autoload и загрузка .env
+require_once __DIR__ . '/vendor/autoload.php';
 
-// Определение метода запроса и выбор источника данных
-$method = $_SERVER['REQUEST_METHOD'];
-$data = $method === 'POST' ? $_POST : $_GET;
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Получение переменных из .env
+$hCaptchaSecret = $_ENV['HCAPTCHA_SECRET'] ?? '';
+
+$hCaptchaResponse = $_POST['h-captcha-response'] ?? '';
+
+error_log("h-captcha-response: ");
+
+$verify = file_get_contents("https://hcaptcha.com/siteverify?secret=$hCaptchaSecret&response=$hCaptchaResponse");
+$captchaSuccess = json_decode($verify);
+
+// Далее ваша логика обработки результата
+if (!($captchaSuccess->success ?? false)) {
+    http_response_code(403);
+    exit("hCaptcha verification failed.");
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405); // Method Not Allowed
+    exit("Only POST requests are allowed.");
+}
+
+$data = $_POST;
 
 // Проверка обязательных полей
+$admin_email = $_ENV['ADMIN_EMAIL'] ?? '';
 $project_name = trim($data["project_name"] ?? '');
-$admin_email  = trim($data["admin_email"] ?? '');
 $form_subject = trim($data["form_subject"] ?? '');
 
 if (!$project_name || !$admin_email || !$form_subject) {
@@ -24,11 +49,10 @@ foreach ($data as $key => $value) {
     }
 
     $style = $alternate ? '' : ' style="background-color: #f8f8f8;"';
-    $message .= "
-    <tr$style>
-        <td style='padding: 10px; border: #e9e9e9 1px solid;'><b>" . htmlspecialchars($key) . "</b></td>
-        <td style='padding: 10px; border: #e9e9e9 1px solid;'>" . htmlspecialchars($value) . "</td>
-    </tr>";
+    $message .= "<tr$style>
+                     <td style='padding: 10px; border: #e9e9e9 1px solid;'><b>" . htmlspecialchars($key) . "</b></td>
+                     <td style='padding: 10px; border: #e9e9e9 1px solid;'>" . htmlspecialchars($value) . "</td>
+                 </tr>";
 
     $alternate = !$alternate;
 }

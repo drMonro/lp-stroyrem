@@ -65,3 +65,34 @@
     padding: 19px 50px;
   }
 }
+
+.button--white {
+  background-color: white;
+
+  span {
+    color: black;
+  }
+
+  &:focus, &:hover {
+    color: white;
+    background-color: var(--accent-light);
+  }
+
+  &:hover span,
+  &:focus span {
+    color: white;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    background-color: var(--red);
+  }
+
+  &:active {
+    background-color: var(--green);
+  }
+
+  &:active::after {
+    background-color: var(--accent-light);
+  }
+}
