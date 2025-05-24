@@ -51,7 +51,6 @@ jobs:
 
       - name: Install PHP dependencies (phpdotenv)
         run: |
-          cd build
           composer install --no-dev --optimize-autoloader
 
       - name: Run build task
