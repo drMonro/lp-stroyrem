@@ -59,6 +59,19 @@ jobs:
       - name: Run build task
         run: npm run build
 
+      - name: Copy .env into build folder
+        run: cp .env build/
+
+      - name: Check .env in build folder
+        run: |
+          if [ -f build/.env ]; then
+            echo ".env file exists in build folder"
+            cat build/.env
+          else
+            echo ".env file NOT found in build folder"
+            exit 1
+          fi
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -82,16 +95,6 @@ jobs:
         with:
           ARGS: -rlgoDzvc -i
           SOURCE: ./build/
-          REMOTE_HOST: 'ckseveql.beget.tech'
-          REMOTE_USER: ckseveql_adm_lp
-          TARGET: test/
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Upload .env file to server
-        uses: easingthemes/ssh-deploy@main
-        with:
-          ARGS: -rlgoDzvc -i
-          SOURCE: ".env"
           REMOTE_HOST: 'ckseveql.beget.tech'
           REMOTE_USER: ckseveql_adm_lp
           TARGET: test/
