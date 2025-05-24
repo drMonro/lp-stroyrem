@@ -69,7 +69,12 @@ const paths = {
     layoutsSrc: `${srcDir}/${templatesDir}`,
   },
   build: {
-    base: [`${srcDir}/manifest.json`, `${srcDir}/mail.php`, '.env'],
+    base: [
+      `${srcDir}/manifest.json`,
+      `${srcDir}/mail.php`,
+      '.env',
+      '.htaccess',
+    ],
     vendor: `vendor/**/*`,
     fonts: `${srcDir}/fonts/**/*`,
   },
