@@ -53,8 +53,14 @@ jobs:
         run: |
           composer install --no-dev --optimize-autoloader
 
+      - name: Check .env file existence
+        run: ls -la . && cat .env || echo ".env not found"
+
       - name: Run build task
         run: npm run build
+
+      - name: Copy .env to build folder
+        run: cp .env build/.env
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
