@@ -93,7 +93,7 @@ jobs:
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         with:
-          ARGS: -rlgoDzvc -i
+          ARGS: -rlgoDzvc -i --include='.*'
           SOURCE: ./build/
           REMOTE_HOST: 'ckseveql.beget.tech'
           REMOTE_USER: ckseveql_adm_lp
