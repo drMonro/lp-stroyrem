@@ -12,15 +12,12 @@ jobs:
       - name: Clean target directory on server
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ckseveql.beget.tech
-          username: ckseveql_adm_lp
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             shopt -s dotglob
-            SSH_DIR="$(eval echo ~/.ssh)"
+            SSH_DIR=~/.ssh
             for item in ~/* ~/.??*; do
-              if [[ "$item" != "$SSH_DIR" ]]; then
-                echo "Removing: $item"
-                rm -rf "$item"
-              fi
+            [[ "$item" != "$SSH_DIR" ]] && rm -rf "$item"
             done
