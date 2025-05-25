@@ -75,6 +75,18 @@ jobs:
           name: build-artifact
           path: build/
 
+      - name: Clean target directory on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ckseveql.beget.tech
+          username: ckseveql_adm_lp
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            shopt -s dotglob
+            for item in ~/* ~/.??*; do
+              [[ "$item" != "$HOME/.ssh" ]] && rm -rf "$item"
+            done
+
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         with:
