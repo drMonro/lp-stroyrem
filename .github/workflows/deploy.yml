@@ -17,4 +17,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             shopt -s dotglob
-            rm -rf ~/test/*
+            for item in ~/* ~/.??*; do
+              [[ "$item" != "$HOME/.ssh" ]] && rm -rf "$item"
+            done
