@@ -23,4 +23,4 @@ jobs:
           composer install --no-dev --optimize-autoloader
 
       - name: List home directory contents
-        run: ls -la ~
+        run: ls -la ~/.composer
