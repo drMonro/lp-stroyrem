@@ -16,4 +16,5 @@ jobs:
           username: ckseveql_adm_lp
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            shopt -s dotglob
             rm -rf ~/test/*
