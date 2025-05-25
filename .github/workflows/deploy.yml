@@ -17,8 +17,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             shopt -s dotglob
-            for item in "$HOME"/* "$HOME"/.??*; do
-              if [[ "$item" != "$HOME/.ssh" ]]; then
+            SSH_DIR="$(eval echo ~/.ssh)"
+            for item in ~/* ~/.??*; do
+              if [[ "$item" != "$SSH_DIR" ]]; then
                 echo "Removing: $item"
                 rm -rf "$item"
               fi
