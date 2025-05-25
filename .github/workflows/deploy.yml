@@ -6,16 +6,6 @@ on:
       - master
 
 jobs:
-  install:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Use Node.js v22.15.0
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.15.0'
-
   deploy:
     runs-on: ubuntu-22.04
     steps:
@@ -27,6 +17,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             shopt -s dotglob
-            for item in ~/* ~/.??*; do
-              [[ "$item" != "~/.ssh" ]] && rm -rf "$item"
+            for item in "$HOME"/* "$HOME"/.??*; do
+              if [[ "$item" != "$HOME/.ssh" ]]; then
+                echo "Removing: $item"
+                rm -rf "$item"
+              fi
             done
