@@ -22,5 +22,10 @@ jobs:
         run: |
           composer install --no-dev --optimize-autoloader
 
-      - name: List home directory contents
-        run: ls -la ~/.composer
+      - name: List .cache/composer contents
+        run: ls -la ~/.cache/composer || echo "No composer cache in ~/.cache"
+
+      - name: List .composer contents after install
+        run: |
+          ls -la ~/.composer
+          ls -la ~/.composer/cache || echo "No cache directory yet"
