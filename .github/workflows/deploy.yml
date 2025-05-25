@@ -41,6 +41,10 @@ jobs:
           curl -sS https://getcomposer.org/installer | php
           sudo mv composer.phar /usr/local/bin/composer
 
+      - name: Install PHP dependencies (phpdotenv)
+        run: |
+          composer install --no-dev --optimize-autoloader
+
       - name: Cache Composer dependencies
         uses: actions/cache@v4
         with:
@@ -48,10 +52,6 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-
-      - name: Install PHP dependencies (phpdotenv)
-        run: |
-          composer install --no-dev --optimize-autoloader
 
       - name: Run build task
         run: npm run build
