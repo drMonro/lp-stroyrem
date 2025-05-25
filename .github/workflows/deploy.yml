@@ -28,7 +28,7 @@ jobs:
           script: |
             shopt -s dotglob
             for item in /* /.??*; do
-              if [[ "$item" != /.ssh" ]]; then
+              if [[ "$item" != "/.ssh" ]]; then
                 echo "Removing: $item"
                 rm -rf "$item" || echo "Failed to remove $item"
               fi
