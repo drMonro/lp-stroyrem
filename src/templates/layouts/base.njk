@@ -5,9 +5,7 @@
 
     <title>{% block title %}Заголовок по умолчанию{% endblock %}</title>
 
-    {#
-    <meta name="description" content="{{ description }}" />
-    #}
+    <meta name="description" content={% block description %}"Описание по умолчанию"{% endblock %} />
 
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/css/main.min.css" />
