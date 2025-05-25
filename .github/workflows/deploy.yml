@@ -98,5 +98,5 @@ jobs:
           SOURCE: ./build/
           REMOTE_HOST: ${{ secrets.SERVER_HOST }}
           REMOTE_USER: ${{ secrets.SERVER_USER }}
-          TARGET: /
+          TARGET: ~/
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
