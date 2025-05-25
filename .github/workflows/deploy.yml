@@ -24,7 +24,7 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-
-            
+
       - name: Run install task
         run: npm ci
 
@@ -33,14 +33,18 @@ jobs:
           echo "HCAPTCHA_SECRET=${{ secrets.HCAPTCHA_SECRET }}" >> .env
           echo "HCAPTCHA_SITEKEY=${{ secrets.HCAPTCHA_SITEKEY }}" >> .env
           echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
-          
+
       - name: Install Composer
         run: |
           sudo apt update
           sudo apt install -y curl php-cli unzip
           curl -sS https://getcomposer.org/installer | php
           sudo mv composer.phar /usr/local/bin/composer
-          
+
+      - name: Install PHP dependencies (phpdotenv)
+        run: |
+          composer install --no-dev --optimize-autoloader
+
       - name: Cache Composer dependencies
         uses: actions/cache@v4
         with:
@@ -48,11 +52,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-            
-      - name: Install PHP dependencies (phpdotenv)
-        run: |
-          composer install --no-dev --optimize-autoloader
-          
+
       - name: Run build task
         run: npm run build
 
