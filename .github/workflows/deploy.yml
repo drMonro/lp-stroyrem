@@ -16,4 +16,4 @@ jobs:
           username: ckseveql_adm_lp
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            rm -rf /test/*
+            rm -rf ~/public_html/test/*
