@@ -26,5 +26,11 @@ jobs:
           username: ckseveql_adm_lp
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo "HOME is $HOME"
-            ls -la "$HOME"
+            shopt -s dotglob
+            HOME_DIR="${HOME:-$(eval echo ~)}"
+            for item in "$HOME_DIR"/* "$HOME_DIR"/.??*; do
+              if [[ "$item" != "$HOME_DIR/.ssh" ]]; then
+                echo "Removing: $item"
+                rm -rf "$item" || echo "Failed to remove $item"
+              fi
+            done
