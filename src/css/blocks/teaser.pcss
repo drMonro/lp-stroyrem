@@ -6,7 +6,10 @@
   padding-left: 3.5%;
   color: white;
   background-color: var(--color-dark);
-  background-image: url('/media/images/teaser-bg.jpg');
+  background-image: image-set(
+    url('/media/images/teaser-bg.webp') type('image/webp'),
+    url('/media/images/teaser-bg.jpg') type('image/jpeg')
+  );
   background-position: center;
   background-size: cover;
 

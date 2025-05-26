@@ -9,10 +9,13 @@ import browserSync from 'browser-sync';
 import gulpEsbuildProd, { createGulpEsbuild } from 'gulp-esbuild';
 import rename from 'gulp-rename';
 import * as lightningcss from 'lightningcss';
-import imagemin, { mozjpeg, optipng, svgo } from 'gulp-imagemin';
+import imagemin, { svgo } from 'gulp-imagemin';
+import sharp from 'sharp';
+import glob from 'fast-glob';
 import plumber from 'gulp-plumber';
 import { deleteAsync as del } from 'del';
-import fs from 'node:fs';
+import path from 'path';
+import fs from 'fs/promises';
 import nunjucksRender from 'gulp-nunjucks-render';
 import dotenv from 'dotenv';
 import { spawn } from 'child_process';
@@ -61,6 +64,7 @@ const paths = {
       `${srcDir}/mail.php`,
       '.env',
       '.htaccess',
+      'robots.txt',
     ],
     vendor: `vendor/**/*`,
     fonts: `${srcDir}/fonts/**/*`,
@@ -77,17 +81,39 @@ const handleError = (err) => {
 const clean = () => del(buildDir);
 
 // Images Optimization Task
-const images = () =>
-  gulp
-    .src(paths.images.src, { encoding: false })
-    .pipe(
-      imagemin([
-        mozjpeg({ quality: 75, progressive: true }),
-        optipng({ optimizationLevel: 5 }),
-      ]),
-    )
-    .pipe(gulp.dest(paths.images.buildDir))
-    .on('end', () => browserSync.stream());
+const images = async () => {
+  const files = await glob(paths.images.src);
+
+  await Promise.all(
+    files.map(async (file) => {
+      const buffer = await fs.readFile(file);
+      const relativePath = path.relative(path.join(srcDir, imagesDir), file);
+      const outputPath = path.join(paths.images.buildDir, relativePath);
+      const outputDir = path.dirname(outputPath);
+
+      await fs.mkdir(outputDir, { recursive: true });
+
+      const ext = path.extname(file).toLowerCase();
+
+      let image = sharp(buffer);
+
+      if (ext === '.jpg' || ext === '.jpeg') {
+        image = image.jpeg({ quality: 75, progressive: true });
+      } else if (ext === '.png') {
+        image = image.png({ compressionLevel: 9, adaptiveFiltering: true });
+      }
+
+      // Сохраняем оптимизированное оригинальное изображение
+      await image.toFile(outputPath);
+
+      // Создаём webp рядом с ним
+      const webpPath = outputPath.replace(ext, '.webp');
+      await sharp(buffer).webp({ quality: 75 }).toFile(webpPath);
+    }),
+  );
+
+  browserSync.reload();
+};
 
 // svgSprite configuration
 const svg = () =>
@@ -143,25 +169,30 @@ const styles = () =>
     )
     .pipe(rename({ extname: '.css' }))
     .pipe(gulp.dest(paths.styles.CSSDirBuild))
-    .on('end', () => {
-      const inputCss = fs.readFileSync(paths.styles.CSSMainFile, 'utf-8');
-      const minifiedCSS = lightningcss.transform({
-        filename: `${mainStylesFilesName}.css`,
-        code: Buffer.from(inputCss),
-        minify: true,
-        targets: lightningcss.browserslistToTargets(browserslist()),
-      }).code;
+    .on('end', async () => {
+      try {
+        const inputCss = await fs.readFile(paths.styles.CSSMainFile, 'utf-8');
 
-      if (!fs.existsSync(paths.styles.CSSDirBuild)) {
-        fs.mkdirSync(paths.styles.CSSDirBuild, { recursive: true });
+        const minifiedCSS = lightningcss.transform({
+          filename: `${mainStylesFilesName}.css`,
+          code: Buffer.from(inputCss),
+          minify: true,
+          targets: lightningcss.browserslistToTargets(browserslist()),
+        }).code;
+
+        // Создаем директорию, если её нет
+        await fs.mkdir(paths.styles.CSSDirBuild, { recursive: true });
+
+        // Записываем минифицированный css
+        await fs.writeFile(
+          `${paths.styles.CSSDirBuild}/${mainStylesFilesName}.min.css`,
+          minifiedCSS,
+        );
+
+        browserSync.reload();
+      } catch (err) {
+        console.error('Ошибка в styles task:', err);
       }
-
-      fs.writeFileSync(
-        `${paths.styles.CSSDirBuild}/${mainStylesFilesName}.min.css`,
-        minifiedCSS,
-      );
-
-      browserSync.reload();
     });
 
 const createIndexJSTask = (esbuildInstance, shouldReload = false) => {
