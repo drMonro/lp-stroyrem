@@ -6,14 +6,16 @@ import postcssPresetEnv from 'postcss-preset-env';
 import browserslist from 'browserslist';
 import postcssSimpleVars from 'postcss-simple-vars';
 import browserSync from 'browser-sync';
-import concat from 'gulp-concat';
+import gulpEsbuildProd, { createGulpEsbuild } from 'gulp-esbuild';
 import rename from 'gulp-rename';
-import terser from 'gulp-terser';
 import * as lightningcss from 'lightningcss';
-import imagemin, { mozjpeg, optipng, svgo } from 'gulp-imagemin';
+import imagemin, { svgo } from 'gulp-imagemin';
+import sharp from 'sharp';
+import glob from 'fast-glob';
 import plumber from 'gulp-plumber';
 import { deleteAsync as del } from 'del';
-import fs from 'node:fs';
+import path from 'path';
+import fs from 'fs/promises';
 import nunjucksRender from 'gulp-nunjucks-render';
 import dotenv from 'dotenv';
 import { spawn } from 'child_process';
@@ -28,8 +30,6 @@ const imagesDir = 'media/images';
 const mainStylesFilesName = 'main';
 const spriteFileName = 'sprite.svg';
 const jsDir = 'js';
-const jsLibsFile = 'libs.js';
-const jsIndexFile = 'scripts.js';
 const templatesDir = 'templates';
 
 const paths = {
@@ -49,19 +49,9 @@ const paths = {
     CSSMainFile: `${buildDir}/css/${mainStylesFilesName}.css`,
   },
   js: {
-    dirSrc: `${srcDir}/${jsDir}`,
     buildSrc: `${buildDir}/${jsDir}`,
-    libs: {
-      sources: [
-        // 'app/libs/fotorama/fotorama.js',
-        'node_modules/mmenu-light/dist/mmenu-light.js',
-        'node_modules/swiper/swiper.min.js',
-        'node_modules/choices.js/public/assets/scripts/choices.min.js',
-        'node_modules/imask/dist/imask.min.js',
-      ],
-      file: `${srcDir}/${jsDir}/${jsLibsFile}`,
-    },
     commonFile: `${srcDir}/${jsDir}/common.js`,
+    modules: `${srcDir}/${jsDir}/**/*.js`,
   },
   templates: {
     src: `${srcDir}/${templatesDir}/**/*.njk`,
@@ -74,6 +64,7 @@ const paths = {
       `${srcDir}/mail.php`,
       '.env',
       '.htaccess',
+      'robots.txt',
     ],
     vendor: `vendor/**/*`,
     fonts: `${srcDir}/fonts/**/*`,
@@ -90,17 +81,39 @@ const handleError = (err) => {
 const clean = () => del(buildDir);
 
 // Images Optimization Task
-const images = () =>
-  gulp
-    .src(paths.images.src, { encoding: false })
-    .pipe(
-      imagemin([
-        mozjpeg({ quality: 75, progressive: true }),
-        optipng({ optimizationLevel: 5 }),
-      ]),
-    )
-    .pipe(gulp.dest(paths.images.buildDir))
-    .on('end', () => browserSync.stream());
+const images = async () => {
+  const files = await glob(paths.images.src);
+
+  await Promise.all(
+    files.map(async (file) => {
+      const buffer = await fs.readFile(file);
+      const relativePath = path.relative(path.join(srcDir, imagesDir), file);
+      const outputPath = path.join(paths.images.buildDir, relativePath);
+      const outputDir = path.dirname(outputPath);
+
+      await fs.mkdir(outputDir, { recursive: true });
+
+      const ext = path.extname(file).toLowerCase();
+
+      let image = sharp(buffer);
+
+      if (ext === '.jpg' || ext === '.jpeg') {
+        image = image.jpeg({ quality: 75, progressive: true });
+      } else if (ext === '.png') {
+        image = image.png({ compressionLevel: 9, adaptiveFiltering: true });
+      }
+
+      // Сохраняем оптимизированное оригинальное изображение
+      await image.toFile(outputPath);
+
+      // Создаём webp рядом с ним
+      const webpPath = outputPath.replace(ext, '.webp');
+      await sharp(buffer).webp({ quality: 75 }).toFile(webpPath);
+    }),
+  );
+
+  browserSync.reload();
+};
 
 // svgSprite configuration
 const svg = () =>
@@ -138,8 +151,8 @@ const svg = () =>
     .on('end', () => browserSync.reload());
 
 // Styles Task
-const styles = () => {
-  return gulp
+const styles = () =>
+  gulp
     .src(paths.styles.postCSSMainFile)
     .pipe(plumber({ errorHandler: handleError }))
     .pipe(
@@ -156,44 +169,69 @@ const styles = () => {
     )
     .pipe(rename({ extname: '.css' }))
     .pipe(gulp.dest(paths.styles.CSSDirBuild))
-    .on('end', () => {
-      const inputCss = fs.readFileSync(paths.styles.CSSMainFile, 'utf-8');
-      const minifiedCSS = lightningcss.transform({
-        filename: `${mainStylesFilesName}.css`,
-        code: Buffer.from(inputCss),
-        minify: true,
-        targets: lightningcss.browserslistToTargets(browserslist()),
-      }).code;
+    .on('end', async () => {
+      try {
+        const inputCss = await fs.readFile(paths.styles.CSSMainFile, 'utf-8');
 
-      if (!fs.existsSync(paths.styles.CSSDirBuild)) {
-        fs.mkdirSync(paths.styles.CSSDirBuild, { recursive: true });
+        const minifiedCSS = lightningcss.transform({
+          filename: `${mainStylesFilesName}.css`,
+          code: Buffer.from(inputCss),
+          minify: true,
+          targets: lightningcss.browserslistToTargets(browserslist()),
+        }).code;
+
+        // Создаем директорию, если её нет
+        await fs.mkdir(paths.styles.CSSDirBuild, { recursive: true });
+
+        // Записываем минифицированный css
+        await fs.writeFile(
+          `${paths.styles.CSSDirBuild}/${mainStylesFilesName}.min.css`,
+          minifiedCSS,
+        );
+
+        browserSync.reload();
+      } catch (err) {
+        console.error('Ошибка в styles task:', err);
       }
-
-      fs.writeFileSync(
-        `${paths.styles.CSSDirBuild}/${mainStylesFilesName}.min.css`,
-        minifiedCSS,
-      );
-
-      browserSync.reload();
     });
+
+const createIndexJSTask = (esbuildInstance, shouldReload = false) => {
+  return () =>
+    gulp
+      .src(paths.js.commonFile)
+      .pipe(
+        esbuildInstance({
+          entryPoints: [paths.js.commonFile],
+          bundle: true,
+          minify: true,
+          outfile: 'scripts.min.js',
+          target: 'es2015',
+          loader: { '.js': 'js' },
+        }),
+      )
+      .pipe(gulp.dest(paths.js.buildSrc))
+      .on('end', () => {
+        if (shouldReload) browserSync.reload();
+      });
 };
 
-// JavaScript Tasks
-const libsJS = () =>
-  gulp
-    .src(paths.js.libs.sources)
-    .pipe(concat(jsLibsFile))
-    .pipe(gulp.dest(paths.js.dirSrc));
+const wrapTask = (name, taskFn) => {
+  const wrapped = (cb) => {
+    const task = taskFn();
+    return typeof task === 'function' ? task(cb) : task;
+  };
+  Object.defineProperty(wrapped, 'name', { value: name });
+  return wrapped;
+};
 
-const indexJS = () =>
-  gulp
-    .src([paths.js.libs.file, paths.js.commonFile])
-    .pipe(concat(`${jsIndexFile}`))
-    .pipe(gulp.dest(paths.js.buildSrc))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(terser())
-    .pipe(gulp.dest(paths.js.buildSrc))
-    .on('end', () => browserSync.reload());
+const indexJSDev = createIndexJSTask(
+  createGulpEsbuild({ incremental: true }),
+  true,
+);
+const indexJSBuild = createIndexJSTask(gulpEsbuildProd);
+
+const indexJSDevTask = wrapTask('indexJSDevTask', indexJSDev);
+const indexJSBuildTask = wrapTask('indexJSBuildTask', indexJSBuild);
 
 // Templates Task (Nunjucks Rendering)
 const nunjucks = () =>
@@ -241,7 +279,7 @@ const watchFiles = () => {
   gulp.watch(paths.images.src, images);
   gulp.watch(paths.svg.src, svg);
   gulp.watch(paths.styles.postCSSFiles, styles);
-  gulp.watch(paths.js.commonFile, indexJS);
+  gulp.watch(paths.js.modules, indexJSDevTask);
   gulp.watch(paths.templates.src, nunjucks);
 };
 
@@ -262,8 +300,7 @@ const build = gulp.series(
   images,
   svg,
   styles,
-  libsJS,
-  indexJS,
+  indexJSBuildTask,
   nunjucks,
   buildBase,
   buildFonts,
@@ -273,6 +310,6 @@ const build = gulp.series(
 // Development Task
 const dev = gulp.parallel(startPHPServer, serve, watchFiles);
 
-export { clean, styles, libsJS, indexJS, images, svg, nunjucks, build };
+export { clean, styles, images, svg, nunjucks, build };
 
 export default gulp.series(build, dev);
