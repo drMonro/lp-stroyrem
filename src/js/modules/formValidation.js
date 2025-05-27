@@ -68,7 +68,7 @@ const formValidation = () => {
             const formData = new FormData(form);
             formData.append('h-captcha-response', hCaptchaToken);
             try {
-                const response = await fetch('./mail.php', {
+                const response = await fetch('/mail.php', {
                     method: 'POST',
                     body: formData,
                 });
