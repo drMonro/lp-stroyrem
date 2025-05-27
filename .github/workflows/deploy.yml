@@ -33,6 +33,11 @@ jobs:
           echo "HCAPTCHA_SECRET=${{ secrets.HCAPTCHA_SECRET }}" >> .env
           echo "HCAPTCHA_SITEKEY=${{ secrets.HCAPTCHA_SITEKEY }}" >> .env
           echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
+          echo "SITE_URL=${{ secrets.SITE_URL }}" >> .env
+
+      - name: Inject Sitemap into robots.txt
+        run: |
+          echo "Sitemap: ${{ secrets.SITE_URL }}/sitemap.xml" >> robots.txt
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4

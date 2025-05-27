@@ -6,13 +6,14 @@ import initFormValidation from './modules/formValidation';
 import adjustSwiperImageHeights from './modules/adjustSwiperImageHeights.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  initPreloader();
-  initMmenu();
-  initModal();
-  initSwiper();
-  initFormValidation();
-  adjustSwiperImageHeights();
+    initPreloader();
+    initMmenu();
+    initModal();
+    initSwiper();
+    initFormValidation();
+    adjustSwiperImageHeights();
 });
+
 
 // 	//Кнопка наверх
 // 	$(window).scroll(function() {
