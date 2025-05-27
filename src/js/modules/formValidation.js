@@ -42,9 +42,9 @@ const formValidation = () => {
       const raw = mask.unmaskedValue;
       const isValid = raw.length === 11;
 
-      if (!isValid) {
-        showError('Введите номер полностью');
-      }
+      // if (!isValid) {
+      //     showError('Введите номер полностью');
+      // }
 
       return isValid;
     };

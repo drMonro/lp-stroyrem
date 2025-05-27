@@ -7,6 +7,8 @@
     "build": "node --no-experimental-require-module node_modules/gulp/bin/gulp.js --gulpfile gulpfile.js build"
   },
   "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "@stylistic/eslint-plugin-js": "^4.4.0",
     "@stylistic/stylelint-plugin": "^3.1.2",
     "browser-sync": "^3.0.4",
     "browserslist": "^4.24.5",
@@ -14,7 +16,9 @@
     "del": "^8.0.0",
     "dotenv": "^16.5.0",
     "esbuild": "^0.25.4",
+    "eslint": "^9.27.0",
     "fast-glob": "^3.3.3",
+    "globals": "^16.2.0",
     "gulp": "^5.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-esbuild": "^0.14.0",

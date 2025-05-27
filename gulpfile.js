@@ -263,7 +263,7 @@ const startPHPServer = (cb) => {
   if (phpServer) phpServer.kill(); // Если уже запущен — перезапускаем
 
   phpServer = spawn('php', ['-S', 'localhost:3000', '-t', buildDir], {
-    stdio: 'inherit',
+    stdio: ['ignore', 'ignore', 'ignore'], // отключаем все выводы
     shell: true,
   });
 
