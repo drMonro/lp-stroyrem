@@ -43,16 +43,17 @@ $message = '';
 $alternate = true;
 
 foreach ($data as $key => $value) {
-    if (in_array($key, ['project_name', 'admin_email', 'form_subject']) || $value === '') {
+    if (in_array($key, ['project_name', 'admin_email', 'form_subject', 'h-captcha-response']) || $value === '') {
         continue;
     }
+
     $key_safe = htmlspecialchars($key, ENT_QUOTES, 'UTF-8');
     $value_safe = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+    $style = $alternate ? '' : ' style="background-color: #f8f8f8;"';
 
-    $style = $alternate ? '' : 'style="background-color: #f8f8f8;';
     $message .= "<tr$style>
-                     <td style='padding: 10px; border: #e9e9e9 1px solid;'><b>" . htmlspecialchars($key) . "</b></td>
-                     <td style='padding: 10px; border: #e9e9e9 1px solid;'>" . htmlspecialchars($value) . "</td>
+                     <td style='padding: 10px; border: #e9e9e9 1px solid;'><b>$key_safe</b></td>
+                     <td style='padding: 10px; border: #e9e9e9 1px solid;'>$value_safe</td>
                  </tr>";
 
     $alternate = !$alternate;
