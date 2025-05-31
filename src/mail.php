@@ -1,5 +1,4 @@
-<?php /** @noinspection PhpIncludeInspection */
-// Подключение autoload и загрузка .env
+<?php
 require_once __DIR__ . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -50,14 +49,14 @@ foreach ($data as $key => $value) {
 
     $style = $alternate ? '' : ' style="background-color: #f8f8f8;"';
     $message .= "<tr$style>
-                     <td style='padding: 10px; border: #e9e9e9 1px solid;'><b>" . htmlspecialchars($key) . "</b></td>
-                     <td style='padding: 10px; border: #e9e9e9 1px solid;'>" . htmlspecialchars($value) . "</td>
+                     <td style=\"padding: 10px; border: #e9e9e9 1px solid;\"><b>" . htmlspecialchars($key) . "</b></td>
+                     <td style=\"padding: 10px; border: #e9e9e9 1px solid;\">" . htmlspecialchars($value) . "</td>
                  </tr>";
 
     $alternate = !$alternate;
 }
 
-$message = "<table style='width: 100%;'>$message</table>";
+$message = "<table style=\"width: 100%;\">$message</table>";
 
 // Кодировка заголовков письма
 function adopt(string $text): string {

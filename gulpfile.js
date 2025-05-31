@@ -74,8 +74,8 @@ const paths = {
 
 // Helper Functions
 const handleError = (err) => {
-    console.error(err);
     this.emit('end');
+    throw new Error(err);
 };
 
 // Clean Task
@@ -201,7 +201,7 @@ const styles = () =>
 
                 browserSync.reload();
             } catch (err) {
-                console.error('Ошибка в styles task:', err);
+                throw new Error(err);
             }
         });
 
@@ -215,7 +215,7 @@ const createIndexJSTask = (esbuildInstance, shouldReload = false) => {
                     bundle: true,
                     minify: true,
                     outfile: 'scripts.min.js',
-                    target: 'es2015',
+                    target: 'es2022',
                     loader: {'.js': 'js'},
                 })
             )

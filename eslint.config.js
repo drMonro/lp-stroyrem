@@ -75,7 +75,7 @@ export default [
                 'error',
                 { beforeColon: false, afterColon: true },
             ],
-            '@stylistic/js/linebreak-style': ['error', 'unix'],
+            // '@stylistic/js/linebreak-style': ['error', 'unix'],
             '@stylistic/js/no-multi-spaces': 'error',
             '@stylistic/js/no-whitespace-before-property': 'error',
             '@stylistic/js/padded-blocks': ['error', 'never'],
