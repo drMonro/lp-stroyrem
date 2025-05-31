@@ -4,8 +4,7 @@ import MmenuLight from 'mmenu-light';
 const initMmenu = () => {
     const menuElement = document.querySelector('#mm-menu');
     if (!menuElement) {
-        console.warn('Меню не найдено в DOM.');
-        return;
+        throw new Error('Меню не найдено в DOM.');
     }
 
     const menu = new MmenuLight(menuElement, 'all');
