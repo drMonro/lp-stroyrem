@@ -57,6 +57,7 @@ foreach ($data as $key => $value) {
                  </tr>";
 
     $alternate = !$alternate;
+
 }
 
 $message = "<table style='width: 100%;'>$message</table>";
