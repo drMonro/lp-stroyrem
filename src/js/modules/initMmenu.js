@@ -11,10 +11,15 @@ const initMmenu = () => {
     menu.navigation({ theme: 'dark', title: 'МЕНЮ:' });
     const drawer = menu.offcanvas({ position: 'right' });
 
-    document.querySelector('.hamburger')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        drawer.open();
-    });
+    const hamburgerButton = document.querySelector('.header__hamburger-button');
+    if (hamburgerButton) {
+        hamburgerButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            drawer.open();
+        });
+    }
+    // Сигнализируем, что меню готово, можно показывать
+    document.documentElement.classList.add('js-menu-ready');
 };
 
 export default initMmenu;

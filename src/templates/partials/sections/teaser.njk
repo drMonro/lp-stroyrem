@@ -12,7 +12,7 @@
         </div>
         <span class="utp-composition__header-sub-title">
           <svg><use xlink:href='media/sprite/sprite.svg#truck'></use></svg>
-          <span>Доставка по всему городу</span>
+          <span>Доставка по всему городу!</span>
           <svg><use xlink:href='media/sprite/sprite.svg#truck'></use></svg>
         </span>
       </div>
@@ -86,7 +86,19 @@
         </select>
 
         <textarea rows="4" name="Комментарий" placeholder="Ваш комментарий..." aria-label="Комментарий"></textarea>
-        <div class="h-captcha" data-sitekey={{ hcaptchaSiteKey }} data-size="compact"></div>
+{#        <div class="h-captcha" data-sitekey={{ hcaptchaSiteKey }} data-size="compact"></div>#}
+        <div class="hcaptcha-wrapper">
+          <div class="hcaptcha-placeholder">
+            <div class="pulse"></div>
+          </div>
+
+          <div
+                  class="h-captcha"
+                  data-sitekey={{ hcaptchaSiteKey }}
+
+          ></div>
+        </div>
+
         <button type="submit" class="button button--white"><span>Отправить</span></button>
       </form>
     </div>
