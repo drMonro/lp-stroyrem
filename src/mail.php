@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -39,11 +40,11 @@ if (!$project_name || !$admin_email || !$form_subject) {
 }
 
 // Формирование HTML-сообщения
-$message = '';
+$html = '';
 $alternate = true;
 
 foreach ($data as $key => $value) {
-    if (in_array($key, ['project_name', 'admin_email', 'form_subject', 'h-captcha-response']) || $value === '') {
+    if (in_array($key, ['project_name', 'admin_email', 'form_subject', 'h-captcha-response', 'g-recaptcha-response']) || $value === '') {
         continue;
     }
 
@@ -51,27 +52,40 @@ foreach ($data as $key => $value) {
     $value_safe = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     $style = $alternate ? '' : ' style="background-color: #f8f8f8;"';
 
-    $message .= "<tr$style>
-                     <td style='padding: 10px; border: #e9e9e9 1px solid;'><b>$key_safe</b></td>
-                     <td style='padding: 10px; border: #e9e9e9 1px solid;'>$value_safe</td>
-                 </tr>";
+    $html .= "<tr$style>
+                  <td style=\"padding: 10px; border: #e9e9e9 1px solid;\"><b>$key_safe</b></td>
+                  <td style=\"padding: 10px; border: #e9e9e9 1px solid;\">$value_safe</td>
+              </tr>";
 
     $alternate = !$alternate;
-
 }
 
-$message = "<table style='width: 100%;'>$message</table>";
+$html = "<table style=\"width: 100%;\">$html</table>";
 
-// Кодировка заголовков письма
+// --- multipart/alternative body ---
+$boundary = uniqid('np');
+
+$text_body = "Вы получили письмо с формы сайта \"$project_name\".\nПисьмо в HTML-формате. Откройте его в поддерживаемом почтовом клиенте.";
+
+$body = "--$boundary\r\n";
+$body .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+$body .= $text_body . "\r\n\r\n";
+
+$body .= "--$boundary\r\n";
+$body .= "Content-Type: text/html; charset=UTF-8\r\n";
+$body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+$body .= $html . "\r\n\r\n";
+$body .= "--$boundary--";
+
+// --- Заголовки письма ---
+$headers = "MIME-Version: 1.0\r\n";
+$headers .= "Content-Type: multipart/alternative; boundary=$boundary\r\n";
 function adopt(string $text): string {
     return '=?UTF-8?B?' . base64_encode($text) . '?=';
 }
+$headers .= 'From: ' . adopt($project_name) . " <$admin_email>\r\n";
+$headers .= "Reply-To: $admin_email\r\n";
 
-// Заголовки письма
-$headers = "MIME-Version: 1.0" . PHP_EOL .
-    "Content-Type: text/html; charset=utf-8" . PHP_EOL .
-    'From: ' . adopt($project_name) . ' <' . $admin_email . '>' . PHP_EOL .
-    'Reply-To: ' . $admin_email . PHP_EOL;
-
-// Отправка письма
-mail($admin_email, adopt($form_subject), $message, $headers);
+// --- Отправка ---
+mail($admin_email, adopt($form_subject), $body, $headers, "-f$admin_email");
