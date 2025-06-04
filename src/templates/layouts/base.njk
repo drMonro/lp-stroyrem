@@ -51,10 +51,8 @@
     <main role="main">{% block content %}{% endblock %}</main>
 
 
-    <noscript><div><img src="https://mc.yandex.ru/watch/102153277" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-    <script>window.hcaptchaSiteKey = "{{ hcaptchaSiteKey }}";</script>
-    <script src="https://js.hcaptcha.com/1/api.js?onload=onHCaptchaLoad&render=explicit" data-sitekey="{{ hcaptchaSiteKey }}" async defer></script>
+{#    <script src="https://js.hcaptcha.com/1/api.js?onload=onHCaptchaLoad&render=explicit" async defer></script>#}
+
     <script src="/js/scripts.min.js" defer></script>
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript" >
@@ -71,5 +69,7 @@
         webvisor:true
       });
     </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/102153277" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
   </body>
 </html>
