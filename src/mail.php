@@ -48,7 +48,7 @@ $html = '';
 $alternate = true;
 
 foreach ($data as $key => $value) {
-    if (in_array($key, ['project_name', 'admin_email', 'form_subject', 'h-captcha-response', 'g-recaptcha-response']) || $value === '') {
+    if (in_array($key, ['project_name', 'admin_email', 'form_subject', 'h-captcha-response']) || $value === '') {
         continue;
     }
 

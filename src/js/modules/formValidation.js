@@ -3,13 +3,15 @@ import IMask from 'imask';
 import loadHCaptcha from './loadHCaptcha';
 
 const formValidation = () => {
-    const selectElement = document.querySelector('.submit__select');
-    new Choices(selectElement, {
-        searchEnabled: false,
-        itemSelectText: '',
-    });
-
     document.querySelectorAll('form.submit').forEach((form) => {
+        const selectElement = form.querySelector('.submit__select');
+        if (selectElement) {
+            new Choices(selectElement, {
+                searchEnabled: false,
+                itemSelectText: '',
+            });
+        }
+
         const phoneInput = form.querySelector('#phone');
         const errorDiv = form.querySelector('#phone-error');
         const errorCaptchaDiv = form.querySelector('#captcha-error');
@@ -55,6 +57,7 @@ const formValidation = () => {
                 sitekey: hcaptchaDiv.dataset.sitekey,
                 size: 'compact',
                 callback: () => errorCaptchaDiv.textContent = '',
+                recaptchacompat: 'off',
             });
 
             hcaptchaRendered = true;
