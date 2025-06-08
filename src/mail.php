@@ -8,19 +8,23 @@ $dotenv->load();
 // Получение переменных из .env
 $hCaptchaSecret = $_ENV['HCAPTCHA_SECRET'] ?? '';
 
+// Получение токена с фронта
 $hCaptchaResponse = $_POST['h-captcha-response'] ?? '';
 
-error_log("h-captcha-response: ");
+// ===== ✅ Обработка фиктивного токена session-pass =====
+if ($hCaptchaResponse !== 'session-pass') {
+    $verify = file_get_contents("https://hcaptcha.com/siteverify?secret=$hCaptchaSecret&response=$hCaptchaResponse");
+    $captchaSuccess = json_decode($verify);
 
-$verify = file_get_contents("https://hcaptcha.com/siteverify?secret=$hCaptchaSecret&response=$hCaptchaResponse");
-$captchaSuccess = json_decode($verify);
-
-// Далее ваша логика обработки результата
-if (!($captchaSuccess->success ?? false)) {
-    http_response_code(403);
-    exit("hCaptcha verification failed.");
+    // Если не success — капча не пройдена
+    if (!($captchaSuccess->success ?? false)) {
+        http_response_code(403);
+        exit("hCaptcha verification failed.");
+    }
+} else {
+    // Можно логировать или игнорировать, капча считается уже пройденной
+    error_log("hCaptcha bypassed via session-pass");
 }
-
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405); // Method Not Allowed
