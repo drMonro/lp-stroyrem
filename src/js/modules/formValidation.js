@@ -3,13 +3,15 @@ import IMask from 'imask';
 import loadHCaptcha from './loadHCaptcha';
 
 const formValidation = () => {
-    const selectElement = document.querySelector('.submit__select');
-    new Choices(selectElement, {
-        searchEnabled: false,
-        itemSelectText: '',
-    });
-
     document.querySelectorAll('form.submit').forEach((form) => {
+        const selectElement = form.querySelector('.submit__select');
+        if (selectElement) {
+            new Choices(selectElement, {
+                searchEnabled: false,
+                itemSelectText: '',
+            });
+        }
+
         const phoneInput = form.querySelector('#phone');
         const errorDiv = form.querySelector('#phone-error');
         const errorCaptchaDiv = form.querySelector('#captcha-error');
@@ -42,12 +44,20 @@ const formValidation = () => {
         };
 
         const renderHCaptcha = () => {
+            // Если капча уже пройдена в сессии — не рендерим
+            if (sessionStorage.getItem('hcaptchaPassed')) {
+                toggleElement(placeholder, false);
+                toggleElement(hcaptchaDiv, false);
+                return;
+            }
+
             if (hcaptchaRendered || !window.hcaptcha || !hcaptchaDiv) return;
 
             hcaptchaWidgetId = window.hcaptcha.render(hcaptchaDiv, {
                 sitekey: hcaptchaDiv.dataset.sitekey,
                 size: 'compact',
                 callback: () => errorCaptchaDiv.textContent = '',
+                recaptchacompat: 'off',
             });
 
             hcaptchaRendered = true;
@@ -116,14 +126,27 @@ const formValidation = () => {
             e.preventDefault();
 
             const phoneOk = isPhoneValid();
-            const hCaptchaToken = form.querySelector('[name="h-captcha-response"]')?.value;
+            let hCaptchaToken = form.querySelector('[name="h-captcha-response"]')?.value;
 
-            if (!phoneOk || !hCaptchaToken) {
-                if (!hCaptchaToken) {
+            const captchaRequired = !sessionStorage.getItem('hcaptchaPassed');
+
+            // === ✅ Добавим фиктивный токен, если капча уже пройдена ранее
+            if (!captchaRequired && !hCaptchaToken) {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'h-captcha-response';
+                hiddenInput.value = 'session-pass';
+                form.appendChild(hiddenInput);
+                hCaptchaToken = 'session-pass';
+            }
+
+            if (!phoneOk || (captchaRequired && !hCaptchaToken)) {
+                if (captchaRequired && !hCaptchaToken) {
                     errorCaptchaDiv.textContent = 'Нужно решить капчу перед отправкой';
                 }
                 return;
             }
+
             /** @type {FormData} */
 
             const formData = new FormData(form);
@@ -144,6 +167,9 @@ const formValidation = () => {
             })
                 .then((response) => {
                     if (!response.ok) throw new Error('Ошибка отправки формы: сервер вернул ошибку');
+                    // Капча пройдена успешно — ставим флаг в sessionStorage
+                    sessionStorage.setItem('hcaptchaPassed', 'true');
+
                     const pulse = formStatusMsg.querySelector('.pulse');
                     pulse.remove();
                     statusSpan.textContent = 'Спасибо за заявку!';
