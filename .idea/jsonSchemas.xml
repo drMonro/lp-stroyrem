@@ -19,11 +19,11 @@
             </SchemaInfo>
           </value>
         </entry>
-        <entry key="GitHub Workflow JSON Schema">
+        <entry key="GitHub Workflow">
           <value>
             <SchemaInfo>
-              <option name="name" value="GitHub Workflow JSON Schema" />
-              <option name="relativePathToSchema" value="jar://$APPLICATION_PLUGINS_DIR$/vcs-github-IU/lib/vcs-github.jar!/schemas/github-workflow.json" />
+              <option name="name" value="GitHub Workflow" />
+              <option name="relativePathToSchema" value="https://json.schemastore.org/github-workflow.json" />
               <option name="applicationDefined" value="true" />
               <option name="patterns">
                 <list>

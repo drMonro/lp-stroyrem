@@ -1,0 +1,35 @@
+<form id="form_call" class="submit">
+    <div class="form__status success"><span></span></div>
+    <input type="hidden" name="project_name" value="СтройРемонт24" />
+    <input type="hidden" name="form_subject" value="Заявка с одностраничника" />
+    <input type="hidden" name="placement" value={{ placement }} />
+
+    <div class="modal__title" id="modalTitle">Оставить <span>заявку</span></div>
+    <p class="modal__sub-title">Оставьте заявку и наши менеджеры свяжутся с Вами</p>
+
+    <input type="text" id="name" name="Имя" placeholder="Ваше имя..." aria-label="Имя" />
+
+    <div class="error-message" id="phone-error"></div>
+    <input type="tel" id="phone" name="Телефон" placeholder="Ваш телефон:*" required aria-label="Телефон" />
+
+    <input type="email" name="e-mail" placeholder="Ваш e-mail..." aria-label="e-mail"/>
+
+    <select class="submit__select" name="Услуга" aria-label="Услуга">
+        <option value disabled selected>Выберите услугу...</option>
+        <option>Заказать обратный звонок</option>
+        <option>Запросить прайс</option>
+        <option>Узнать стоимость доставки</option>
+        <option>У вас другой вопрос?</option>
+    </select>
+
+    <textarea rows="4" name="Комментарий" placeholder="Ваш комментарий..." aria-label="Комментарий"></textarea>
+    <div class="error-message captcha-error" id="captcha-error"></div>
+    <div class="h-captcha-wrapper">
+        <div class="hcaptcha-placeholder">
+            <div class="pulse"></div>
+        </div>
+        <div class="h-captcha" data-sitekey={{ hcaptchaSiteKey }}></div>
+    </div>
+
+    <button type="submit" class="button button--white form__submit-button"><span>Отправить</span></button>
+</form>
