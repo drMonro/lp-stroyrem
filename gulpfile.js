@@ -6,7 +6,9 @@ import postcssPresetEnv from 'postcss-preset-env';
 import browserslist from 'browserslist';
 import postcssSimpleVars from 'postcss-simple-vars';
 import browserSync from 'browser-sync';
-import gulpEsbuildProd, {createGulpEsbuild} from 'gulp-esbuild';
+// import gulpEsbuildProd, {createGulpEsbuild} from 'gulp-esbuild';
+
+import esbuild from 'esbuild';
 import rename from 'gulp-rename';
 import * as lightningcss from 'lightningcss';
 import imagemin, {svgo} from 'gulp-imagemin';
@@ -18,6 +20,7 @@ import {deleteAsync as del} from 'del';
 import path from 'path';
 import fs from 'fs/promises';
 import nunjucksRender from 'gulp-nunjucks-render';
+import generateProductsData from './src/js/utils/generateProductsData.js';
 import dotenv from 'dotenv';
 import {spawn} from 'child_process';
 
@@ -205,24 +208,41 @@ const styles = () =>
             }
         });
 
-const createIndexJSTask = (esbuildInstance, shouldReload = false) => {
-    return () =>
-        gulp
-            .src(paths.js.commonFile)
-            .pipe(
-                esbuildInstance({
-                    entryPoints: [paths.js.commonFile],
-                    bundle: true,
-                    minify: true,
-                    outfile: 'scripts.min.js',
-                    target: 'es2022',
-                    loader: {'.js': 'js'},
-                })
-            )
-            .pipe(gulp.dest(paths.js.buildSrc))
-            .on('end', () => {
-                if (shouldReload) browserSync.reload();
-            });
+const createIndexJSTask = (shouldReload = false) => {
+    return async() => {
+        const result = await esbuild.build({
+            entryPoints: [paths.js.commonFile],
+            bundle: true,
+            minify: true,
+            target: 'es2022',
+            loader: {
+                '.js': 'js',
+                '.css': 'css',
+            },
+            write: false,
+            outdir: 'out', // нужно для генерации outputFiles
+        });
+
+        await Promise.all(
+            result.outputFiles.map(async(file) => {
+                if (file.path.endsWith('.js')) {
+                    await fs.mkdir(paths.js.buildSrc, { recursive: true });
+                    await fs.writeFile(
+                        path.join(paths.js.buildSrc, 'scripts.min.js'),
+                        file.contents
+                    );
+                } else if (file.path.endsWith('.css')) {
+                    await fs.mkdir(path.join(buildDir, 'css'), { recursive: true });
+                    await fs.writeFile(
+                        path.join(buildDir, 'css', 'libs.min.css'),
+                        file.contents
+                    );
+                }
+            })
+        );
+
+        if (shouldReload) browserSync.reload();
+    };
 };
 
 const wrapTask = (name, taskFn) => {
@@ -230,39 +250,48 @@ const wrapTask = (name, taskFn) => {
         const task = taskFn();
         return typeof task === 'function' ? task(cb) : task;
     };
-    Object.defineProperty(wrapped, 'name', {value: name});
+    Object.defineProperty(wrapped, 'name', { value: name });
     return wrapped;
 };
 
-const indexJSDev = createIndexJSTask(
-    createGulpEsbuild({incremental: true}),
-    true
-);
-const indexJSBuild = createIndexJSTask(gulpEsbuildProd);
-
-const indexJSDevTask = wrapTask('indexJSDevTask', indexJSDev);
-const indexJSBuildTask = wrapTask('indexJSBuildTask', indexJSBuild);
+// используем напрямую чистую функцию без gulp-esbuild
+const indexJSDevTask = wrapTask('indexJSDevTask', () => createIndexJSTask(true));
+const indexJSBuildTask = wrapTask('indexJSBuildTask', () => createIndexJSTask(false));
 
 // Templates Task (Nunjucks Rendering)
-const nunjucks = () =>
-    gulp
+let cachedProductsSwiperData = null; // Кэш данных вне функции
+
+const nunjucks = async() => {
+    // Если данных ещё нет, генерируем и кэшируем
+    if (!cachedProductsSwiperData) {
+        try {
+            cachedProductsSwiperData = await generateProductsData();
+        } catch (e) {
+            throw new Error(`⚠️ Не удалось получить productsSwiperData: ${e.message}`);
+        }
+    }
+
+    return gulp
         .src(paths.templates.pagesSrc)
-        .pipe(plumber({errorHandler: handleError}))
+        .pipe(plumber({ errorHandler: handleError }))
         .pipe(
             nunjucksRender({
                 path: paths.templates.layoutsSrc,
                 data: {
                     hcaptchaSiteKey: process.env.HCAPTCHA_SITEKEY || '',
+                    productsSwiperData: cachedProductsSwiperData, // Используем кэш
                 },
             })
         )
         .pipe(gulp.dest(buildDir))
         .on('end', () => browserSync.reload());
+};
 
 // Serve Task with BrowserSync
 const serve = () => {
     browserSync.init({
         proxy: 'http://localhost:3000', // ← проксируем PHP-сервер
+        host: '192.168.0.2',
         notify: false,
         open: false,
         port: 3001, // browserSync будет доступен на другом порту

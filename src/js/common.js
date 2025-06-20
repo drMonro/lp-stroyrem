@@ -2,13 +2,11 @@ import initMmenu from './modules/initMmenu';
 import initModal from './modules/initModal';
 import initSwiper from './modules/initSwiper';
 import initFormValidation from './modules/formValidation';
-import adjustSwiperImageHeights from './modules/adjustSwiperImageHeights.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initMmenu();
     initModal();
     initSwiper();
-    adjustSwiperImageHeights();
     initFormValidation();
 });
 

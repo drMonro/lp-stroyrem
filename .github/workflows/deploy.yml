@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+  schedule:
+    - cron: '0 3 * * 1'
 
 jobs:
   install:
@@ -34,6 +36,7 @@ jobs:
           echo "HCAPTCHA_SITEKEY=${{ secrets.HCAPTCHA_SITEKEY }}" >> .env
           echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
           echo "SITE_URL=${{ secrets.SITE_URL }}" >> .env
+          echo "CATALOG_YML_URL=${{ secrets.CATALOG_YML_URL }}" >> .env
 
       - name: Inject Sitemap into robots.txt
         run: |

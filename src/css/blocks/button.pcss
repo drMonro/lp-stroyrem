@@ -66,16 +66,14 @@
   }
 }
 
-.button--white {
+.button.button--white {
+  color: black;
+  text-transform: uppercase;
   background-color: white;
-
-  span {
-    color: black;
-  }
 
   &:focus, &:hover {
     color: white;
-    background-color: var(--accent-light);
+    background-color: var(--grey-light);
   }
 
   &:hover span,
@@ -93,6 +91,10 @@
   }
 
   &:active::after {
-    background-color: var(--accent-light);
+    background-color: var(--grey-light);
   }
+}
+
+a.button {
+  color: white;
 }

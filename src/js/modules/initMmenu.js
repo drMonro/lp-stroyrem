@@ -1,11 +1,11 @@
 import MmenuLight from 'mmenu-light';
-
+import 'mmenu-light/dist/mmenu-light.css';
 
 const initMmenu = () => {
     const menuElement = document.querySelector('#mm-menu');
-    if (!menuElement) {
-        throw new Error('Меню не найдено в DOM.');
-    }
+
+    if (!menuElement) return;
+
 
     const menu = new MmenuLight(menuElement, 'all');
     menu.navigation({ theme: 'dark', title: 'МЕНЮ:' });

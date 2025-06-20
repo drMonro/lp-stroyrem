@@ -1,8 +1,8 @@
 // === Carousel content height matching ===
 const adjustCarouselImageHeights = () => {
-    document.querySelectorAll('.carousel-services-item').forEach((item) => {
-        const content = item.querySelector('.carousel-services-content');
-        const image = item.querySelector('.carousel-services-image');
+    document.querySelectorAll('.swiper-slide').forEach((item) => {
+        const content = item.querySelector('.swiper-products-info');
+        const image = item.querySelector('.swiper-products-image');
         if (content && image) {
             image.style.minHeight = `${content.offsetHeight}px`;
         }
@@ -27,14 +27,14 @@ const equalHeights = (selector) => {
 
 const adjustSwiperImageHeights = () => {
     adjustCarouselImageHeights();
-    equalHeights('.carousel-services-content');
+    equalHeights('.swiper-products-info');
 
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
             adjustCarouselImageHeights();
-            equalHeights('.carousel-services-content');
+            equalHeights('.swiper-products-info');
         }, 200);
     });
 };

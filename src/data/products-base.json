@@ -1,0 +1,62 @@
+{
+  "baseUrl": "https://au.ru/user/cks24/shop/remont",
+  "commonUtm": "utm_source=lp&utm_medium=button",
+  "productsGroups": [
+    {
+      "title": "Гипсокартон",
+      "linkPath": "/otdelochnye_materialy/podvesnye_potolki_gipsokarton/",
+      "utmCampaign": "gkl",
+      "img": "/media/images/service1",
+      "productsID": ["0000001_091", "0000001_099", "0000001_096"]
+    },
+    {
+      "title": "Штукатурка",
+      "linkPath": "/finishing/smesi_shpatlevki_tcement/?type=all&vid-smesi=shpatlevka-shtukaturka",
+      "utmCampaign": "shukaturka",
+      "img": "/media/images/service2",
+      "productsID": ["УТ000001620", "0000004_572", "0000004_591"]
+    },
+    {
+      "title": "Утеплитель и теплоизоляция",
+      "linkPath": "/otdelochnye_materialy/uteplitel/",
+      "utmCampaign": "uteplitel",
+      "img": "/media/images/service3",
+      "productsID": ["УТ000006363", "0000001_460", "УТ000004657"]
+    },
+    {
+      "title": "Шпатлёвка",
+      "linkPath": "/finishing/smesi_shpatlevki_tcement/?type=all&vid-smesi=shpatlevka-shtukaturka&group=active",
+      "utmCampaign": "shpatlevka",
+      "img": "/media/images/service_putting",
+      "productsID": ["0000004_420", "УТ000001619", "УТ000006857"]
+    },
+    {
+      "title": "Клея",
+      "linkPath": "/finishing/glues/",
+      "utmCampaign": "glues",
+      "img": "/media/images/service_glues",
+      "productsID": ["УТ000001249", "00000000361", "0000001_012"]
+    },
+    {
+      "title": "Краски и лаки",
+      "linkPath": "/otdelochnye_materialy/kraski_laki_rastvoritel/?type=all&vid=kraska&group=active",
+      "utmCampaign": "paints",
+      "img": "/media/images/service_paints",
+      "productsID": ["УТ000002119", "УТ000008089", "УТ000001997"]
+    },
+    {
+      "title": "Грунты",
+      "linkPath": "/otdelochnye_materialy/kraski_laki_rastvoritel/?type=all&vid=gruntovka&group=active",
+      "utmCampaign": "grunt",
+      "img": "/media/images/service_grunt",
+      "productsID": ["0000001_147", "УТ000008407", "0000001_145"]
+    },
+    {
+      "title": "Профили",
+      "linkPath": "/otdelochnye_materialy/podvesnye_potolki_gipsokarton/",
+      "utmCampaign": "profil",
+      "img": "/media/images/service_profil",
+      "productsID": ["0000001_881", "УТ000000063", "УТ000004594"]
+    }
+  ]
+}
