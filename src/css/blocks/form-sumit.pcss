@@ -22,8 +22,7 @@ textarea:focus {
 }
 
 input:hover,
-textarea:hover,
-.choices__inner:hover {
+textarea:hover {
   border: white 1px solid;
 }
 
@@ -48,31 +47,37 @@ input.invalid {
   text-align: center;
 }
 
-.choices__inner {
-  background-color: transparent;
-  border: var(--grey-light) 1px solid;
-}
+.choices {
+  .choices__inner {
+    background-color: transparent;
+    border: var(--grey-light) 1px solid;
+  }
 
-/*!* Отдельная опция *!*/
+  .choices__inner:hover {
+    border: white 1px solid;
+  }
 
-.choices__list--dropdown .choices__item {
-  color: black;
-}
+  /*!* Отдельная опция *!*/
 
-.choices__placeholder {
-  color: white;
-  opacity: unset;
-}
+  .choices__list--dropdown .choices__item {
+    color: black;
+  }
 
-/*!* Стрелка *!*/
+  .choices__placeholder {
+    color: white;
+    opacity: unset;
+  }
 
-.choices[data-type*='select-one']::after,
-.choices[data-type*='select-one'].is-open::after {
-  border-color: white transparent transparent transparent;
-}
+  /*!* Стрелка *!*/
 
-.choices[data-type*='select-one'].is-open::after {
-  transform: rotate(180deg);
+  .choices[data-type*='select-one']::after,
+  .choices[data-type*='select-one'].is-open::after {
+    border-color: white transparent transparent transparent;
+  }
+
+  .choices[data-type*='select-one'].is-open::after {
+    transform: rotate(180deg);
+  }
 }
 
 .submit .form__status {

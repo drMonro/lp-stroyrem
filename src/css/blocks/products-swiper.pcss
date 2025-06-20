@@ -1,0 +1,130 @@
+.swiper-products {
+  background-color: var(--dark);
+
+  /*.swiper-slide:nth-child(3n+1) {*/
+  /*  background-color: var(--green);*/
+  /*}*/
+
+  /*.swiper-slide:nth-child(3n+2) {*/
+  /*  background-color: var(--red);*/
+  /*}*/
+
+  /*.swiper-slide:nth-child(3n+3) {*/
+  /*  background-color: var(--accent);*/
+  /*}*/
+
+  .swiper-slide:nth-child(2n+2) {
+    flex-direction: column;
+  }
+
+  .swiper-slide {
+    display: flex;
+    flex-direction: column-reverse;
+    color: white;
+
+    .swiper-products-info {
+      display: flex;
+      flex-direction: column;
+      padding: 65px 10px 15px;
+      text-align: center;
+
+      .swiper-products-info__logo svg {
+        width: 270px;
+        height: 65px;
+      }
+
+      .swiper-products-info__title {
+        margin-top: 20px;
+        margin-bottom: 14px;
+        font-weight: bold;
+        font-size: 30px;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .swiper-products-info__list {
+        margin-top: auto;
+        margin-bottom: auto;
+
+        li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 9px 0;
+          border-bottom: 1px solid var(--grey-light);
+
+          & > span {
+            font-weight: 200;
+            font-size: 15px;
+
+            @media (min-width: $tablet) {
+              font-size: 20px;
+            }
+          }
+
+          &:last-child {
+            margin-bottom: 20px;
+            border-bottom: none;
+          }
+
+          .swiper-products-info__price {
+            margin-right: 4px;
+            margin-left: 15px;
+            font-size: 24px;
+            font-family: var(--digits-font);
+          }
+
+          .swiper-products-info__ruble {
+            display: flex;
+
+            svg {
+              width: 19px;
+              height: 22px;
+            }
+          }
+        }
+      }
+
+      .swiper-products-link {
+        width: 200px;
+        margin-top: auto;
+        margin-right: auto;
+        margin-left: auto;
+      }
+    }
+
+    .swiper-products-image {
+      display: none;
+      background-position: center;
+      background-size: cover;
+      opacity: 0.7;
+      transition: opacity 0.5s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      @media (min-width: $tablet) {
+        display: flex;
+      }
+    }
+  }
+
+  .swiper-button {
+    background-color: white;
+
+    &::after {
+      content: unset;
+    }
+
+    svg {
+      width: 25px;
+    }
+  }
+
+  .swiper-button-next {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}

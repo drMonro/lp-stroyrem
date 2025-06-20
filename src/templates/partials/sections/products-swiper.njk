@@ -1,0 +1,48 @@
+<section class="s-services" id="section_prices">
+    <div class="swiper swiper-products">
+        <div class="swiper-wrapper">
+            {% for producstGroup in productsSwiperData %}
+                <div class="swiper-slide">
+                    <div class="swiper-products-info">
+                        <div class="swiper-products-info__logo">
+                            <svg>
+                                <use xlink:href='media/sprite/sprite.svg#logo-white'></use>
+                            </svg>
+                        </div>
+                        <p class="swiper-products-info__title">{{ producstGroup.title }}</p>
+                        <ul class="swiper-products-info__list">
+                            {% for product in producstGroup.products %}
+                                <li>
+                                    <span>{{ product.name }}</span>
+                                    <span class="swiper-products-info__price">{{ product.price }}</span>
+                                    <div class="swiper-products-info__ruble">
+                                        <svg>
+                                            <use xlink:href='media/sprite/sprite.svg#ruble'></use>
+                                        </svg>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <a class="button button--white swiper-products-link" href="{{ producstGroup.link }}" target="_blank" rel="noopener">Все цены</a>
+                    </div>
+
+                    <div class="swiper-products-image"
+                         style="background-image: image-set(url('{{ producstGroup.img }}.webp') type('image/webp'), url('{{ producstGroup.img }}.jpg') type('image/jpeg'))">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="swiper-button swiper-button-next">
+            <svg>
+                <use xlink:href='media/sprite/sprite.svg#angle-double-left'></use>
+            </svg>
+        </div>
+        <div class="swiper-button swiper-button-prev">
+            <svg>
+                <use xlink:href='media/sprite/sprite.svg#angle-double-left'></use>
+            </svg>
+        </div>
+
+    </div>
+</section>

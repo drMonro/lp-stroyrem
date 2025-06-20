@@ -1,6 +1,7 @@
 import Choices from 'choices.js';
 import IMask from 'imask';
 import loadHCaptcha from './loadHCaptcha';
+import 'choices.js/public/assets/styles/choices.css';
 
 const formValidation = () => {
     document.querySelectorAll('form.submit').forEach((form) => {

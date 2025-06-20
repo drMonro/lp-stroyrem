@@ -11,157 +11,157 @@
 @use "blocks/header"
 
 
-.h2
-  font-size: 30px
-  font-weight: 900
-
-.section-teaser
-  position: relative
-  min-height: 600px
-  height: 100vh
-  background-color: vars.$dark
-  background-image: url('../media/images/bg-1-1.jpg')
-  background-size: cover
-  background-position: center
-  color: #fff
-
-.section-teaser-overlay
-  &::before
-    content: ''
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    background-color: vars.$over
-    opacity: .45
-
-.white-popup-block
-  position: relative
-  background: #003E88
-  padding: 20px
-  width: auto
-  max-width: 500px
-  margin: 20px auto
-
-  .formhead, p
-    color: #fff
-
-.callback
-  padding: 70px 40px
-  position: relative
-
-  .formhead
-    margin: 10px 0 0
-    font-size: 30px
-
-  p
-    margin-top: 0
-    font-weight: 300
-    font-size: 17px
-
-.callback
-  .success
-    display: none
-    position: absolute
-    top: 0
-    left: 0
-    right: 0
-    bottom: 0
-    text-transform: uppercase
-    font-weight: bold
-    z-index: 10
-
-    span
-      color: #fff
-      margin: auto
-
-    & ~ *
-      transition: all .5s ease
-
-    &.active
-      & ~ *
-        opacity: .5
-        filter: blur(10px)
-
-
-.h2, .h5
-  line-height: 1.4
-  text-transform: uppercase
-
-.collapse-content
-  display: none
-  padding: 3px 5px
-
-.text-center
-  text-align: center
-
-@mixin opacity($opacity)
-  opacity: $opacity / 100
-  filter: alpha(opacity=$opacity)
-
-.button
-  display: inline-block
-  border: none
-  color: #fff
-  text-decoration: none
-  background-color: vars.$accent
-  padding: 16px 45px
-  font-size: 18px
-  text-transform: uppercase
-  font-weight: bold
-  letter-spacing: 3px
-  border-radius: 2px
-  text-align: center
-  position: relative
-  outline: none
-  transition: background-color .1s ease
-
-  &::after
-    transition: background-color .2s ease
-    position: absolute
-    content: ''
-    height: 4px
-    bottom: 0
-    width: 100%
-    background-color: color.adjust(vars.$accent, $lightness: -50%)
-    opacity: .18
-    border-bottom-left-radius: 2px
-    border-bottom-right-radius: 2px
-    left: 0
-
-  &:focus, &:hover
-    text-decoration: none
-    background-color: color.adjust(#00408C, $hue: 180)
-    color: #fff
-
-  &:hover
-
-    background-color: color.adjust(vars.$accent, $lightness: 5%)
-
-    &::after
-      opacity: .22
-
-  &:active
-    background-color: color.adjust(vars.$accent, $lightness: -5%)
-
-    &::after
-      opacity: .32
-
-  &.button-white
-    background-color: #fff
-    color: #444
-
-    &::after
-      background-color: rgba(#000, .9)
-
-    &:hover
-      &::after
-        background-color: rgba(#000, .2)
-
-    &:active
-      &::after
-        background-color: rgba(#000, .4)
+//.h2
+//  font-size: 30px
+//  font-weight: 900
+//
+//.section-teaser
+//  position: relative
+//  min-height: 600px
+//  height: 100vh
+//  background-color: vars.$dark
+//  background-image: url('../media/images/bg-1-1.jpg')
+//  background-size: cover
+//  background-position: center
+//  color: #fff
+//
+//.section-teaser-overlay
+//  &::before
+//    content: ''
+//    position: absolute
+//    top: 0
+//    left: 0
+//    width: 100%
+//    height: 100%
+//    background-color: vars.$over
+//    opacity: .45
+//
+//.white-popup-block
+//  position: relative
+//  background: #003E88
+//  padding: 20px
+//  width: auto
+//  max-width: 500px
+//  margin: 20px auto
+//
+//  .formhead, p
+//    color: #fff
+//
+//.callback
+//  padding: 70px 40px
+//  position: relative
+//
+//  .formhead
+//    margin: 10px 0 0
+//    font-size: 30px
+//
+//  p
+//    margin-top: 0
+//    font-weight: 300
+//    font-size: 17px
+//
+//.callback
+//  .success
+//    display: none
+//    position: absolute
+//    top: 0
+//    left: 0
+//    right: 0
+//    bottom: 0
+//    text-transform: uppercase
+//    font-weight: bold
+//    z-index: 10
+//
+//    span
+//      color: #fff
+//      margin: auto
+//
+//    & ~ *
+//      transition: all .5s ease
+//
+//    &.active
+//      & ~ *
+//        opacity: .5
+//        filter: blur(10px)
+//
+//
+//.h2, .h5
+//  line-height: 1.4
+//  text-transform: uppercase
+//
+//.collapse-content
+//  display: none
+//  padding: 3px 5px
+//
+//.text-center
+//  text-align: center
+//
+//@mixin opacity($opacity)
+//  opacity: $opacity / 100
+//  filter: alpha(opacity=$opacity)
+//
+//.button
+//  display: inline-block
+//  border: none
+//  color: #fff
+//  text-decoration: none
+//  background-color: vars.$accent
+//  padding: 16px 45px
+//  font-size: 18px
+//  text-transform: uppercase
+//  font-weight: bold
+//  letter-spacing: 3px
+//  border-radius: 2px
+//  text-align: center
+//  position: relative
+//  outline: none
+//  transition: background-color .1s ease
+//
+//  &::after
+//    transition: background-color .2s ease
+//    position: absolute
+//    content: ''
+//    height: 4px
+//    bottom: 0
+//    width: 100%
+//    background-color: color.adjust(vars.$accent, $lightness: -50%)
+//    opacity: .18
+//    border-bottom-left-radius: 2px
+//    border-bottom-right-radius: 2px
+//    left: 0
+//
+//  &:focus, &:hover
+//    text-decoration: none
+//    background-color: color.adjust(#00408C, $hue: 180)
+//    color: #fff
+//
+//  &:hover
+//
+//    background-color: color.adjust(vars.$accent, $lightness: 5%)
+//
+//    &::after
+//      opacity: .22
+//
+//  &:active
+//    background-color: color.adjust(vars.$accent, $lightness: -5%)
+//
+//    &::after
+//      opacity: .32
+//
+//  &.button-white
+//    background-color: #fff
+//    color: #444
+//
+//    &::after
+//      background-color: rgba(#000, .9)
+//
+//    &:hover
+//      &::after
+//        background-color: rgba(#000, .2)
+//
+//    &:active
+//      &::after
+//        background-color: rgba(#000, .4)
 
   //&.button-dark
   //  background-color: #4d4d4d
@@ -198,9 +198,9 @@
 
 //.mm-panel > .mm-panel.mm-hasnavbar
 //  right: -18px
-
-.mm-listview > li:not(.mm-divider):after
-  border: none
+//
+//.mm-listview > li:not(.mm-divider):after
+//  border: none
 
 //.mm-panels > .mm-panel:after, .mm-panels > .mm-panel:before
 //  height: 0
@@ -208,9 +208,9 @@
 //.mm-panels > .mm-panel > .mm-listview:first-child, .mm-panels > .mm-panel > .mm-navbar + .mm-listview
 //  margin-top: 0
 
-.mm-menu.mm-theme-black .mm-listview > li.mm-selected > a:not(.mm-next), .mm-menu.mm-theme-black .mm-listview > li.mm-selected > span
-  background-color: transparent
-  color: vars.$accent
+//.mm-menu.mm-theme-black .mm-listview > li.mm-selected > a:not(.mm-next), .mm-menu.mm-theme-black .mm-listview > li.mm-selected > span
+//  background-color: transparent
+//  color: vars.$accent
 
 //.mm-listview
 //  > li
@@ -241,130 +241,130 @@
 //      & > a
 //        color: vars.$accent
 
-.header-flex
-  display: flex
-  flex-shrink: 0
-
-  height: 100%
-  position: relative
-  top: 0
-
-.flex-center
-  margin: auto
-
-.header-composition
-  position: relative
-  text-align: center
-
-  p
-    margin-top: 25px
-
-  .text-welcome
-    font-weight: 300
-    font-size: 18px
-
-  .button
-    margin-top: 25px
-
-.welcome
-  p
-    position: relative
-    text-transform: uppercase
-    display: flex
-    flex-shrink: 0
-    align-items: center
-    white-space: nowrap
-    margin: 0 0 0
-
-    span, strong
-      display: inline-block
-      position: relative
-      margin: 0 5px
-
-    &::before, &::after
-      content: ''
-      height: 1px
-      width: 100%
-      position: relative
-      background-color: #fff
-      display: inline-block
-
-  .h1
-    font-weight: 300
-    font-size: 37px
-    margin: 0
-    line-height: 1.3
-    border-bottom: 1px solid #fff
-
-  span
-    font-size: 22px
-    font-weight: 500
-    text-transform: uppercase
-
-    .fa
-      font-size: 17px
-      margin: 20px 7px
-      color: #fff
-
-      &:last-child
-        margin-left: 7px
-        margin-right: inherit
-
-.header-social
-  display: flex
-  position: absolute
-  right: 0
-  padding: 0 12.5px
-  height: 100%
-  border-left: rgba(255, 255, 255, .06) 1px solid
-  top: 0
-
-.soc
-  margin: auto
-
-  ul, li
-    margin: 0
-    padding: 0
-    list-style-type: none
-
-  a
-    color: #353535
-    font-size: 16px
-    display: block
-    background-color: rgba(255, 255, 255, .25)
-    width: 38px
-    height: 38px
-    text-align: center
-    line-height: 38px
-    border-radius: 10em
-    transition: background-color .25s ease
-    margin: 18px 0
-
-    &:hover
-      background-color: rgba(255, 255, 255, .4)
-
-.header-contacts
-  font-weight: 300
-  font-size: 16px
-  position: absolute
-  bottom: 0
-  left: 0
-  border-top: rgba(#fff, .15) 1px solid
-  padding: 12.5px 0
-  width: 100%
-  background-color: rgba(#151515, .15)
-  text-align: center
-
-  .fa
-    margin-right: 5px
-    color: #fafafa
-
-  .header-mobile
-    font-family: firasans
-
-  a
-    text-decoration: none
-    color: #fff
+//.header-flex
+//  display: flex
+//  flex-shrink: 0
+//
+//  height: 100%
+//  position: relative
+//  top: 0
+//
+//.flex-center
+//  margin: auto
+//
+//.header-composition
+//  position: relative
+//  text-align: center
+//
+//  p
+//    margin-top: 25px
+//
+//  .text-welcome
+//    font-weight: 300
+//    font-size: 18px
+//
+//  .button
+//    margin-top: 25px
+//
+//.welcome
+//  p
+//    position: relative
+//    text-transform: uppercase
+//    display: flex
+//    flex-shrink: 0
+//    align-items: center
+//    white-space: nowrap
+//    margin: 0 0 0
+//
+//    span, strong
+//      display: inline-block
+//      position: relative
+//      margin: 0 5px
+//
+//    &::before, &::after
+//      content: ''
+//      height: 1px
+//      width: 100%
+//      position: relative
+//      background-color: #fff
+//      display: inline-block
+//
+//  .h1
+//    font-weight: 300
+//    font-size: 37px
+//    margin: 0
+//    line-height: 1.3
+//    border-bottom: 1px solid #fff
+//
+//  span
+//    font-size: 22px
+//    font-weight: 500
+//    text-transform: uppercase
+//
+//    .fa
+//      font-size: 17px
+//      margin: 20px 7px
+//      color: #fff
+//
+//      &:last-child
+//        margin-left: 7px
+//        margin-right: inherit
+//
+//.header-social
+//  display: flex
+//  position: absolute
+//  right: 0
+//  padding: 0 12.5px
+//  height: 100%
+//  border-left: rgba(255, 255, 255, .06) 1px solid
+//  top: 0
+//
+//.soc
+//  margin: auto
+//
+//  ul, li
+//    margin: 0
+//    padding: 0
+//    list-style-type: none
+//
+//  a
+//    color: #353535
+//    font-size: 16px
+//    display: block
+//    background-color: rgba(255, 255, 255, .25)
+//    width: 38px
+//    height: 38px
+//    text-align: center
+//    line-height: 38px
+//    border-radius: 10em
+//    transition: background-color .25s ease
+//    margin: 18px 0
+//
+//    &:hover
+//      background-color: rgba(255, 255, 255, .4)
+//
+//.header-contacts
+//  font-weight: 300
+//  font-size: 16px
+//  position: absolute
+//  bottom: 0
+//  left: 0
+//  border-top: rgba(#fff, .15) 1px solid
+//  padding: 12.5px 0
+//  width: 100%
+//  background-color: rgba(#151515, .15)
+//  text-align: center
+//
+//  .fa
+//    margin-right: 5px
+//    color: #fafafa
+//
+//  .header-mobile
+//    font-family: firasans
+//
+//  a
+//    text-decoration: none
+//    color: #fff
 
 
 .inverse

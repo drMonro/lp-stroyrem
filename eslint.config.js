@@ -16,6 +16,14 @@ export default [
             },
         },
     },
+    {
+        files: ['src/js/utils/**/*.js'],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            },
+        },
+    },
 
     // Глобальные переменные только для браузерных скриптов
     {
