@@ -2,7 +2,7 @@
     <div class="swiper swiper-products">
         <div class="swiper-wrapper">
             {% for producstGroup in productsSwiperData %}
-                <div class="swiper-slide">
+                <div class="swiper-slide{% if loop.index is even %} swiper-slide--alt{% endif %}">
                     <div class="swiper-products-info">
                         <div class="swiper-products-info__logo">
                             <svg>
@@ -27,7 +27,8 @@
                     </div>
 
                     <div class="swiper-products-image"
-                         style="background-image: image-set(url('{{ producstGroup.img }}.webp') type('image/webp'), url('{{ producstGroup.img }}.jpg') type('image/jpeg'))">
+                         style="background-image: image-set(url('{{ producstGroup.imgFolder }}{{ producstGroup.img }}.webp') type('image/webp'),
+                                 url('{{ producstGroup.imgFolder }}{{ producstGroup.img }}.jpg') type('image/jpeg'))">
                     </div>
                 </div>
             {% endfor %}

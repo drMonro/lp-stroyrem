@@ -3,8 +3,9 @@
   "version": "2.0.1",
   "type": "module",
   "scripts": {
-    "dev": "gulp",
-    "build": "gulp build"
+    "dev": "cross-env NODE_ENV=development gulp",
+    "build": "cross-env NODE_ENV=production gulp build",
+    "clean": "gulp clean"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
@@ -13,6 +14,7 @@
     "browser-sync": "^3.0.4",
     "browserslist": "^4.25.0",
     "choices.js": "^11.1.0",
+    "cross-env": "^7.0.3",
     "del": "^8.0.0",
     "dotenv": "^16.5.0",
     "esbuild": "^0.25.5",

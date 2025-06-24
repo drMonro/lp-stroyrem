@@ -2,12 +2,15 @@ import initMmenu from './modules/initMmenu';
 import initModal from './modules/initModal';
 import initSwiper from './modules/initSwiper';
 import initFormValidation from './modules/formValidation';
+import initAboutSwiper from './modules/initAboutSwiper';
 
 document.addEventListener('DOMContentLoaded', () => {
     initMmenu();
     initModal();
     initSwiper();
     initFormValidation();
+    initFormValidation();
+    initAboutSwiper();
 });
 
 
