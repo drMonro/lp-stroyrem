@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import gulp from 'gulp';
 import svgSprite from 'gulp-svg-sprite';
-import postcss from 'gulp-postcss';
+import postcss from 'postcss'; // gulp-плагин
+import gulpPostcss from 'gulp-postcss'; // gulp-плагин
 import postcssImport from 'postcss-import';
 import postcssPresetEnv from 'postcss-preset-env';
 import browserslist from 'browserslist';
@@ -14,6 +15,7 @@ import imagemin, { svgo } from 'gulp-imagemin';
 import sharp from 'sharp';
 import glob from 'fast-glob';
 import sitemap from 'gulp-sitemap';
+import sourcemaps from 'gulp-sourcemaps';
 import plumber from 'gulp-plumber';
 import { deleteAsync as del } from 'del';
 import path from 'path';
@@ -159,38 +161,46 @@ const svg = () =>
         });
 
 // --- STYLES ---
-const styles = () =>
-    gulp
-        .src(paths.styles.postCSSMainFile)
-        .pipe(plumber({ errorHandler: handleError }))
-        .pipe(
-            postcss([
-                postcssImport(),
-                postcssSimpleVars(),
-                postcssPresetEnv({
-                    stage: 1,
-                    features: { 'nesting-rules': true },
-                }),
-            ])
-        )
-        .pipe(rename({ extname: '.css' }))
-        .pipe(gulp.dest(paths.styles.CSSDirBuild))
-        .on('end', async() => {
-            const inputCss = await fs.readFile(paths.styles.CSSMainFile);
-            const minifiedCSS = lightningcss.transform({
-                filename: `${mainStylesFilesName}.css`,
-                code: inputCss,
-                minify: true,
-                targets: lightningcss.browserslistToTargets(browserslist()),
-            }).code;
+const styles = async() => {
+    const processors = [
+        postcssImport(),
+        postcssSimpleVars(),
+        postcssPresetEnv({
+            stage: 1,
+            features: { 'nesting-rules': true },
+        }),
+    ];
 
-            await fs.writeFile(
-          `${paths.styles.CSSDirBuild}/${mainStylesFilesName}.min.css`,
-          minifiedCSS
-            );
-
-            if (isDev) browserSync.reload();
+    if (isDev) {
+        return gulp
+            .src(paths.styles.postCSSMainFile)
+            .pipe(plumber({ errorHandler: handleError }))
+            .pipe(sourcemaps.init())
+            .pipe(gulpPostcss(processors))
+            .pipe(rename({ basename: mainStylesFilesName, extname: '.css' }))
+            .pipe(sourcemaps.write('.'))
+            .pipe(gulp.dest(paths.styles.CSSDirBuild))
+            .on('end', () => browserSync.reload());
+    } else {
+        const cssInput = await fs.readFile(paths.styles.postCSSMainFile, 'utf8');
+        const result = await postcss(processors).process(cssInput, {
+            from: paths.styles.postCSSMainFile,
         });
+
+        const { code } = lightningcss.transform({
+            filename: `${mainStylesFilesName}.css`,
+            code: Buffer.from(result.css),
+            minify: true,
+            targets: lightningcss.browserslistToTargets(browserslist()),
+        });
+
+        await fs.mkdir(paths.styles.CSSDirBuild, { recursive: true }); // <-- добавить
+        await fs.writeFile(
+        `${paths.styles.CSSDirBuild}/${mainStylesFilesName}.min.css`,
+        code
+        );
+    }
+};
 
 // --- JS ---
 const createIndexJSTask = (shouldReload = false) => async() => {
@@ -245,6 +255,7 @@ const nunjucks = async() => {
             nunjucksRender({
                 path: paths.templates.layoutsSrc,
                 data: {
+                    isDev: isDev,
                     hcaptchaSiteKey: process.env.HCAPTCHA_SITEKEY || '',
                     productsSwiperData,
                 },
