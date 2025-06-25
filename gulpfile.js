@@ -1,27 +1,27 @@
 /* eslint-disable no-console */
 import gulp from 'gulp';
+import plumber from 'gulp-plumber';
 import svgSprite from 'gulp-svg-sprite';
-import postcss from 'postcss'; // gulp-плагин
-import gulpPostcss from 'gulp-postcss'; // gulp-плагин
-import postcssImport from 'postcss-import';
-import postcssPresetEnv from 'postcss-preset-env';
-import browserslist from 'browserslist';
-import postcssSimpleVars from 'postcss-simple-vars';
-import browserSync from 'browser-sync';
-import esbuild from 'esbuild';
-import rename from 'gulp-rename';
-import * as lightningcss from 'lightningcss';
-import imagemin, { svgo } from 'gulp-imagemin';
-import sharp from 'sharp';
-import glob from 'fast-glob';
 import sitemap from 'gulp-sitemap';
 import sourcemaps from 'gulp-sourcemaps';
-import plumber from 'gulp-plumber';
-import { deleteAsync as del } from 'del';
-import path from 'path';
-import fs from 'fs/promises';
+import imagemin, { svgo } from 'gulp-imagemin';
+import rename from 'gulp-rename';
 import nunjucksRender from 'gulp-nunjucks-render';
+import gulpPostcss from 'gulp-postcss';
+import postcss from 'postcss';
+import postcssImport from 'postcss-import';
+import postcssPresetEnv from 'postcss-preset-env';
+import postcssSimpleVars from 'postcss-simple-vars';
+import browserslist from 'browserslist';
+import browserSync from 'browser-sync';
+import esbuild from 'esbuild';
+import * as lightningcss from 'lightningcss';
+import sharp from 'sharp';
+import glob from 'fast-glob';
+import { deleteAsync as del } from 'del';
 import generateProductsData from './src/js/utils/generateProductsData.js';
+import fs from 'fs/promises';
+import path from 'path';
 import dotenv from 'dotenv';
 import { spawn } from 'child_process';
 
@@ -71,10 +71,10 @@ const paths = {
     },
 };
 
-const handleError = (err) => {
-    this?.emit('end');
-    throw new Error(err);
-};
+function handleError(err) {
+    console.error(err.toString());
+    this.emit?.('end');
+}
 
 const clean = () => del(buildDir);
 
@@ -180,7 +180,8 @@ const styles = async() => {
             .pipe(rename({ basename: mainStylesFilesName, extname: '.css' }))
             .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest(paths.styles.CSSDirBuild))
-            .on('end', () => browserSync.reload());
+            .pipe(browserSync.stream());
+        // .on('end', () => browserSync.reload());
     } else {
         const cssInput = await fs.readFile(paths.styles.postCSSMainFile, 'utf8');
         const result = await postcss(processors).process(cssInput, {
@@ -338,14 +339,10 @@ const build = gulp.series(
 );
 
 const dev = gulp.series(
-    clean,
-    images,
-    svg,
-    styles,
-    indexJSDevTask,
-    nunjucks,
+    build,
     gulp.parallel(startPHPServer, serve, watchFiles)
 );
 
 export { mockData, clean, styles, images, svg, build };
+
 export default dev;
