@@ -12,6 +12,13 @@
   background-position: center;
   background-size: cover;
 
+  @media (min-width: $desktop) {
+    background-image: image-set(
+      url('/media/images/teaser-bg-desktop.webp') type('image/webp'),
+      url('/media/images/teaser-bg-desktop.jpg') type('image/jpeg')
+    );
+  }
+
   .section-teaser__content {
     position: relative;
     display: flex;

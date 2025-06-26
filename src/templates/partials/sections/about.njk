@@ -1,87 +1,77 @@
-{% set aboutSwiperData = [{title: 'titel', img:'/media/images/about/photo-1'}, {title: 'tite2', img:'/media/images/about/photo-2'}] %}
+{% set aboutSwiperData = [{title: 'titel', img:'/media/images/about/photo-1'}, {title: 'tite2', img:'/media/images/about/photo-2'},
+    {title: 'titel', img:'/media/images/about/photo-3'}, {title: 'tite2', img:'/media/images/about/photo-4'}] %}
 
 
 <section id="section-about" class="section-about inverse section-overlay">
     <div class="about-content">
-        <p class="h2 about-title">МАГАЗИН СТРОИТЕЛЬНЫХ МАТЕРИАЛОВ С <span>10-ЛЕТНИМ ОПЫТОМ</span>
+        <p class="h2 about-title">
+            МАГАЗИН СТРОИТЕЛЬНЫХ МАТЕРИАЛОВ С
+            <span>20-ЛЕТНИМ ОПЫТОМ</span>
             РАБОТЫ
         </p>
 
         <div class="swiper swiper-about">
             <div class="swiper-wrapper">
                 {% for aboutSlideData in aboutSwiperData %}
-                    <div class="swiper-slide{% if loop.index is even %} swiper-slide--alt{% endif %}">
-                        <picture>
-                            {# WebP для мобильных #}
-                            <source srcset="{{ aboutSlideData.img }}.webp" type="image/webp" media="(max-width: 767px)" />
-                            {# WebP для десктопа #}
-                            <source srcset="{{ aboutSlideData.img ~ '-desktop.webp' }}" type="image/webp" media="(min-width: 768px)" />
+                    <div class="swiper-slide">
+                        <div class="swiper-slide-wrapper">
+                            <picture>
+                                {# WebP для мобильных #}
+                                <source srcset="{{ aboutSlideData.img }}.webp" type="image/webp" media="(max-width: 767px)" />
+                                {# WebP для десктопа #}
+                                <source srcset="{{ aboutSlideData.img ~ '-desktop.webp' }}" type="image/webp" media="(min-width: 768px)" />
 
-                            {# JPG для мобильных #}
-                            <source srcset="{{ aboutSlideData.img }}.jpg" type="image/jpeg" media="(max-width: 767px)" />
-                            {# JPG для десктопа #}
-                            <source srcset="{{ aboutSlideData.img ~ '-desktop.jpg' }}" type="image/jpeg" media="(min-width: 768px)" />
+                                {# JPG для мобильных #}
+                                <source srcset="{{ aboutSlideData.img }}.jpg" type="image/jpeg" media="(max-width: 767px)" />
+                                {# JPG для десктопа #}
+                                <source srcset="{{ aboutSlideData.img ~ '-desktop.jpg' }}" type="image/jpeg" media="(min-width: 768px)" />
 
-                            <img src="{{ aboutSlideData.img }}.jpg" alt="{{ aboutSlideData.title }}" loading="lazy" />
-                        </picture>
+                                <img src="{{ aboutSlideData.img }}.jpg" alt="{{ aboutSlideData.title }}" loading="lazy" />
+                            </picture>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
 
             <div class="swiper-button swiper-button-next">
-{#                <svg>#}
-{#                    <use xlink:href='media/sprite/sprite.svg#angle-double-left'></use>#}
-{#                </svg>#}
+                <svg>
+                    <use xlink:href='media/sprite/sprite.svg#angle-double-left'></use>
+                </svg>
             </div>
             <div class="swiper-button swiper-button-prev">
-{#                <svg>#}
-{#                    <use xlink:href='media/sprite/sprite.svg#angle-double-left'></use>#}
-{#                </svg>#}
+                <svg>
+                    <use xlink:href='media/sprite/sprite.svg#angle-double-left'></use>
+                </svg>
             </div>
 
         </div>
 
+        <div class="about-text-wrapper">
+            <span class="about-text-title h2">Стройматериалы в Красноярске от «СтройРемонт24»</span>
+            <div class="about-text">
+                <input type="checkbox" class="about-spoiler-checkbox" id="toggle-spoiler">
+                <div class="about-text-content">
+                    <p>Интернет-магазин «СтройРемонт24» предлагает широкий ассортимент строительных материалов в Красноярске.
+                        У нас вы найдёте всё необходимое для ремонта и строительства любых объектов — от квартир до коммерческих помещений.</p>
+                    <p>Опытные менеджеры проконсультируют, примут заявку онлайн и помогут с подбором нужных товаров.
+                        Также вы можете оставить заявку на обратный звонок или позвонить напрямую по телефону <strong>205-43-17</strong>.</p>
+
+                    <div class="about-text-hidden">
+                        <p>Компания «СтройРемонт24» работает без очередей — заранее договоритесь о визите, и мы подготовим ваш заказ к выдаче.
+                            Погрузка осуществляется профессиональной техникой.</p>
+                        <p>В нашем ассортименте — более 4000 наименований стройматериалов: от сухих смесей и утеплителей до инструментов и крепежа.
+                            Мы помогаем организовать доставку и строго соблюдаем сроки.</p>
+                        <p>Сотрудники компании имеют более 20 лет опыта в строительной сфере и всегда готовы предложить оптимальные решения для любых задач.
+                            Мы быстро обрабатываем заказы любого объёма и предлагаем гибкие условия сотрудничества.</p>
+                    </div>
+                </div>
+                <label class="about-spoiler-label" for="toggle-spoiler">
+                    <svg>
+                        <use xlink:href='media/sprite/sprite.svg#angle-double-left'></use>
+                    </svg>
+                </label>
+            </div>
+        </div>
+
     </div>
-{#    <div class="text-seo text-center col-md-12">#}
-
-{#        <h1>Стройматериалы Красноярск</h1>#}
-{#        <p>В магазине «СтройРемонт24» Вы найдёте необходимые стройматериалы для строительства и#}
-{#            ремонтирования от помещений промышленного или коммерческого типа до квартиры или дачи.</p>#}
-{#        <p>Каждый день «СтройРемонт24» принимает заявки в онлайн режиме.</p>#}
-{#        <p>Поступающие обращения обрабатывает опытный менеджер и разбирает строительные вопросы и#}
-{#            пожелания.</p>#}
-{#        <p>Также доступна связь прямому номеру телефона (205-43-17), или оставьте заявку на обратный#}
-{#            звонок.</p>#}
-{#        <p>В компании работают сотрудники с 10 летним опытом в строительной нише, которые готовы оказать#}
-{#            профессиональную помощь в выборе и поиске необходимых для строительных материалов и#}
-{#            инструментов.</p>#}
-{#        <p>НИКАКИХ ОЧЕРЕДЕЙ – можете заранее связаться с менеджером и договориться о встрече в нужное#}
-{#            время. Когда приедете в наш офис Вас будет ждать готовый к отгрузке товар, который помогут#}
-{#            загрузить с помощью профессионального погрузчика.</p>#}
-{#        <div class="text-collapser"><a href="#" class=""><i class="fa fa-angle-double-down"></i></a>#}
-{#        </div>#}
-{#        <div class="collapse-content"><p>СтройРемонт24 - магазин в котором представленно более 2000#}
-{#                товаров. Мы всегда сможем быстро и качественно обработать вашу заявку любого объёма, поможем#}
-{#                организовать доставку и соблюдем поставленные сроки. СтройРемонт24 - магазин в котором#}
-{#                представленно более 2000 товаров. Мы всегда сможем быстро и качественно обработать вашу#}
-{#                заявку любого объёма, поможем организовать доставку и соблюдем поставленные#}
-{#                сроки.СтройРемонт24 - магазин в котором представленно более 2000 товаров. Мы всегда сможем#}
-{#                быстро и качественно обработать вашу заявку любого объёма, поможем организовать доставку и#}
-{#                соблюдем поставленные сроки.СтройРемонт24 - магазин в котором представленно более 2000#}
-{#                товаров. Мы всегда сможем быстро и качественно обработать вашу заявку любого объёма, поможем#}
-{#                организовать доставку и соблюдем поставленные сроки.СтройРемонт24 - магазин в котором#}
-{#                представленно более 2000 товаров. Мы всегда сможем быстро и качественно обработать вашу#}
-{#                заявку любого объёма, поможем организовать доставку и соблюдем поставленные#}
-{#                сроки.СтройРемонт24 - магазин в котором представленно более 2000 товаров. Мы всегда сможем#}
-{#                быстро и качественно обработать вашу заявку любого объёма, поможем организовать доставку и#}
-{#                соблюдем поставленные сроки.СтройРемонт24 - магазин в котором представленно более 2000#}
-{#                товаров. Мы всегда сможем быстро и качественно обработать вашу заявку любого объёма, поможем#}
-{#                организовать доставку и соблюдем поставленные сроки.СтройРемонт24 - магазин в котором#}
-{#                представленно более 2000 товаров. Мы всегда сможем быстро и качественно обработать вашу#}
-{#                заявку любого объёма, поможем организовать доставку и соблюдем поставленные#}
-{#                сроки.СтройРемонт24 - магазин в котором представленно более 2000 товаров. Мы всегда сможем#}
-{#                быстро и качественно обработать вашу заявку любого объёма, поможем организовать доставку и#}
-{#                соблюдем поставленные сроки. </p></div>#}
-
-{#    </div>#}
 </section>
