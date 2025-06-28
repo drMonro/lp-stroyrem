@@ -1,0 +1,46 @@
+<section class="section-delivery section-overlay" id="delivery">
+        <div class="section-delivery__wrapper">
+            <div class="delivery__logo">
+                {% include "partials/logo.njk" %}
+            </div>
+            <div class="delivery__content">
+                <div class="delivery__table-wrapper">
+                    <div class="delivery__title h2"><span>Выгодно </span>доставим</div>
+                    <table class="delivery__table">
+                        <tr>
+                            <td>Доставка 2,5 т по г. Красноярску</td>
+                            <td>—</td>
+                            <td>
+                                <div class="delivery__price">
+                                    <span>от 1000</span>
+                                    <svg class="delivery__price-sign">
+                                        <use xlink:href='media/sprite/sprite.svg#ruble'></use>
+                                    </svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Доставка в пригороды и города-спутники Красноярска</td>
+                            <td>—</td>
+                            <td>
+                                <div class="delivery__price">
+                                    <span>от 2000</span>
+                                    <svg class="delivery__price-sign">
+                                        <use xlink:href='media/sprite/sprite.svg#ruble'></use>
+                                    </svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Отгрузка контейнерами в Норильск и Дудинку</td>
+                            <td>—</td>
+                            <td><strong>по договорённости</strong></td>
+                        </tr>
+                    </table>
+                </div>
+
+                {% set placement = "Секция доставки" %}
+                {% include "../form.njk" %}
+            </div>
+        </div>
+</section>

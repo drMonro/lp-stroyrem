@@ -14,7 +14,7 @@ const applySlideBackgroundColors = () => {
     });
 };
 
-const initSwiper = () => {
+const initProductsSwiper = () => {
     new Swiper('.swiper-products', {
         speed: 5000,
         loop: true,
@@ -54,4 +54,4 @@ const initSwiper = () => {
     });
 };
 
-export default initSwiper;
+export default initProductsSwiper;

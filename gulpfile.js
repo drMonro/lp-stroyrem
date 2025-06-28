@@ -314,7 +314,7 @@ const watchFiles = () => {
 };
 
 // --- BUILD HELPERS ---
-const buildFonts = () => gulp.src(paths.build.fonts).pipe(gulp.dest(`${buildDir}/fonts`));
+const buildFonts = () => gulp.src(paths.build.fonts, { encoding: false }).pipe(gulp.dest(`${buildDir}/fonts`));
 const buildBase = () => gulp.src(paths.build.base).pipe(gulp.dest(buildDir));
 const copyVendor = () => gulp.src(paths.build.vendor).pipe(gulp.dest(`${buildDir}/vendor`));
 

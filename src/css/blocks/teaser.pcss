@@ -6,16 +6,16 @@
   color: white;
   background-color: var(--dark);
   background-image: image-set(
-    url('/media/images/teaser-bg.webp') type('image/webp'),
-    url('/media/images/teaser-bg.jpg') type('image/jpeg')
+    url('/media/images/bg-teaser.webp') type('image/webp'),
+    url('/media/images/bg-teaser.jpg') type('image/jpeg')
   );
   background-position: center;
   background-size: cover;
 
   @media (min-width: $desktop) {
     background-image: image-set(
-      url('/media/images/teaser-bg-desktop.webp') type('image/webp'),
-      url('/media/images/teaser-bg-desktop.jpg') type('image/jpeg')
+      url('/media/images/bg-teaser-desktop.webp') type('image/webp'),
+      url('/media/images/bg-teaser-desktop.jpg') type('image/jpeg')
     );
   }
 
@@ -122,7 +122,8 @@
     }
 
     @media (min-width: $desktop) {
-      line-height: 1.7;
+      font-size: 19px;
+      line-height: 1.5;
     }
   }
 }
@@ -226,23 +227,10 @@
     width: 100%;
     max-width: 500px;
     padding: 2rem;
+    color: white;
     background: var(--accent);
     border-radius: 8px;
     animation: slideIn 0.3s ease-in-out;
-
-    .modal__title {
-      font-size: 27px;
-      text-transform: uppercase;
-
-      span {
-        color: var(--red);
-      }
-    }
-
-    .modal__sub-title {
-      margin-top: 5px;
-      margin-bottom: 30px;
-    }
   }
 
   .modal-close {
