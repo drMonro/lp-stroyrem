@@ -1,0 +1,86 @@
+{% set team = [
+    {
+        "name": "Евгения Несмелова",
+        "position": "Ключевой менеджер по работе с клиентами",
+        "responsibilities":[
+            "поможет с подбором материалов",
+            "даст точное время доставки",
+            "сориентирует по ценам"
+        ],
+        "avatar": "media/images/team/team1.jpg",
+        "cover": "media/images/team/team-cover1.jpg"
+    },
+    {
+        "name": "Бархатова Мария",
+        "position": "РУКОВОДИТЕЛЬ ОТДЕЛА ПРОДАЖ",
+        "responsibilities": [
+            "скоординирует крупные поставки",
+            "проконтролирует качество выполнения услуг",
+            "контролирует бухгалтерские вопросы"
+        ],
+        "avatar": "media/images/team/team2.jpg",
+        "cover": "media/images/team/team-cover2.jpg"
+    },
+    {
+        "name": "Александр Захаров",
+        "position": "Отдел снабжения",
+        "responsibilities": [
+            "проконтролирует качество материалов",
+            "организует погрузку",
+            "поможет связаться с грузчиками"
+        ],
+        "avatar": "media/images/team/team3.jpg",
+        "cover": "media/images/team/team-cover3.jpg"
+    }
+]%}
+
+<section class="team" id="team">
+{#    <div class="">#}
+{#        <div class="">#}
+{#            <div class="">#}
+                <p class="team__title h2">Наша команда</p>
+                <p class="team__subtitle">всегда готова помочь Вам в любом строительном вопросе</p>
+{#            </div>#}
+
+            <div class="swiper swiper-team">
+                <div class="swiper-wrapper">
+                    {% for member in team %}
+                        <div class="swiper-slide">
+                            <div class="team__member text-center">
+                                <div class="cover" style="background:url('{{ member.cover }}'); background-size:cover;">
+                                    <div class="overlay text-center">
+                                        <div class="white">{{ member.position }}</div>
+                                        <div class="light light-white">{{ member.position }}</div>
+                                    </div>
+                                </div>
+                                <img src="{{ member.avatar }}" alt="Team Image" class="avatar">
+                                <div class="title">
+                                    <div class="team__member-name"><strong>{{ member.name }}</strong></div>
+                                    {% for task in member.responsibilities %}
+                                        <div class="post-position">- {{ task }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="swiper-button swiper-button-next">
+                    <svg>
+                        <use xlink:href='media/sprite/sprite.svg#angle-double-left'></use>
+                    </svg>
+                </div>
+                <div class="swiper-button swiper-button-prev">
+                    <svg>
+                        <use xlink:href='media/sprite/sprite.svg#angle-double-left'></use>
+                    </svg>
+                </div>
+            </div>
+{#        </div>#}
+{#        <div class="row">#}
+        <button type="button" class="button openModalBtn">
+            <span>Обратиться к нам</span>
+        </button>
+{#        </div>#}
+{#    </div>#}
+</section>

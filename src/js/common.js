@@ -3,6 +3,7 @@ import initModal from './modules/initModal';
 import initProductsSwiper from './modules/initProductsSwiper.js';
 import initFormValidation from './modules/formValidation';
 import initAboutSwiper from './modules/initAboutSwiper';
+import initTeamSwiper from './modules/initTeamSwiper';
 
 document.addEventListener('DOMContentLoaded', () => {
     initMmenu();
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initProductsSwiper();
     initFormValidation();
     initAboutSwiper();
+    initTeamSwiper();
 });
 
 

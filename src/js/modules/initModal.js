@@ -1,6 +1,7 @@
 const initModal = () => {
     const modal = document.getElementById('modal');
     const openBtn = document.getElementById('openModalBtn');
+    const openButtons = document.querySelectorAll('.openModalBtn');
     const closeBtn = document.getElementById('closeModalBtn');
     const nameInput = document.getElementById('name');
 
@@ -11,10 +12,12 @@ const initModal = () => {
         document.body.style.overflow = '';
     };
 
-    openBtn.addEventListener('click', () => {
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-        setTimeout(() => nameInput.focus(), 100);
+    openButtons.forEach((openButton) => {
+        openButton.addEventListener('click', () => {
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => nameInput.focus(), 100);
+        });
     });
 
     closeBtn.addEventListener('click', closeModal);
