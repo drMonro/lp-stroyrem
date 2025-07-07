@@ -12,3 +12,36 @@
   visibility: visible;
 }
 
+.section-overlay {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--over);
+    opacity: 0.45;
+  }
+}
+
+.h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 25px;
+  text-align: center;
+
+  span {
+    color: var(--red);
+  }
+
+  @media (min-width: $tablet) {
+    font-size: 30px;
+  }
+
+  @media (min-width: $desktop) {
+    font-size: 35px;
+  }
+}

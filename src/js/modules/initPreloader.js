@@ -20,6 +20,3 @@ const waitForHCaptcha = () => {
 
 // Вызываем когда показывается форма или попап
 waitForHCaptcha();
-
-
-export default initPreloader;

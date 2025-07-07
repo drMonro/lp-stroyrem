@@ -1,13 +1,17 @@
 import initMmenu from './modules/initMmenu';
 import initModal from './modules/initModal';
-import initSwiper from './modules/initSwiper';
+import initProductsSwiper from './modules/initProductsSwiper.js';
 import initFormValidation from './modules/formValidation';
+import initAboutSwiper from './modules/initAboutSwiper';
+import initTeamSwiper from './modules/initTeamSwiper';
 
 document.addEventListener('DOMContentLoaded', () => {
     initMmenu();
     initModal();
-    initSwiper();
+    initProductsSwiper();
     initFormValidation();
+    initAboutSwiper();
+    initTeamSwiper();
 });
 
 

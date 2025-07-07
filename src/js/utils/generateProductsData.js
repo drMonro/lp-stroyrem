@@ -5,14 +5,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const PRODUCTS_JSON_PATH = 'src/data/products-base.json';
+const OUTPUT_JSON_PATH = 'src/data/products-mock.json';
 const CATALOG_XML_URL = process.env.CATALOG_YML_URL;
 
-// Вынесем базовый URL и общие UTM-параметры
-const baseUrl = 'https://au.ru/user/cks24/shop/remont';
-const commonUtm = 'utm_source=lp&utm_medium=button';
-
-const buildLink = ({ baseUrl, commonUtm, linkPath, utmCampaign }) =>
-  `${baseUrl}${linkPath}${linkPath.includes('?') ? '&' : '?'}${commonUtm}&utm_campaign=${utmCampaign}`;
+const buildLink = ({ baseUrl, commonUtm, linkPath, name }) =>
+  `${baseUrl}${linkPath}${linkPath.includes('?') ? '&' : '?'}${commonUtm}&utm_campaign=${name}`;
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -32,7 +29,7 @@ const retry = async(fn, retries = 3, delayMs = 1000) => {
     throw lastError;
 };
 
-const generateProductsData = async() => {
+const generateProductsData = async(saveToFile = false) => {
     if (!CATALOG_XML_URL) {
         throw new Error('CATALOG_YML_URL is not defined in .env');
     }
@@ -40,7 +37,6 @@ const generateProductsData = async() => {
     const servicesJsonRaw = await fs.readFile(PRODUCTS_JSON_PATH, 'utf-8');
     const servicesJson = JSON.parse(servicesJsonRaw);
 
-    // Оборачиваем fetch с retry
     const xmlRaw = await retry(async() => {
         const response = await fetch(CATALOG_XML_URL);
 
@@ -49,7 +45,7 @@ const generateProductsData = async() => {
         }
 
         return await response.text();
-    }, 3, 2000); // 3 попытки с задержкой 2 секунды между ними
+    }, 3, 2000);
 
     const parser = new XMLParser({
         ignoreAttributes: false,
@@ -64,14 +60,14 @@ const generateProductsData = async() => {
     const getOfferById = (id) =>
         offers.find((offer) => String(offer.id) === String(id));
 
-    return servicesJson.productsGroups.map(({ productsID, linkPath, utmCampaign, ...productsGroup }) => {
-        const link = buildLink({ baseUrl, commonUtm, linkPath, utmCampaign });
-
+    const result = servicesJson.productsGroups.map(({ productsID, linkPath, name, ...productsGroup }) => {
+        const link = buildLink({ baseUrl: servicesJson.baseUrl, commonUtm: servicesJson.commonUtm, linkPath, name });
         return {
             ...productsGroup,
             link,
             target: '_blank',
             rel: 'noopener noreferrer',
+            img: `${servicesJson.imgFolder}${name}`,
             products: productsID
                 .map((id) => getOfferById(id))
                 .filter(Boolean)
@@ -81,6 +77,13 @@ const generateProductsData = async() => {
                 })),
         };
     });
+
+    if (saveToFile) {
+        await fs.writeFile(OUTPUT_JSON_PATH, JSON.stringify(result, null, 2), 'utf-8');
+        console.log(`Моковые данные сохранены в ${OUTPUT_JSON_PATH}`);
+    }
+
+    return result;
 };
 
 

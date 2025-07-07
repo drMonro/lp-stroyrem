@@ -1,0 +1,170 @@
+[
+  {
+    "title": "Гипсокартон",
+    "link": "https://au.ru/user/cks24/shop/remont/otdelochnye_materialy/podvesnye_potolki_gipsokarton?utm_source=lp&utm_medium=button&utm_campaign=gkl",
+    "target": "_blank",
+    "rel": "noopener noreferrer",
+    "img": "/media/images/products/gkl",
+    "products": [
+      {
+        "name": "Гипсокартон Кнауф (Knauf) ГКЛ 2500х1200х9,5 мм",
+        "price": 510
+      },
+      {
+        "name": "Гипсокартон огнестойкий Кнауф (Knauf) ГКЛО, 2500х1200х12,5 мм",
+        "price": 865
+      },
+      {
+        "name": "Гипсокартон влагостойкий Кнауф (Knauf) ГКЛВ, 2500х1200х9,5 мм",
+        "price": 770
+      }
+    ]
+  },
+  {
+    "title": "Штукатурка",
+    "link": "https://au.ru/user/cks24/shop/remont/finishing/smesi_shpatlevki_tcement/?type=all&vid-smesi=shpatlevka-shtukaturka&utm_source=lp&utm_medium=button&utm_campaign=shukaturka",
+    "target": "_blank",
+    "rel": "noopener noreferrer",
+    "img": "/media/images/products/shukaturka",
+    "products": [
+      {
+        "name": "Штукатурка гипсовая Bergauf (Бергауф) Easy Band 30 кг",
+        "price": 470
+      },
+      {
+        "name": "Штукатурка цементная Геркулес GP-21 25 кг",
+        "price": 470
+      },
+      {
+        "name": "Штукатурка гипсовая Knauf (Кнауф) HP Start (25кг)",
+        "price": 460
+      }
+    ]
+  },
+  {
+    "title": "Утеплитель и теплоизоляция",
+    "link": "https://au.ru/user/cks24/shop/remont/otdelochnye_materialy/uteplitel/?utm_source=lp&utm_medium=button&utm_campaign=uteplitel",
+    "target": "_blank",
+    "rel": "noopener noreferrer",
+    "img": "/media/images/products/uteplitel",
+    "products": [
+      {
+        "name": "Утеплитель звукоизолирующий Knauf (КНАУФ) Акустик 1230x610x50 мм 16 шт",
+        "price": 3250
+      },
+      {
+        "name": "Утеплитель и пароизоляция фольигрованный Isover (Изовер) Сауна, 12500х1200х50мм, маты, 1 шт",
+        "price": 3550
+      },
+      {
+        "name": "\"Isover\" (Изовер) Тёплый Дом Утеплитель в рулоне 7000*1220*50мм, (17,08м2/0,854м3/2 cлоя)",
+        "price": 2430
+      }
+    ]
+  },
+  {
+    "title": "Шпатлёвка",
+    "link": "https://au.ru/user/cks24/shop/remont/finishing/smesi_shpatlevki_tcement/?type=all&vid-smesi=shpatlevka-shtukaturka&group=active&utm_source=lp&utm_medium=button&utm_campaign=shpatlevka",
+    "target": "_blank",
+    "rel": "noopener noreferrer",
+    "img": "/media/images/products/shpatlevka",
+    "products": [
+      {
+        "name": "Шпатлевка финишная полимерная Геркулес GT-53 20 кг",
+        "price": 720
+      },
+      {
+        "name": "Шпаклевка готовая Knauf (Кнауф) Rotband (Ротбанд) Pasta 18 кг",
+        "price": 1620
+      },
+      {
+        "name": "Шпаклевка финишная Vetonit (Ветонит) LR+ (ЛР Плюс) 5 кг",
+        "price": 567
+      }
+    ]
+  },
+  {
+    "title": "Клея",
+    "link": "https://au.ru/user/cks24/shop/remont/finishing/glues/?utm_source=lp&utm_medium=button&utm_campaign=glues",
+    "target": "_blank",
+    "rel": "noopener noreferrer",
+    "img": "/media/images/products/glues",
+    "products": [
+      {
+        "name": "Клей для тяжёлых плит Bergauf (Бергауф) Granit (Гранит) 25 кг",
+        "price": 935
+      },
+      {
+        "name": "Клей усиленный для плитки и керамогранита Bergauf (Бергауф) Keramik PRO 25 кг",
+        "price": 525
+      },
+      {
+        "name": "Клей универсальный Геркулес GM-35 (ГМ-35) 25 кг",
+        "price": 415
+      }
+    ]
+  },
+  {
+    "title": "Краски и лаки",
+    "link": "https://au.ru/user/cks24/shop/remont/otdelochnye_materialy/kraski_laki_rastvoritel/?type=all&vid=kraska&group=active&utm_source=lp&utm_medium=button&utm_campaign=paints",
+    "target": "_blank",
+    "rel": "noopener noreferrer",
+    "img": "/media/images/products/paints",
+    "products": [
+      {
+        "name": "Краска фасадная, акрилатная, белая, Pufas (Пуфас) Decoself, базис А, 15 л",
+        "price": 4300
+      },
+      {
+        "name": "Краска в/д для потолков Текс Профи, белая, база А, 9 л",
+        "price": 1852
+      },
+      {
+        "name": "Краска в/д для стен и потолков Командор Сардиния, белая, база АР, 2,7 л",
+        "price": 1045
+      }
+    ]
+  },
+  {
+    "title": "Грунты",
+    "link": "https://au.ru/user/cks24/shop/remont/otdelochnye_materialy/kraski_laki_rastvoritel/?type=all&vid=gruntovka&group=active&utm_source=lp&utm_medium=button&utm_campaign=grunt",
+    "target": "_blank",
+    "rel": "noopener noreferrer",
+    "img": "/media/images/products/grunt",
+    "products": [
+      {
+        "name": "Грунтовка Бетонконтакт Ceresit (Церезит) CT19 15 кг",
+        "price": 2290
+      },
+      {
+        "name": "Грунтовка концентрат Pufas (Пуфас) 1:9 Эластик Putz- und Haftgrund ПХ 10 л",
+        "price": 4600
+      },
+      {
+        "name": "Грунтовка для наружных и внутренних работ Ceresit (Церезит) CT17 10 л",
+        "price": 1300
+      }
+    ]
+  },
+  {
+    "title": "Профили",
+    "link": "https://au.ru/user/cks24/shop/remont/otdelochnye_materialy/podvesnye_potolki_gipsokarton/?utm_source=lp&utm_medium=button&utm_campaign=profil",
+    "target": "_blank",
+    "rel": "noopener noreferrer",
+    "img": "/media/images/products/profil",
+    "products": [
+      {
+        "name": "Профиль потолочный Knauf (Кнауф) ПП 60х27мм 3м 0,6мм",
+        "price": 384
+      },
+      {
+        "name": "Профиль потолочный направляющий Knauf (Кнауф) ППН 28х27мм 3м 0,6мм",
+        "price": 240
+      },
+      {
+        "name": "Профиль углозащитный ПУ Knauf (Кнауф) 3000х31х0,45 мм",
+        "price": 198
+      }
+    ]
+  }
+]

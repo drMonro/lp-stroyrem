@@ -1,0 +1,79 @@
+.team {
+  padding: 20px 10px;
+  background: #f7f7f7;
+}
+
+.team__title {
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.team__subtitle {
+  margin-top: 15px;
+  margin-bottom: 35px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.swiper-team {
+  margin-bottom: 20px;
+
+  .swiper-slide {
+    padding: 0 10px;
+  }
+}
+
+
+.team__member {
+  padding-bottom: 60px;
+  text-align: center;
+  background: #ffffff;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.07);
+}
+
+.team__member .cover {
+  position: relative;
+}
+
+.team__member .cover .overlay {
+  height: 250px;
+  padding-top: 60px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.team__member:hover .cover .overlay {
+  opacity: 1;
+}
+
+.team__member .avatar {
+  position: relative;
+  z-index: 2;
+  margin-top: -60px;
+  border-radius: 50%;
+}
+
+.team__member-name {
+  padding-bottom: 10px;
+  font-size: 31px;
+}
+
+.post-position {
+  padding-bottom: 20px;
+  font-size: 19px;
+}
+
+.white {
+  color: white;
+  text-transform: uppercase;
+}
+
+.light-white {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.team-button,
+.button-center {
+  text-align: center;
+}

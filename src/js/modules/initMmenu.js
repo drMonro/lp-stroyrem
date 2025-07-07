@@ -1,11 +1,10 @@
 import MmenuLight from 'mmenu-light';
 import 'mmenu-light/dist/mmenu-light.css';
+import scrollToBlock from './scrollToBlock';
 
 const initMmenu = () => {
     const menuElement = document.querySelector('#mm-menu');
-
     if (!menuElement) return;
-
 
     const menu = new MmenuLight(menuElement, 'all');
     menu.navigation({ theme: 'dark', title: 'МЕНЮ:' });
@@ -18,8 +17,9 @@ const initMmenu = () => {
             drawer.open();
         });
     }
-    // Сигнализируем, что меню готово, можно показывать
+
+    scrollToBlock(drawer);
+
     document.documentElement.classList.add('js-menu-ready');
 };
-
 export default initMmenu;
