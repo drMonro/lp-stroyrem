@@ -8,11 +8,10 @@
     <meta name="description" content={% block description %}"Описание по умолчанию"{% endblock %} />
 
     <link rel="manifest" href="/manifest.json" />
-    <link rel="stylesheet" href="/css/libs.min.css" />
+
     {% if isDev %}
       <link rel="stylesheet" href="/css/main.css" />
     {% else %}
-      <!--suppress HtmlUnknownTarget -->
       <link rel="stylesheet" href="/css/main.min.css" />
     {% endif %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -51,7 +50,11 @@
 
     <main role="main">{% block content %}{% endblock %}</main>
 
-    <script src="/js/scripts.min.js" defer></script>
+    {% if isDev %}
+      <script src="/js/scripts.js" defer></script>
+    {% else %}
+      <script src="/js/scripts.min.js" defer></script>
+    {% endif %}
     {% include "partials/ya-metrika.njk" %}
 
   </body>

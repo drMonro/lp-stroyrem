@@ -1,0 +1,10 @@
+[mcp_servers.rsdoctor]
+command = "cmd.exe"
+args = ["/c", "npx.cmd", "-y", "@rsdoctor/mcp-server@latest"]
+enabled = true
+startup_timeout_sec = 60
+
+[mcp_servers.mdn]
+url = "https://mcp.mdn.mozilla.net/"
+http_headers = { "X-Moz-1st-Party-Data-Opt-Out" = "1" }
+enabled = true

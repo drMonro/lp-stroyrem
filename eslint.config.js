@@ -4,6 +4,9 @@ import stylisticJs from '@stylistic/eslint-plugin-js';
 
 
 export default [
+    {
+        ignores: ['build/**'],
+    },
     js.configs.recommended,
 
     // Глобальные переменные только для скриптов Node.js
