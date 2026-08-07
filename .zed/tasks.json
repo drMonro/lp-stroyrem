@@ -1,0 +1,22 @@
+[
+  {
+    "label": "Development",
+    "command": "npm run dev",
+    "use_new_terminal": true
+  },
+  {
+    "label": "Build",
+    "command": "npm run build",
+    "use_new_terminal": true
+  },
+  {
+    "label": "Lint",
+    "command": "npm run lint",
+    "use_new_terminal": true
+  },
+  {
+    "label": "Merge dev and push master",
+    "command": "git merge --no-ff dev; git push origin master",
+    "use_new_terminal": true
+  }
+]
