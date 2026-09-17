@@ -21,6 +21,7 @@ const retry = async(fn, retries = 3, delayMs = 1000) => {
             return await fn();
         } catch (err) {
             lastError = err;
+            // eslint-disable-next-line no-console
             console.warn(`Попытка ${attempt} не удалась: ${err.message}`);
             if (attempt < retries) await delay(delayMs);
         }
@@ -80,6 +81,7 @@ const generateProductsData = async(saveToFile = false) => {
 
     if (saveToFile) {
         await fs.writeFile(OUTPUT_JSON_PATH, JSON.stringify(result, null, 2), 'utf-8');
+        // eslint-disable-next-line no-console
         console.log(`Моковые данные сохранены в ${OUTPUT_JSON_PATH}`);
     }
 
