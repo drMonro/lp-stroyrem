@@ -42,7 +42,7 @@ const copyFile = async(source, destination) => {
 const copyDirectory = async(source, destination) => {
     try {
         await fs.cp(source, destination, { recursive: true, force: true });
-    } catch (error) {
+    } catch(error) {
         if (error.code !== 'ENOENT') throw error;
     }
 };

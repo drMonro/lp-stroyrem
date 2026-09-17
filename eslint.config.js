@@ -1,6 +1,6 @@
 import globals from 'globals';
 import js from '@eslint/js';
-import stylisticJs from '@stylistic/eslint-plugin-js';
+import stylisticJs from '@stylistic/eslint-plugin';
 
 
 export default [
@@ -93,7 +93,7 @@ export default [
             '@stylistic/js/quotes': [
                 'error',
                 'single',
-                { allowTemplateLiterals: true },
+                { allowTemplateLiterals: 'always' },
             ],
             '@stylistic/js/rest-spread-spacing': ['error', 'never'],
             '@stylistic/js/semi': ['error', 'always'],

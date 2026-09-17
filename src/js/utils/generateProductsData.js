@@ -19,7 +19,7 @@ const retry = async(fn, retries = 3, delayMs = 1000) => {
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
             return await fn();
-        } catch (err) {
+        } catch(err) {
             lastError = err;
             // eslint-disable-next-line no-console
             console.warn(`Попытка ${attempt} не удалась: ${err.message}`);
