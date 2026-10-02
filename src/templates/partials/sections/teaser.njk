@@ -23,45 +23,28 @@
         В нашем ассортименте — только востребованные и качественные материалы от проверенных производителей.
       </p>
 
-      <button type="button" class="button openModalBtn" id="openModalBtn">
-        <span>Обратиться к нам</span>
-      </button>
+      {% set buttonModifier = "button--store" %}
+      {% set hidePhone = true %}
+      {% include "partials/purchase-actions.njk" %}
+      {% set buttonModifier = "" %}
+      {% set hidePhone = false %}
     </div>
 
-    <div class="teaser-social">
-      <ul>
-        <li>
-          <a href="https://au.ru/user/cks24/shop/?utm_source=lp&utm_medium=button&utm_campaign=au_teaser" target="_blank" rel="noopener" aria-label="Перейти на сайт AU">
-            <svg>
-              <use xlink:href='media/sprite/sprite.svg#au-logo'></use>
-            </svg>
-          </a>
-        </li>
-      </ul>
-    </div>
   </div>
 
   <div class="teaser-footer">
-      <a href="#section_footer" class="teaser-footer__location">
+      <a href="#contacts" class="teaser-footer__location">
         <svg>
           <use xlink:href='media/sprite/sprite.svg#location'></use>
         </svg>
-        г.Красноярск, ул. Северное Шоссе, д.5а, стр.3
+        г. Красноярск, Северное ш., 5А, корп. 3, пом. 4
       </a>
       {% include "partials/phone.njk" %}
 
       <div class="teaser-footer__schedule">
         <svg><use xlink:href='media/sprite/sprite.svg#clock'></use></svg>
-        Будни с 9:00 до 18:00 + суббота с 10:00 до 15:00
+        Пн–Пт: 9:00–18:00, Сб: 10:00–15:00
       </div>
   </div>
 
-  <div class="modal" id="modal">
-    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <button class="modal-close" id="closeModalBtn" aria-label="Закрыть">&times;</button>
-        {% set placement = "Главный экран" %}
-        {% include "../form.njk" %}
-
-    </div>
-  </div>
 </section>

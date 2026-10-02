@@ -57,6 +57,10 @@
       opacity: 1;
     }
 
+    .swiper-about .swiper-button-next svg {
+      transform: rotate(180deg);
+    }
+
 
     .about-spoiler-checkbox {
       display: none;
@@ -66,7 +70,7 @@
       display: block;
       width: fit-content;
       margin: 10px auto 0;
-      color: blue;
+      color: white;
       text-decoration: underline;
       cursor: pointer;
 
@@ -83,15 +87,32 @@
       margin-top: 20px;
       color: white;
       text-align: center;
+      text-shadow: 0 1px 3px rgb(0 0 0 / 0.9);
     }
 
     .about-text-content {
       max-width: 768px;
       max-height: 120px;
       margin: 0 auto;
+      padding: 12px;
       overflow: hidden;
       color: white;
+      line-height: 1.35;
+      text-shadow: 0 1px 3px rgb(0 0 0 / 0.9);
+      background-color: rgb(0 0 0 / 0.55);
       transition: max-height 0.3s ease;
+
+      a {
+        color: var(--red);
+        font-weight: 700;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 2px;
+
+        &:hover,
+        &:focus {
+          color: white;
+        }
+      }
 
       @media (min-width: $tablet) {
         font-size: 18px;

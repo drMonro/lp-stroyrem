@@ -2,3 +2,5 @@
 /build/
 .env
 /vendor/
+.npm-cache/_logs/
+.npm-cache/
