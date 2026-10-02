@@ -49,6 +49,7 @@
 
 
     <main role="main">{% block content %}{% endblock %}</main>
+    {% include "partials/footer.njk" %}
 
     {% if isDev %}
       <script src="/js/scripts.js" defer></script>

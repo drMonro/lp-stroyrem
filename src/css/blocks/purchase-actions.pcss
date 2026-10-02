@@ -1,0 +1,44 @@
+.purchase-actions {
+  text-align: center;
+}
+
+.purchase-actions__text {
+  margin-bottom: 15px;
+  font-size: 17px;
+}
+
+.purchase-actions__links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.purchase-actions__phone {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.purchase-actions__phone:hover,
+.purchase-actions__phone:focus {
+  color: inherit;
+  text-decoration-thickness: 2px;
+}
+
+.button.button--store {
+  background-color: var(--accent);
+}
+
+.button.button--store::after {
+  background-color: var(--red);
+  opacity: 1;
+}
+
+@media (min-width: $tablet) {
+  .purchase-actions__links {
+    flex-direction: row;
+    justify-content: center;
+  }
+}

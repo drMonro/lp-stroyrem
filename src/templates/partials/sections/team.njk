@@ -50,7 +50,6 @@
                                 <div class="cover" style="background:url('{{ member.cover }}'); background-size:cover;">
                                     <div class="overlay text-center">
                                         <div class="white">{{ member.position }}</div>
-                                        <div class="light light-white">{{ member.position }}</div>
                                     </div>
                                 </div>
                                 <img src="{{ member.avatar }}" alt="Team Image" class="avatar">
@@ -78,9 +77,9 @@
             </div>
 {#        </div>#}
 {#        <div class="row">#}
-        <button type="button" class="button openModalBtn">
-            <span>Обратиться к нам</span>
-        </button>
+        {% set buttonModifier = "" %}
+        {% set actionsClass = "" %}
+        {% include "partials/purchase-actions.njk" %}
 {#        </div>#}
 {#    </div>#}
 </section>
