@@ -2,6 +2,8 @@
 
 Статический лендинг магазина строительных материалов «СтройРемонт24». Сайт собирается в HTML, CSS и JavaScript, публикуется на GitHub Pages, а заявки из формы обрабатывает отдельная функция в Yandex Cloud.
 
+**Сайт:** [drmonro.github.io/lp-stroyrem](https://drmonro.github.io/lp-stroyrem/)
+
 ## Как это устроено
 
 ```text
@@ -92,7 +94,7 @@ Workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) запу
 3. собирает сайт;
 4. передаёт `build/` в GitHub Pages.
 
-Для первого запуска в репозитории нужно выбрать **Settings → Pages → Build and deployment → GitHub Actions**. Адрес проекта по умолчанию: `https://drmonro.github.io/lp-stroyrem/`.
+Для первого запуска в репозитории нужно выбрать **Settings → Pages → Build and deployment → GitHub Actions**. Адрес проекта по умолчанию: [drmonro.github.io/lp-stroyrem](https://drmonro.github.io/lp-stroyrem/).
 
 Сайт также готов к размещению в подкаталоге GitHub Pages: пути к статике относительные, поэтому CSS, JavaScript, изображения и manifest не зависят от корня домена.
 
