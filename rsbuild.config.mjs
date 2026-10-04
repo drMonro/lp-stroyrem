@@ -26,7 +26,7 @@ export default defineConfig({
         cssLoader: {
             url: {
                 filter: (url) => {
-                    return !url.startsWith('/media/');
+                    return !url.startsWith('/media/') && !url.startsWith('../media/');
                 },
             },
         },
@@ -85,9 +85,6 @@ export default defineConfig({
         publicDir: {
             name: 'build',
             copyOnBuild: false,
-        },
-        proxy: {
-            '/mail.php': 'http://localhost:3000',
         },
     },
 });

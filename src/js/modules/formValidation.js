@@ -18,6 +18,7 @@ const formValidation = () => {
         const errorCaptchaDiv = form.querySelector('#captcha-error');
         const hcaptchaDiv = form.querySelector('.h-captcha');
         const placeholder = form.querySelector('.hcaptcha-placeholder');
+        const submitButton = form.querySelector('[type="submit"]');
 
         const mask = IMask(phoneInput, {
             mask: [{ mask: '+{7} (000) 000-00-00' }],
@@ -45,14 +46,13 @@ const formValidation = () => {
         };
 
         const renderHCaptcha = () => {
-            // Если капча уже пройдена в сессии — не рендерим
-            if (sessionStorage.getItem('hcaptchaPassed')) {
+            if (hcaptchaRendered || !window.hcaptcha || !hcaptchaDiv) return;
+
+            if (!hcaptchaDiv.dataset.sitekey) {
+                errorCaptchaDiv.textContent = 'Капча не настроена. Попробуйте позже';
                 toggleElement(placeholder, false);
-                toggleElement(hcaptchaDiv, false);
                 return;
             }
-
-            if (hcaptchaRendered || !window.hcaptcha || !hcaptchaDiv) return;
 
             hcaptchaWidgetId = window.hcaptcha.render(hcaptchaDiv, {
                 sitekey: hcaptchaDiv.dataset.sitekey,
@@ -126,34 +126,29 @@ const formValidation = () => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const phoneOk = isPhoneValid();
-            let hCaptchaToken = form.querySelector('[name="h-captcha-response"]')?.value;
-
-            const captchaRequired = !sessionStorage.getItem('hcaptchaPassed');
-
-            // === ✅ Добавим фиктивный токен, если капча уже пройдена ранее
-            if (!captchaRequired && !hCaptchaToken) {
-                const hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.name = 'h-captcha-response';
-                hiddenInput.value = 'session-pass';
-                form.appendChild(hiddenInput);
-                hCaptchaToken = 'session-pass';
+            if (!form.dataset.endpoint) {
+                alert('Адрес обработчика формы не настроен');
+                return;
             }
 
-            if (!phoneOk || (captchaRequired && !hCaptchaToken)) {
-                if (captchaRequired && !hCaptchaToken) {
+            const phoneOk = isPhoneValid();
+            const hCaptchaToken = form.querySelector('[name="h-captcha-response"]')?.value;
+
+            if (!phoneOk || !hCaptchaToken) {
+                if (!hCaptchaToken) {
                     errorCaptchaDiv.textContent = 'Нужно решить капчу перед отправкой';
                 }
                 return;
             }
 
-            /** @type {FormData} */
-
             const formData = new FormData(form);
-            formData.append('h-captcha-response', hCaptchaToken);
+            const payload = Object.fromEntries(formData.entries());
+            payload['h-captcha-response'] = hCaptchaToken;
             const formStatusMsg = form.querySelector('.form__status');
             const statusSpan = formStatusMsg?.querySelector('span');
+
+            if (!formStatusMsg || !statusSpan) return;
+
             if (statusSpan && !formStatusMsg.querySelector('.pulse')) {
                 const pulseDiv = document.createElement('div');
                 pulseDiv.className = 'pulse';
@@ -161,18 +156,21 @@ const formValidation = () => {
             }
             statusSpan.textContent = 'Отправка формы';
             formStatusMsg.classList.add('active');
+            submitButton?.setAttribute('disabled', 'disabled');
 
-            fetch('/mail.php', {
+            fetch(form.dataset.endpoint, {
                 method: 'POST',
-                body: formData,
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
             })
                 .then((response) => {
                     if (!response.ok) throw new Error('Ошибка отправки формы: сервер вернул ошибку');
-                    // Капча пройдена успешно — ставим флаг в sessionStorage
-                    sessionStorage.setItem('hcaptchaPassed', 'true');
 
                     const pulse = formStatusMsg.querySelector('.pulse');
-                    pulse.remove();
+                    pulse?.remove();
                     statusSpan.textContent = 'Спасибо за заявку!';
                     setTimeout(() => formStatusMsg.classList.remove('active'), 2000);
 
@@ -183,6 +181,9 @@ const formValidation = () => {
                 })
                 .catch((err) => {
                     alert(err.message || 'Произошла ошибка при отправке формы');
+                })
+                .finally(() => {
+                    submitButton?.removeAttribute('disabled');
                 });
         });
     });

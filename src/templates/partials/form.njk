@@ -1,4 +1,4 @@
-<form id="form_call" class="submit">
+<form id="form_call" class="submit" data-endpoint="{{ formEndpoint }}">
     <div class="form__status success"><span></span></div>
     <input type="hidden" name="project_name" value="СтройРемонт24" />
     <input type="hidden" name="form_subject" value="Заявка с одностраничника" />
@@ -28,7 +28,7 @@
         <div class="hcaptcha-placeholder">
             <div class="pulse"></div>
         </div>
-        <div class="h-captcha" data-sitekey={{ hcaptchaSiteKey }}></div>
+        <div class="h-captcha" data-sitekey="{{ hcaptchaSiteKey }}"></div>
     </div>
 
     <button type="submit" class="button button--white form__submit-button"><span>Отправить</span></button>
