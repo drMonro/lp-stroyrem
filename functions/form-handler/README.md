@@ -15,7 +15,7 @@
    - `POSTBOX_API_KEY_SECRET` — секретная часть API-ключа;
    - `FROM_EMAIL` — подтверждённый в Postbox адрес отправителя;
    - `TO_EMAIL` — адрес, на который должны приходить заявки.
-6. В корневой `.env` для сборки сайта добавьте публичные значения:
+6. Для сборки сайта скопируйте корневой [`.env.example`](../../.env.example) в `.env` и добавьте публичные значения:
    - `FORM_ENDPOINT=https://functions.yandexcloud.net/<function-id>`;
    - `HCAPTCHA_SITEKEY=<site-key>`.
 

@@ -7,7 +7,7 @@ This is a static landing page built with Rsbuild. Keep changes small and preserv
 - Edit files under `src/`; never edit generated files under `build/`.
 - `src/templates/pages/` contains page entries and `src/templates/` contains shared layouts and partials.
 - `src/rsbuild/app.js` is the browser bundle entry. It imports `src/css/main.pcss` and `src/js/common.js`.
-- `scripts/site-build.mjs` owns non-bundled assets: Nunjucks rendering, responsive image generation, the SVG sprite, sitemap, static copies, and the local PHP process.
+- `scripts/site-build.mjs` owns non-bundled assets: Nunjucks rendering, responsive image generation, the SVG sprite, sitemap, and static copies.
 - Keep secrets out of output and conversation. Do not print `.env` values.
 
 ## Commands
@@ -23,7 +23,7 @@ This is a static landing page built with Rsbuild. Keep changes small and preserv
 ## Implementation rules
 
 - Keep PostCSS sources as `.pcss` files; `$mobile`, `$tablet`, and `$desktop` are processed by `postcss-simple-vars`.
-- Preserve public URLs such as `/css/main.css`, `/js/scripts.js`, `/media/images/*`, and `/media/sprite/sprite.svg`.
+- Preserve emitted filenames such as `css/main.css`, `js/scripts.js`, `media/images/*`, and `media/sprite/sprite.svg`. Keep locally hosted static asset URLs relative so the site works in a GitHub Pages project subpath.
 - Keep development and production template branches aligned with the filenames emitted by Rsbuild.
 - Use the MDN MCP server for current HTML, CSS, browser API, accessibility, and compatibility claims.
 - Use the Rsdoctor MCP server only after an Rsdoctor-enabled build is running; it reads local analysis data and does not start the build itself.
