@@ -4,7 +4,7 @@
     "link": "https://stroyrem24.ru/catalog/gipsokarton?utm_source=lp&utm_medium=button&utm_campaign=gkl",
     "target": "_blank",
     "rel": "noopener noreferrer",
-    "img": "/media/images/products/gkl",
+    "img": "media/images/products/gkl",
     "products": [
       {
         "name": "Гипсокартон Кнауф (Knauf) ГКЛ 2500х1200х9,5 мм",
@@ -25,7 +25,7 @@
     "link": "https://stroyrem24.ru/catalog/shtukaturki?utm_source=lp&utm_medium=button&utm_campaign=shukaturka",
     "target": "_blank",
     "rel": "noopener noreferrer",
-    "img": "/media/images/products/shukaturka",
+    "img": "media/images/products/shukaturka",
     "products": [
       {
         "name": "Штукатурка гипсовая Bergauf (Бергауф) Easy Band 30 кг",
@@ -46,7 +46,7 @@
     "link": "https://stroyrem24.ru/catalog/teploizolyaciya?utm_source=lp&utm_medium=button&utm_campaign=uteplitel",
     "target": "_blank",
     "rel": "noopener noreferrer",
-    "img": "/media/images/products/uteplitel",
+    "img": "media/images/products/uteplitel",
     "products": [
       {
         "name": "Утеплитель звукоизолирующий Knauf (КНАУФ) Акустик 1230x610x50 мм 16 шт",
@@ -67,7 +67,7 @@
     "link": "https://stroyrem24.ru/catalog/shpatlevki?utm_source=lp&utm_medium=button&utm_campaign=shpatlevka",
     "target": "_blank",
     "rel": "noopener noreferrer",
-    "img": "/media/images/products/shpatlevka",
+    "img": "media/images/products/shpatlevka",
     "products": [
       {
         "name": "Шпатлевка финишная полимерная Геркулес GT-53 20 кг",
@@ -88,7 +88,7 @@
     "link": "https://stroyrem24.ru/catalog/kley-dlya-plitki?utm_source=lp&utm_medium=button&utm_campaign=glues",
     "target": "_blank",
     "rel": "noopener noreferrer",
-    "img": "/media/images/products/glues",
+    "img": "media/images/products/glues",
     "products": [
       {
         "name": "Клей для тяжёлых плит Bergauf (Бергауф) Granit (Гранит) 25 кг",
@@ -109,7 +109,7 @@
     "link": "https://stroyrem24.ru/catalog/kraski?utm_source=lp&utm_medium=button&utm_campaign=paints",
     "target": "_blank",
     "rel": "noopener noreferrer",
-    "img": "/media/images/products/paints",
+    "img": "media/images/products/paints",
     "products": [
       {
         "name": "Краска фасадная, акрилатная, белая, Pufas (Пуфас) Decoself, базис А, 15 л",
@@ -130,7 +130,7 @@
     "link": "https://stroyrem24.ru/catalog/gruntovki?utm_source=lp&utm_medium=button&utm_campaign=grunt",
     "target": "_blank",
     "rel": "noopener noreferrer",
-    "img": "/media/images/products/grunt",
+    "img": "media/images/products/grunt",
     "products": [
       {
         "name": "Грунтовка Бетонконтакт Ceresit (Церезит) CT19 15 кг",
@@ -151,7 +151,7 @@
     "link": "https://stroyrem24.ru/catalog/profil-dlya-gipsokartona-i-aksessuary?utm_source=lp&utm_medium=button&utm_campaign=profil",
     "target": "_blank",
     "rel": "noopener noreferrer",
-    "img": "/media/images/products/profil",
+    "img": "media/images/products/profil",
     "products": [
       {
         "name": "Профиль потолочный Knauf (Кнауф) ПП 60х27мм 3м 0,6мм",

@@ -4,13 +4,13 @@
     "description": "Опт и розница. Дешёвая доставка!",
     "short_name": "СтройРемонт24",
     "icons": [{
-        "src": "/media/images/favicons/icon-16x16.png",
+        "src": "media/images/favicons/icon-16x16.png",
         "sizes": "16x16"
     },{
-        "src": "/media/images/favicons/icon-32x32.png",
+        "src": "media/images/favicons/icon-32x32.png",
         "sizes": "32x32"
     }, {
-        "src": "/media/images/favicons/android-icon.png",
+        "src": "media/images/favicons/android-icon.png",
         "sizes": "192x192"
     }]
 }

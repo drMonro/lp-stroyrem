@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { spawn } from 'node:child_process';
 import { watch } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -21,8 +20,8 @@ const pagesDir = path.join(templatesDir, 'pages');
 const imagesDir = path.join(srcDir, 'media', 'images');
 const svgDir = path.join(srcDir, 'media', 'svg');
 
-const rootStaticFiles = ['.env', '.htaccess', 'robots.txt'];
-const sourceStaticFiles = ['manifest.json', 'mail.php'];
+const rootStaticFiles = ['robots.txt'];
+const sourceStaticFiles = ['manifest.json'];
 
 const toPosix = (value) => value.split(path.sep).join('/');
 
@@ -54,7 +53,6 @@ export const copyStaticAssets = async() => {
         ...rootStaticFiles.map((file) => copyFile(path.join(rootDir, file), path.join(buildDir, file))),
         ...sourceStaticFiles.map((file) => copyFile(path.join(srcDir, file), path.join(buildDir, file))),
         copyDirectory(path.join(srcDir, 'fonts'), path.join(buildDir, 'fonts')),
-        copyDirectory(path.join(rootDir, 'vendor'), path.join(buildDir, 'vendor')),
     ]);
 };
 
@@ -178,6 +176,7 @@ export const renderTemplates = async({ isProduction }) => {
         const templateName = toPosix(path.relative(templatesDir, file));
         const outputName = path.relative(pagesDir, file).replace(/\.njk$/i, '.html');
         const html = environment.render(templateName, {
+            formEndpoint: process.env.FORM_ENDPOINT || '',
             hcaptchaSiteKey: process.env.HCAPTCHA_SITEKEY || '',
             isDev: !isProduction,
             productsSwiperData,
@@ -266,20 +265,10 @@ const startSourceWatcher = ({ onChange }) => {
         await copyDirectory(path.join(srcDir, 'fonts'), path.join(buildDir, 'fonts'));
         onChange();
     }));
-    watchDirectory(path.join(rootDir, 'vendor'), createDebouncedRunner(async() => {
-        await copyDirectory(path.join(rootDir, 'vendor'), path.join(buildDir, 'vendor'));
-        onChange();
-    }));
-
     for (const file of rootStaticFiles) {
         const source = path.join(rootDir, file);
         const handler = createDebouncedRunner(async() => {
             await copyFile(source, path.join(buildDir, file));
-
-            if (file === '.env') {
-                await renderTemplates({ isProduction: false });
-                await generateSitemap();
-            }
 
             onChange();
         });
@@ -298,26 +287,11 @@ const startSourceWatcher = ({ onChange }) => {
     return () => watchers.forEach((watcher) => watcher.close());
 };
 
-const startPhpServer = () => {
-    const child = spawn('php', ['-S', 'localhost:3000', '-t', buildDir], {
-        cwd: rootDir,
-        stdio: ['ignore', 'inherit', 'inherit'],
-        windowsHide: true,
-    });
-
-    child.on('error', (error) => {
-        console.error(`PHP dev server failed to start: ${error.message}`);
-    });
-
-    return () => child.kill();
-};
-
 export const pluginSiteBuild = ({ isProduction }) => ({
     name: 'stroyrem:site-build',
     setup(api) {
         let devServer;
         let disposeWatcher;
-        let stopPhpServer;
 
         api.onBeforeBuild(async({ isFirstCompile }) => {
             if (isFirstCompile) {
@@ -336,7 +310,6 @@ export const pluginSiteBuild = ({ isProduction }) => ({
         });
 
         api.onAfterStartDevServer(() => {
-            stopPhpServer = startPhpServer();
             disposeWatcher = startSourceWatcher({
                 onChange: () => devServer.sockWrite('full-reload'),
             });
@@ -344,7 +317,6 @@ export const pluginSiteBuild = ({ isProduction }) => ({
 
         api.onCloseDevServer(() => {
             disposeWatcher?.();
-            stopPhpServer?.();
         });
     },
 });

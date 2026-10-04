@@ -1,6 +1,5 @@
 /node_modules/
 /build/
 .env
-/vendor/
-.npm-cache/_logs/
-.npm-cache/
+/functions/*/node_modules/
+/functions/**/*.zip

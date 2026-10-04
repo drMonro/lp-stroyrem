@@ -1,0 +1,9 @@
+{
+  "name": "stroyrem-form-handler",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "nodemailer": "10.0.14"
+  }
+}

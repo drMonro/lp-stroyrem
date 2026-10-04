@@ -6,8 +6,17 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
 jobs:
-  install:
+  build:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -31,9 +40,8 @@ jobs:
 
       - name: Create .env
         run: |
-          echo "HCAPTCHA_SECRET=${{ secrets.HCAPTCHA_SECRET }}" >> .env
           echo "HCAPTCHA_SITEKEY=${{ secrets.HCAPTCHA_SITEKEY }}" >> .env
-          echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
+          echo "FORM_ENDPOINT=${{ secrets.FORM_ENDPOINT }}" >> .env
           echo "SITE_URL=${{ secrets.SITE_URL }}" >> .env
           echo "CATALOG_YML_URL=${{ secrets.CATALOG_YML_URL }}" >> .env
 
@@ -41,53 +49,24 @@ jobs:
         run: |
           echo "Sitemap: ${{ secrets.SITE_URL }}/sitemap.xml" >> robots.txt
 
-      - name: Cache Composer dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/composer
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - name: Install Composer
-        run: |
-          sudo apt update
-          sudo apt install -y curl php-cli unzip
-          curl -sS https://getcomposer.org/installer | php
-          sudo mv composer.phar /usr/local/bin/composer
-
-      - name: Install PHP dependencies (phpdotenv)
-        run: |
-          composer install --no-dev --optimize-autoloader
-
       - name: Run build task
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          include-hidden-files: true
-          name: build-artifact
           path: build
-          retention-days: 7
 
   deploy:
     runs-on: ubuntu-22.04
-    needs: install
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: build-artifact
-          path: build/
-
-      - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
-        with:
-          ARGS: -rlgoDzvc --delete --exclude='.ssh/'
-          SOURCE: ./build/
-          REMOTE_HOST: ${{ secrets.SERVER_HOST }}
-          REMOTE_USER: ${{ secrets.SERVER_USER }}
-          TARGET: ~/
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

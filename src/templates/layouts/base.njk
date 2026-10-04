@@ -7,12 +7,12 @@
 
     <meta name="description" content={% block description %}"Описание по умолчанию"{% endblock %} />
 
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="manifest.json" />
 
     {% if isDev %}
-      <link rel="stylesheet" href="/css/main.css" />
+      <link rel="stylesheet" href="css/main.css" />
     {% else %}
-      <link rel="stylesheet" href="/css/main.min.css" />
+      <link rel="stylesheet" href="css/main.min.css" />
     {% endif %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
@@ -20,20 +20,20 @@
 
     <link
       rel="icon"
-      href="/media/images/favicons/icon-16x16.png"
+      href="media/images/favicons/icon-16x16.png"
 
       sizes="16x16"
       type="image/png"
     />
     <link
       rel="icon"
-      href="/media/images/favicons/icon-32x32.png"
+      href="media/images/favicons/icon-32x32.png"
       sizes="32x32"
       type="image/png"
     />
     <link
       rel="apple-touch-icon"
-      href="/media/images/favicons/apple-touch-icon.png"
+      href="media/images/favicons/apple-touch-icon.png"
     />
 
     <!-- Chrome, Firefox OS and Opera -->
@@ -52,9 +52,9 @@
     {% include "partials/footer.njk" %}
 
     {% if isDev %}
-      <script src="/js/scripts.js" defer></script>
+      <script src="js/scripts.js" defer></script>
     {% else %}
-      <script src="/js/scripts.min.js" defer></script>
+      <script src="js/scripts.min.js" defer></script>
     {% endif %}
     {% include "partials/ya-metrika.njk" %}
 

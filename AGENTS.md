@@ -1,6 +1,6 @@
 # Project workflow
 
-This is a static landing page built with Rsbuild. Keep changes small and preserve the existing Nunjucks, plain JavaScript, PostCSS, BEM, and PHP form-handler architecture.
+This is a static landing page built with Rsbuild. Keep changes small and preserve the existing Nunjucks, plain JavaScript, PostCSS, BEM, and Cloud Function form-handler architecture.
 
 ## Source of truth
 
@@ -13,7 +13,7 @@ This is a static landing page built with Rsbuild. Keep changes small and preserv
 ## Commands
 
 - Use npm for dependency management and scripts. Commit `package-lock.json` whenever dependencies change.
-- `npm run dev` starts Rsbuild on `192.168.0.2:3001` and PHP on `localhost:3000` for `/mail.php`.
+- `npm run dev` starts Rsbuild on `192.168.0.2:3001`.
 - `npm run build` creates the production site in `build/`.
 - `npm run lint` runs ESLint and Stylelint.
 - `npm run clean` removes generated output.

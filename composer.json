@@ -1,6 +1,0 @@
-{
-    "name": "drmonro/lp-stroyrem",
-    "require": {
-        "vlucas/phpdotenv": "^5.6"
-    }
-}

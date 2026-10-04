@@ -1,7 +1,7 @@
 {
   "baseUrl": "https://stroyrem24.ru",
   "commonUtm": "utm_source=lp&utm_medium=button",
-  "imgFolder": "/media/images/products/",
+  "imgFolder": "media/images/products/",
   "productsGroups": [
     {
       "title": "Гипсокартон",
